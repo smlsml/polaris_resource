@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Polaris::Resource::Configuration, ".host" do
+describe Polaris::Resource::Configuration, "#host" do
   
   context "when host has not been set" do
     
@@ -11,7 +11,7 @@ describe Polaris::Resource::Configuration, ".host" do
     it "raises a ConfigurationError" do
       lambda {
         Polaris::Resource::Configuration.host
-      }.should raise_error(Polaris::Resource::ConfigurationError, "The request HOST has not been set. Please set the host using Polaris::Resource::Configuration.host = 'http://localhost:3000'")
+      }.should raise_error(Polaris::Resource::ConfigurationError, "The request HOST has not been set. Please set the host using Polaris::Resource::Configuration.host = 'http://www.example.com'")
     end
     
   end
@@ -30,7 +30,7 @@ describe Polaris::Resource::Configuration, ".host" do
   
 end
 
-describe Polaris::Resource::Configuration, ".hydra" do
+describe Polaris::Resource::Configuration, "#hydra" do
   
   context "when hydra has not been set" do
     
@@ -59,7 +59,7 @@ describe Polaris::Resource::Configuration, ".hydra" do
   
 end
 
-describe Polaris::Resource::Configuration, ".enable_stubbing!" do
+describe Polaris::Resource::Configuration, "#enable_stubbing!" do
   
   it "enables stubbing of resources" do
     Polaris::Resource::Configuration.enable_stubbing!
@@ -68,11 +68,50 @@ describe Polaris::Resource::Configuration, ".enable_stubbing!" do
   
 end
 
-describe Polaris::Resource::Configuration, ".disable_stubbing!" do
+describe Polaris::Resource::Configuration, "#disable_stubbing!" do
   
   it "enables stubbing of resources" do
     Polaris::Resource::Configuration.disable_stubbing!
     Polaris::Resource::Configuration.should_not be_stubbing_enabled
+  end
+  
+end
+
+describe Polaris::Resource::Configuration, "#allow_net_connect" do
+  
+  it "disables all net connections through Typhoeus" do
+    Polaris::Resource::Configuration.allow_net_connect = false
+    lambda {
+      Typhoeus::Request.get("http://localhost:3000")
+    }.should raise_error(Polaris::Resource::NetConnectNotAllowedError, "Real HTTP connections are disabled. Unregistered request: GET http://localhost:3000")
+  end
+  
+end
+
+describe Polaris::Resource::Configuration, "#allow_net_connect?" do
+  
+  context "when net connect is allowed" do
+    
+    before(:each) do
+      Polaris::Resource::Configuration.allow_net_connect = true
+    end
+    
+    it "returns true" do
+      Polaris::Resource::Configuration.should be_allow_net_connect
+    end
+    
+  end
+  
+  context "when net connect is not allowed" do
+    
+    before(:each) do
+      Polaris::Resource::Configuration.allow_net_connect = false
+    end
+    
+    it "returns true" do
+      Polaris::Resource::Configuration.should_not be_allow_net_connect
+    end
+    
   end
   
 end
