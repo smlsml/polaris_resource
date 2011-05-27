@@ -1,0 +1,65 @@
+require 'spec_helper'
+
+# DUMMY class for testing purposes
+class Dummy
+end
+
+describe Polaris::Resource::Mock, "#mock" do
+  
+  it "returns a new instance of Mock" do
+    Polaris::Resource::Mock.mock(Dummy, 1).should be_a(Polaris::Resource::Mock)
+  end
+  
+end
+
+describe Polaris::Resource::Mock, ".initialize" do
+  
+  before(:each) do
+    @attributes = {
+      :string   => "Test",
+      :boolean  => true,
+      :datetime => 'May 14, 2011, 5:00PM',
+      :time     => 'May 14, 2011, 5:00PM',
+      :date     => 'May 14, 2011',
+      :array    => [1,2,3],
+      :hash     => { :one => 1, :two => "two" }
+    }
+    @mock = Polaris::Resource::Mock.new(Dummy, 1, @attributes)
+  end
+  
+  it "sets the @mock_class variable to the class passed in as a string" do
+    @mock.instance_variable_get('@mock_class').should eql("Dummy")
+  end
+  
+  it "creates a new instance of this mock class with the given id" do
+    @mock.id.should eql(1)
+  end
+  
+  it "sets the @attributes variable using the attributes and id passed in" do
+    @mock.instance_variable_get('@attributes').should eql(HashWithIndifferentAccess.new(@attributes.merge({ :id => 1 })))
+  end
+  
+  it "creates attr_accessors for each attribute" do
+    @mock.instance_variable_get('@attributes').keys.each do |key|
+      @mock.should respond_to(key)
+      @mock.should respond_to("#{key}=")
+    end
+  end
+  
+  it "stubs the find method by stubbing the find url at '/:mock_class/:id'" do
+    body = @attributes.merge({ :id => 1 }).to_json
+    response = Typhoeus::Response.new(:code => 200, :headers => "", :body => body, :time => 0.3)
+    @test_stub = Typhoeus::HydraMock.new("#{Polaris::Resource::Configuration.host}/dummies/1", :get)
+    @test_stub.and_return(response)
+    @stub = Polaris::Resource::Configuration.hydra.stubs.find do |stub|
+      stub.url == @test_stub.url
+    end
+    @stub.should be_matches(Typhoeus::Request.new("#{Polaris::Resource::Configuration.host}/dummies/1", :method => :get))
+    Yajl::Parser.parse(@stub.response.body).should eql(Yajl::Parser.parse(@test_stub.response.body))
+  end
+  
+  context "when the mock class inherits from Polaris::Resource::Base" do
+    
+  end
+  
+end

@@ -6,7 +6,7 @@ module Polaris
         attr_writer :host, :hydra
 
         def host
-          @host || raise(Polaris::Resource::ConfigurationError, "The request HOST has not been set. Please set the host using Polaris::Configuration.host = 'http://localhost:3000'")
+          @host || raise(Polaris::Resource::ConfigurationError, "The request HOST has not been set. Please set the host using Polaris::Resource::Configuration.host = 'http://localhost:3000'")
         end
 
         def hydra

@@ -11,7 +11,7 @@ describe Polaris::Resource::Configuration, ".host" do
     it "raises a ConfigurationError" do
       lambda {
         Polaris::Resource::Configuration.host
-      }.should raise_error(Polaris::Resource::ConfigurationError, "The request HOST has not been set. Please set the host using Polaris::Configuration.host = 'http://localhost:3000'")
+      }.should raise_error(Polaris::Resource::ConfigurationError, "The request HOST has not been set. Please set the host using Polaris::Resource::Configuration.host = 'http://localhost:3000'")
     end
     
   end
