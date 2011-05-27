@@ -64,10 +64,11 @@ describe Polaris::Resource::Mock, ".initialize" do
 
     before(:each) do
       Polaris::Resource::Mock.clear!
-      @mock = Polaris::Resource::Mock.new(Dummy, 1, Dummy.attributes, :status => 500)
+      Polaris::Resource::Mock.new(Dummy, 1, Dummy.attributes, :status => 500)
     end
 
     it "returns a response with the given status code" do
+      Polaris::Resource::Configuration.hydra.should eql(Typhoeus::Hydra.hydra)
       response = Typhoeus::Request.get("#{Polaris::Resource::Configuration.host}/dummies/1")
       response.code.should eql(500)
     end
@@ -85,30 +86,6 @@ describe Polaris::Resource::Mock, "#clear!" do
     Polaris::Resource::Configuration.hydra.stubs.should have(3).stubs
     Polaris::Resource::Mock.clear!
     Polaris::Resource::Configuration.hydra.stubs.should be_empty
-  end
-
-end
-
-describe Polaris::Resource::Mock, "#matches?" do
-
-  context "when there is a mock that matches this request" do
-
-    before(:each) do
-      Polaris::Resource::Mock.new(Dummy, 1, Dummy.attributes)
-    end
-
-    it "returns true" do
-      Polaris::Resource::Mock.matches?(Typhoeus::Request.new("#{Polaris::Resource::Configuration.host}/dummies/1", :method => :get)).should be_true
-    end
-
-  end
-
-  context "when there is no mock that matches this request" do
-
-    it "returns false" do
-      Polaris::Resource::Mock.matches?(Typhoeus::Request.new("#{Polaris::Resource::Configuration.host}/dummies/1", :method => :get)).should be_false
-    end
-
   end
 
 end

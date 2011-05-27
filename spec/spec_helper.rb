@@ -2,7 +2,7 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 
 require 'rspec'
-require 'polaris-resource'
+require 'polaris_resource'
 
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}
 

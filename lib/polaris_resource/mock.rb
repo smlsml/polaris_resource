@@ -30,18 +30,12 @@ module Polaris
         @options[:status] || 200
       end
 
-      def self.mock(mock_class, id)
-        new(mock_class, id)
+      def self.mock(mock_class, id, attributes = {}, options = {})
+        new(mock_class, id, attributes, options)
       end
       
       def self.clear!
         Polaris::Resource::Configuration.hydra.clear_stubs
-      end
-      
-      def self.matches?(request)
-        Polaris::Resource::Configuration.hydra.stubs.any? do |stub|
-          stub.matches?(request)
-        end
       end
       
       private

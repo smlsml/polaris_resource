@@ -83,7 +83,7 @@ describe Polaris::Resource::Configuration, "#allow_net_connect" do
     Polaris::Resource::Configuration.allow_net_connect = false
     lambda {
       Typhoeus::Request.get("http://localhost:3000")
-    }.should raise_error(Polaris::Resource::NetConnectNotAllowedError, "Real HTTP connections are disabled. Unregistered request: GET http://localhost:3000")
+    }.should raise_error(Polaris::Resource::NetConnectNotAllowedError)
   end
   
 end

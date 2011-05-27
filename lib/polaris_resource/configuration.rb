@@ -3,14 +3,18 @@ module Polaris
     class Configuration
 
       class << self
-        attr_writer :host, :hydra
+        attr_writer :host
 
         def host
           @host || raise(Polaris::Resource::ConfigurationError, "The request HOST has not been set. Please set the host using Polaris::Resource::Configuration.host = 'http://www.example.com'")
         end
 
         def hydra
-          @hydra ||= Typhoeus::Hydra.hydra
+          Typhoeus::Hydra.hydra
+        end
+        
+        def hydra=(hydra)
+          Typhoeus::Hydra.hydra = hydra
         end
         
         def enable_stubbing!
@@ -26,14 +30,14 @@ module Polaris
         end
         
         def allow_net_connect=(allowed)
-          @net_connect_allowed = allowed
+          Typhoeus::Hydra.allow_net_connect = allowed
         end
         
         # Allows Net Connect by default
         allow_net_connect = true
         
         def allow_net_connect?
-          !!@net_connect_allowed
+          Typhoeus::Hydra.allow_net_connect?
         end
         
       end

@@ -1,17 +1,16 @@
 module Typhoeus
   class Hydra
-    
-    def handle_request_with_net_connect_check(request, response, live_request = true)
-      if Polaris::Resource::Configuration.allow_net_connect? || Polaris::Resource::Mock.matches?(request)
-        handle_request_without_net_connect_check(request, response, live_request)
-      else
-        raise Polaris::Resource::NetConnectNotAllowedError, "Real HTTP connections are disabled. Unregistered request: #{request.method.to_s.upcase} #{request.url}"
-      end
+
+    def check_allow_net_connect_with_error_wrapping!(request)
+      check_allow_net_connect_without_error_wrapping!(request)
+    rescue Typhoeus::Hydra::NetConnectNotAllowedError => ex
+      raise Polaris::Resource::NetConnectNotAllowedError, ex.message
     end
-    private :handle_request_with_net_connect_check
+    private :check_allow_net_connect_with_error_wrapping!
     
-    alias_method :handle_request_without_net_connect_check, :handle_request
-    alias_method :handle_request, :handle_request_with_net_connect_check
-    
+    alias_method :check_allow_net_connect_without_error_wrapping!, :check_allow_net_connect!
+    alias_method :check_allow_net_connect!, :check_allow_net_connect_with_error_wrapping!
+
+
   end
 end
