@@ -27,3 +27,4 @@ describe Polaris::Resource::Base, "implements Polaris::Resource::Base::Finders" 
   end
   
 end
+

@@ -37,10 +37,6 @@ module Polaris
       #   end
       # end
       # 
-      # def attributes
-      #   @attributes ||= self.class.default_attributes
-      # end
-      # 
       # def to_param
       #   id.to_s
       # end

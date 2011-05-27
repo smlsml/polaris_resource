@@ -3,21 +3,35 @@ module Polaris
     class Base
       module Attributes
 
-        # def self.property(name, klass)
-        #   default_attributes.store(name.to_sym, nil)
-        # 
-        #   define_method name.to_sym do
-        #     attributes[name.to_sym]
-        #   end
-        # 
-        #   define_method "#{name}=".to_sym do |value|
-        #     attributes[name.to_sym] = value
-        #   end
-        # end
-        # 
-        # def self.default_attributes
-        #   @attributes ||= {}
-        # end
+        def self.included(base)
+          base.extend(ClassMethods)
+        end
+
+        module ClassMethods
+
+          def property(name, klass)
+            default_attributes.store(name.to_sym, nil)
+            
+            # Getter
+            define_method name.to_sym do
+              attributes[name.to_sym]
+            end
+            
+            # Setter
+            define_method "#{name}=".to_sym do |value|
+              attributes[name.to_sym] = value
+            end
+          end
+          
+          def default_attributes
+            @attributes ||= {}
+          end
+
+        end
+        
+        def attributes
+          @attributes ||= self.class.default_attributes.dup
+        end
 
       end
     end
