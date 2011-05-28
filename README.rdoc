@@ -17,13 +17,10 @@ For Example:
       has_one :doohickey
     end
 
-    attributes = {
+    @dummy = Dummy.new(
       :name       => "Dumb",
       :has_smarts => false,
-      :thingy_id  => 2
-    }
-
-    @dummy = Dummy.new(attributes)                     # => #<Dummy:0x1016858d8>
+      :thingy_id  => 2)                                # => #<Dummy:0x1016858d8>
     @dummy.new_record?                                 # => true
     @dummy.save                                        # => POST http://localhost/dummies
 
