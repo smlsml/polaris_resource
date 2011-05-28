@@ -22,7 +22,7 @@ module Polaris
           end
           
           def default_attributes
-            @attributes ||= HashWithIndifferentAccess.new
+            @attributes ||= HashWithIndifferentAccess.new(superclass.respond_to?(:default_attributes) ? superclass.default_attributes : {})
           end
 
         end

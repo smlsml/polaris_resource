@@ -3,8 +3,12 @@ require 'spec_helper'
 class Automobile < Polaris::Resource::Base
 end
 
-describe Polaris::Resource::Base do
-  pending
+describe Polaris::Resource::Base, ".initialize" do
+  
+  before(:each) do
+    @base
+  end
+  
 end
 
 describe Polaris::Resource::Base, "implements Polaris::Resource::Base::Associations" do
