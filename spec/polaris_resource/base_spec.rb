@@ -66,3 +66,7 @@ end
 describe Polaris::Resource::Base, ".new_record?" do
   pending
 end
+
+describe Polaris::Resource::Base, ".to_param" do
+  pending
+end
