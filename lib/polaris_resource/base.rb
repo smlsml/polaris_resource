@@ -11,7 +11,7 @@ module Polaris
       include Finders
       include Persistence
 
-      property :id, String
+      property :id, Integer
 
       def self.model_name
         self.name.split('::').last
