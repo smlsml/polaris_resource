@@ -24,7 +24,7 @@ module Polaris
           end
           
           def default_attributes
-            @attributes ||= {}
+            @attributes ||= HashWithIndifferentAccess.new
           end
 
         end

@@ -22,7 +22,7 @@ end
 describe Polaris::Resource::Base::Attributes, ".attributes" do
   
   it "returns the attributes hash" do
-    Post.new.attributes.should eql({ :title => nil })
+    Post.new.attributes.should eql(HashWithIndifferentAccess.new({ :title => nil }))
   end
   
 end
@@ -30,7 +30,7 @@ end
 describe Polaris::Resource::Base::Attributes, "#default_attributes" do
   
   it "returns the default attributes has which will be applied as the attributes when a new object is instantiated" do
-    Post.default_attributes.should eql({ :title => nil })
+    Post.default_attributes.should eql(HashWithIndifferentAccess.new({ :title => nil }))
   end
   
 end

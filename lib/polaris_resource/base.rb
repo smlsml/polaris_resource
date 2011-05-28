@@ -8,11 +8,13 @@ module Polaris
       include Attributes
       include Associations
       include Finders
+      
+      property :id, String
 
-      # def self.model_name
-      #   self.name.split('::').last
-      # end
-      # 
+      def self.model_name
+        self.name.split('::').last
+      end
+
       # def self.build_from_response(response)
       #   if response.success?
       #     content = Yajl::Parser.parse(response.body)['content']
