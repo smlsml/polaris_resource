@@ -1,6 +1,7 @@
 require 'polaris_resource/base/associations'
 require 'polaris_resource/base/attributes'
 require 'polaris_resource/base/finders'
+require 'polaris_resource/base/persistence'
 
 module Polaris
   module Resource
@@ -8,6 +9,7 @@ module Polaris
       include Attributes
       include Associations
       include Finders
+      include Persistence
       
       property :id, String
 

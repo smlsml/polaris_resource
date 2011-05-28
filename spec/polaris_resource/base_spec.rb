@@ -31,6 +31,14 @@ describe Polaris::Resource::Base, "implements Polaris::Resource::Base::Finders" 
   
 end
 
+describe Polaris::Resource::Base, "implements Polaris::Resource::Base::Persistence" do
+  
+  it "includes the Polaris::Resource::Base::Persistence module" do
+    Polaris::Resource::Base.included_modules.should include(Polaris::Resource::Base::Persistence)
+  end
+  
+end
+
 describe Polaris::Resource::Base, "defines an id property by default" do
   
   it "defines setter and getter methods for the id property" do
@@ -53,4 +61,8 @@ describe Polaris::Resource::Base, "#model_name" do
     Automobile.model_name.should eql("Automobile")
   end
   
+end
+
+describe Polaris::Resource::Base, ".new_record?" do
+  pending
 end
