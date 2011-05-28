@@ -43,15 +43,6 @@ module Polaris
       #   end
       # end
 
-      # def initialize(new_attributes = {})
-      #   self.class.send(:property, :id)
-      #   
-      #   new_attributes = HashWithIndifferentAccess.new(new_attributes)
-      #   attributes.keys.each do |attribute|
-      #     attributes[attribute] = new_attributes[attribute]
-      #   end
-      # end
-
     end
   end
 end
