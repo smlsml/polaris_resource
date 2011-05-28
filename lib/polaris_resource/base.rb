@@ -11,10 +11,17 @@ module Polaris
       include Finders
       include Persistence
 
-      property :id, Integer
+      property :id
 
       def self.model_name
         self.name.split('::').last
+      end
+      
+      def initialize(new_attributes = {})
+        new_attributes = HashWithIndifferentAccess.new(new_attributes)
+        attributes.keys.each do |attribute|
+          attributes[attribute] = new_attributes[attribute]
+        end
       end
 
       def to_param
@@ -37,7 +44,7 @@ module Polaris
       # end
 
       # def initialize(new_attributes = {})
-      #   self.class.send(:property, :id, Integer)
+      #   self.class.send(:property, :id)
       #   
       #   new_attributes = HashWithIndifferentAccess.new(new_attributes)
       #   attributes.keys.each do |attribute|

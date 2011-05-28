@@ -1,12 +1,41 @@
 require 'spec_helper'
 
 class Automobile < Polaris::Resource::Base
+  property :bhp
+  property :wheels
+  property :hybrid
+  property :name
 end
 
 describe Polaris::Resource::Base, ".initialize" do
   
-  before(:each) do
-    @base
+  context "when no attributes hash is supplied" do
+    
+    before(:each) do
+      @auto = Automobile.new
+    end
+    
+    it "has attributes that are set to nil" do
+      @auto.attributes.should eql(HashWithIndifferentAccess.new({ :id => nil, :bhp => nil, :wheels => nil, :hybrid => nil, :name => nil }))
+    end
+    
+  end
+  
+  context "when an attributes hash is supplied" do
+    
+    before(:each) do
+      @auto = Automobile.new(
+        :bhp    => 300,
+        :wheels => 4,
+        :hybrid => false,
+        :name   => "Roadster"
+      )
+    end
+    
+    it "has attributes that are set to nil" do
+      @auto.attributes.should eql(HashWithIndifferentAccess.new({ :id => nil, :bhp => 300, :wheels => 4, :hybrid => false, :name => "Roadster" }))
+    end
+    
   end
   
 end

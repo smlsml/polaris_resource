@@ -9,7 +9,7 @@ module Polaris
 
         module ClassMethods
 
-          def property(name, klass)
+          def property(name)
             default_attributes.store(name.to_sym, nil)
             
             define_method name.to_sym do

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 class Post < Polaris::Resource::Base
-  property :title, String
+  property :title
 end
 
 describe Polaris::Resource::Base::Attributes, "#property" do
