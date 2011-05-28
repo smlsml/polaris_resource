@@ -17,6 +17,10 @@ module Polaris
         self.name.split('::').last
       end
 
+      def to_param
+        id.to_s if id
+      end
+
       # def self.build_from_response(response)
       #   if response.success?
       #     content = Yajl::Parser.parse(response.body)['content']
@@ -39,10 +43,6 @@ module Polaris
       #   attributes.keys.each do |attribute|
       #     attributes[attribute] = new_attributes[attribute]
       #   end
-      # end
-
-      # def to_param
-      #   id.to_s
       # end
 
     end

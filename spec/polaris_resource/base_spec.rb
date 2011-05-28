@@ -72,5 +72,30 @@ describe Polaris::Resource::Base, ".new_record?" do
 end
 
 describe Polaris::Resource::Base, ".to_param" do
-  pending
+  
+  context "when the id attribute is set" do
+    
+    before(:each) do
+      @base = Polaris::Resource::Base.new
+      @base.id = 1
+    end
+    
+    it "returns the id as a string" do
+      @base.to_param.should eql("1")
+    end
+    
+  end
+  
+  context "when the id attribute is set" do
+    
+    before(:each) do
+      @base = Polaris::Resource::Base.new
+    end
+    
+    it "returns the id as a string" do
+      @base.to_param.should be_nil
+    end
+    
+  end
+  
 end
