@@ -26,17 +26,20 @@ Gem::Specification.new do |s|
     "VERSION",
     "autotest/discover.rb",
     "lib/ext/typhoeus.rb",
+    "lib/polaris_resource.rb",
     "lib/polaris_resource/base.rb",
     "lib/polaris_resource/base/associations.rb",
     "lib/polaris_resource/base/attributes.rb",
     "lib/polaris_resource/base/finders.rb",
+    "lib/polaris_resource/base/persistence.rb",
     "lib/polaris_resource/configuration.rb",
     "lib/polaris_resource/errors.rb",
     "lib/polaris_resource/mock.rb",
-    "polaris-resource.gemspec",
+    "polaris_resource.gemspec",
     "spec/polaris_resource/base/associations_spec.rb",
     "spec/polaris_resource/base/attributes_spec.rb",
     "spec/polaris_resource/base/finders_spec.rb",
+    "spec/polaris_resource/base/persistence_spec.rb",
     "spec/polaris_resource/base_spec.rb",
     "spec/polaris_resource/configuration_spec.rb",
     "spec/polaris_resource/mock_spec.rb",
@@ -59,7 +62,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<i18n>, ["~> 0.5.0"])
       s.add_development_dependency(%q<rspec>, ["= 2.6.0"])
       s.add_development_dependency(%q<yard>, ["= 0.6.8"])
-      s.add_development_dependency(%q<bundler>, ["= 1.0.13"])
+      s.add_development_dependency(%q<bundler>, ["= 1.0.14"])
       s.add_development_dependency(%q<jeweler>, ["= 1.6.0"])
       s.add_development_dependency(%q<rcov>, ["= 0.9.9"])
       s.add_development_dependency(%q<autotest>, ["= 4.4.6"])
@@ -70,7 +73,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<i18n>, ["~> 0.5.0"])
       s.add_dependency(%q<rspec>, ["= 2.6.0"])
       s.add_dependency(%q<yard>, ["= 0.6.8"])
-      s.add_dependency(%q<bundler>, ["= 1.0.13"])
+      s.add_dependency(%q<bundler>, ["= 1.0.14"])
       s.add_dependency(%q<jeweler>, ["= 1.6.0"])
       s.add_dependency(%q<rcov>, ["= 0.9.9"])
       s.add_dependency(%q<autotest>, ["= 4.4.6"])
@@ -82,7 +85,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<i18n>, ["~> 0.5.0"])
     s.add_dependency(%q<rspec>, ["= 2.6.0"])
     s.add_dependency(%q<yard>, ["= 0.6.8"])
-    s.add_dependency(%q<bundler>, ["= 1.0.13"])
+    s.add_dependency(%q<bundler>, ["= 1.0.14"])
     s.add_dependency(%q<jeweler>, ["= 1.6.0"])
     s.add_dependency(%q<rcov>, ["= 0.9.9"])
     s.add_dependency(%q<autotest>, ["= 4.4.6"])

@@ -7,7 +7,7 @@ module Polaris
         #   response = Typhoeus::Request.get(_find_uri(id_or_ids))
         #   build_from_response(response)
         # end
-        # 
+
         # def self._find_uri(id_or_ids)
         #   "#{Polaris::Configuration.host}"
         # end

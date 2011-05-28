@@ -31,7 +31,7 @@ module Polaris
       #     []
       #   end
       # end
-      # 
+
       # def initialize(new_attributes = {})
       #   self.class.send(:property, :id, Integer)
       #   
@@ -40,7 +40,7 @@ module Polaris
       #     attributes[attribute] = new_attributes[attribute]
       #   end
       # end
-      # 
+
       # def to_param
       #   id.to_s
       # end

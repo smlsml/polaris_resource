@@ -63,7 +63,7 @@ module Polaris
         #     self.class.build_from_response(response)
         #   end
         # end
-        # 
+
         # def self.has_many(name)
         #   define_method "_has_many_#{name}_uri" do
         #     "#{Polaris::Configuration.host}/#{self.class.model_name.underscore}/#{id}/#{name.to_s.pluralize}"
@@ -74,7 +74,7 @@ module Polaris
         #     "Polaris::Client::#{name.to_s.singularize.camelize}".constantize.build_from_response(response)
         #   end
         # end
-        # 
+
         # def self.has_one(name)
         #   define_method "_has_one_#{name}_uri" do
         #     "#{Polaris::Configuration.host}/#{self.class.model_name.underscore}/#{id}/#{name.to_s}"

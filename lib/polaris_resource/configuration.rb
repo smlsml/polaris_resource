@@ -33,7 +33,7 @@ module Polaris
           Typhoeus::Hydra.allow_net_connect = allowed
         end
         
-        # Allows Net Connect by default
+        # allow net connections by default
         allow_net_connect = true
         
         def allow_net_connect?

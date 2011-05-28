@@ -12,12 +12,10 @@ module Polaris
           def property(name, klass)
             default_attributes.store(name.to_sym, nil)
             
-            # Getter
             define_method name.to_sym do
               attributes[name.to_sym]
             end
             
-            # Setter
             define_method "#{name}=".to_sym do |value|
               attributes[name.to_sym] = value
             end

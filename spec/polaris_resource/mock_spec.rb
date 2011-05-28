@@ -1,6 +1,5 @@
 require 'spec_helper'
 
-# DUMMY class for testing purposes
 class Dummy
   def self.attributes
     {
