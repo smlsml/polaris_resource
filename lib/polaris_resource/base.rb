@@ -10,7 +10,7 @@ module Polaris
       include Associations
       include Finders
       include Persistence
-      
+
       property :id, String
 
       def self.model_name
