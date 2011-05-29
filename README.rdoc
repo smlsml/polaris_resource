@@ -2,7 +2,7 @@ RESTful API Client
 
 This is alpha software.  It's a work in progress.
 
-Working toward something that is very ActiveResource/ActiveRecord-like with some features stolen from other great libraries like DataMapper.
+Working toward a DSL that is very ActiveResource/ActiveRecord-like with some features stolen from other great libraries like DataMapper.
 
 
 For Example:
@@ -44,3 +44,7 @@ For Example:
     Dummy.limit(1)                                     # => GET http://localhost/dummies?limit=1
     Dummy.result_per_page = 25                         # => 25
     Dummy.page(3)                                      # => GET http://localhost/dummies?limit=25&offset=50
+
+It uses Typhoeus for HTTP, and will eventually support lazy, parallel requests.
+
+Design informed by Service-Oriented Design with Ruby and Rails by Paul Dix, (@Amazon)[http://www.amazon.com/Service-Oriented-Design-Rails-Addison-Wesley-Professional/dp/0321659368/ref=sr_1_1?ie=UTF8&qid=1306652697&sr=8-1]
