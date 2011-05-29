@@ -27,6 +27,16 @@ module Polaris
       def to_param
         id.to_s if id
       end
+      
+      def build_from_response(response)
+        content = Yajl::Parser.parse(response.body)['content']
+        merge_attributes(content)
+        @new_record = false
+      end
+      
+      def new_record?
+        @new_record.nil? ? true : @new_record
+      end
 
       # def self.build_from_response(response)
       #   if response.success?

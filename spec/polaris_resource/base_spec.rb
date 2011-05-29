@@ -97,7 +97,33 @@ describe Polaris::Resource::Base, "#model_name" do
 end
 
 describe Polaris::Resource::Base, ".new_record?" do
-  pending
+  
+  before(:each) do
+    @base = Polaris::Resource::Base.new
+  end
+  
+  context "when the record is new" do
+    
+    it "returns true" do
+      @base.should be_new_record
+    end
+    
+  end
+  
+  context "when the record is not new" do
+    
+    before(:each) do
+      response = Polaris::Resource::Response.new(:code => 201, :headers => "", :body => { :status => 200, :content => { :id => 1 } }.to_json, :time => 0.3)
+      Polaris::Resource::Request.stub(:post).and_return(response)
+      @base.save
+    end
+    
+    it "returns false" do
+      @base.should_not be_new_record
+    end
+    
+  end
+  
 end
 
 describe Polaris::Resource::Base, ".to_param" do

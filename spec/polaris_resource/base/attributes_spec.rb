@@ -34,3 +34,27 @@ describe Polaris::Resource::Base::Attributes, "#default_attributes" do
   end
   
 end
+
+describe Polaris::Resource::Base::Attributes, ".update_attribute" do
+  
+  it "updates the attribute with the given value" do
+    @post = Post.new(:title => "Horton Hears a Who")
+    @post.title.should eql("Horton Hears a Who")
+    @post.update_attribute(:title, "Red Fish, Blue Fish, One Fish, Two Fish")
+    @post.title.should eql("Red Fish, Blue Fish, One Fish, Two Fish")
+  end
+  
+end
+
+describe Polaris::Resource::Base::Attributes, ".merge_attributes" do
+  
+  it "updates each attribute with the given value" do
+    @post = Post.new(:title => "Green Eggs and Ham")
+    @post.id.should be_nil
+    @post.title.should eql("Green Eggs and Ham")
+    @post.merge_attributes(:title => "Red Fish, Blue Fish, One Fish, Two Fish", :id => 5)
+    @post.id.should eql(5)
+    @post.title.should eql("Red Fish, Blue Fish, One Fish, Two Fish")
+  end
+  
+end

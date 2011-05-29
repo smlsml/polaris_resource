@@ -15,5 +15,7 @@ require 'polaris_resource/base'
 require 'polaris_resource/configuration'
 require 'polaris_resource/errors'
 require 'polaris_resource/mock'
+require 'polaris_resource/request'
+require 'polaris_resource/response'
 
 require 'ext/typhoeus'
