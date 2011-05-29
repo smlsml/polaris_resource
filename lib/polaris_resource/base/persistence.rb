@@ -20,9 +20,7 @@ module Polaris
         private :save_uri
         
         def update_attributes(new_attributes)
-          new_attributes.each do |key, value|
-            update_attribute(key, value)
-          end
+          merge_attributes(new_attributes)
           save
         end
         
