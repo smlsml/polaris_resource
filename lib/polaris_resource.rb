@@ -1,8 +1,5 @@
 $:.unshift File.join(File.dirname(__FILE__),'..','lib')
 
-require 'rubygems'
-require 'bundler/setup'
-
 require 'yajl/json_gem'
 require 'typhoeus'
 require 'active_support/time'
