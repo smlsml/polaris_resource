@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ryan Moran"]
-  s.date = %q{2011-05-27}
+  s.date = %q{2011-05-29}
   s.description = %q{RESTful API Client}
   s.email = %q{ryan.moran@gmail.com}
   s.extra_rdoc_files = [
@@ -35,6 +35,8 @@ Gem::Specification.new do |s|
     "lib/polaris_resource/configuration.rb",
     "lib/polaris_resource/errors.rb",
     "lib/polaris_resource/mock.rb",
+    "lib/polaris_resource/request.rb",
+    "lib/polaris_resource/response.rb",
     "polaris_resource.gemspec",
     "spec/polaris_resource/base/associations_spec.rb",
     "spec/polaris_resource/base/attributes_spec.rb",
@@ -43,6 +45,8 @@ Gem::Specification.new do |s|
     "spec/polaris_resource/base_spec.rb",
     "spec/polaris_resource/configuration_spec.rb",
     "spec/polaris_resource/mock_spec.rb",
+    "spec/polaris_resource/request_spec.rb",
+    "spec/polaris_resource/response_spec.rb",
     "spec/spec_helper.rb",
     "spec/support/configuration.rb"
   ]
