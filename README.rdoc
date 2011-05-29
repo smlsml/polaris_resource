@@ -47,4 +47,4 @@ For Example:
 
 It uses Typhoeus for HTTP, and will eventually support lazy, parallel requests.
 
-Design informed by Service-Oriented Design with Ruby and Rails by Paul Dix, (@Amazon)[http://www.amazon.com/Service-Oriented-Design-Rails-Addison-Wesley-Professional/dp/0321659368/ref=sr_1_1?ie=UTF8&qid=1306652697&sr=8-1]
+Design informed by Service-Oriented Design with Ruby and Rails by Paul Dix, @Amazon[http://www.amazon.com/Service-Oriented-Design-Rails-Addison-Wesley-Professional/dp/0321659368/ref=sr_1_1?ie=UTF8&qid=1306652697&sr=8-1]
