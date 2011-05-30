@@ -19,7 +19,15 @@ module Polaris
       
       def self.build_from_response(response)
         content = Yajl::Parser.parse(response.body)['content']
-        new(content)
+        if content
+          if Array === content 
+            content.collect do |attributes|
+              new(attributes)
+            end
+          else
+            new(content)
+          end
+        end
       end
       
       def initialize(new_attributes = {})

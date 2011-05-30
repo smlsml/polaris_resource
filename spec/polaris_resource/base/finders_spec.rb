@@ -37,15 +37,75 @@ describe Polaris::Resource::Base::Finders, "#find" do
     
     context "when this record does not exist on the external service" do
       
+      before(:each) do
+        body = {
+          :status  => 404,
+          :content => nil
+        }
+        @response = Polaris::Resource::Response.new(:code => 404, :headers => "", :body => body.to_json, :time => 0.3)
+        Polaris::Resource::Request.stub(:get).and_return(@response)
+      end
+      
+      it "raises a RecordNotFound error" do
+        lambda { Dog.find(1) }.should raise_error(Polaris::Resource::RecordNotFound, "Couldn't find Dog with ID=1")
+      end
+      
     end
     
   end
   
   context "when the argument is a single array" do
-    pending
+    
+    context "when all records exists on the external service" do
+      
+      before(:each) do
+        dogs =  [Dog.new(:name => "Daisy", :breed => "English Bulldog").attributes.merge(:id => 1)]
+        dogs << Dog.new(:name => "Wilbur", :breed => "Hounddog").attributes.merge(:id => 2)
+        dogs << Dog.new(:name => "Fido", :breed => "Dalmatian").attributes.merge(:id => 3)
+        body = {
+          :status  => 200,
+          :content => dogs
+        }
+        @response = Polaris::Resource::Response.new(:code => 200, :headers => "", :body => body.to_json, :time => 0.3)
+        Polaris::Resource::Request.stub(:get).and_return(@response)
+      end
+      
+      it "makes a request to /dogs?ids=1,2,3 at the external service" do
+        Polaris::Resource::Request.should_receive(:get).with("/dogs?ids=1,2,3").and_return(@response)
+        Dog.find([1,2,3])
+      end
+      
+      it "returns an array of instances representing these found records" do
+        @dogs = Dog.find([1,2,3])
+        @dogs.should be_an(Array)
+        @dogs.should have(3).dogs
+        @dogs.each do |dog|
+          dog.should be_a(Dog)
+        end
+      end
+      
+    end
+    
+    context "when there is a requested record that does not exist on the external service" do
+      
+      before(:each) do
+        body = {
+          :status  => 404,
+          :content => nil
+        }
+        @response = Polaris::Resource::Response.new(:code => 404, :headers => "", :body => body.to_json, :time => 0.3)
+        Polaris::Resource::Request.stub(:get).and_return(@response)
+      end
+      
+      it "raises a RecordNotFound error" do
+        lambda { Dog.find([1,2,3]) }.should raise_error(Polaris::Resource::RecordNotFound, "Couldn't find all Dogs with IDs (1, 2, 3)")
+      end
+      
+    end
+    
   end
   
-  context "when there are arguments, each being an integer" do
+  context "when there are multiple arguments, each being an integer" do
     pending
   end
   

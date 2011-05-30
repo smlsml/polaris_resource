@@ -5,5 +5,8 @@ module Polaris
     
     class NetConnectNotAllowedError < ::StandardError
     end
+    
+    class RecordNotFound < ::StandardError
+    end
   end
 end
