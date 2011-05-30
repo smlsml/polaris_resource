@@ -56,7 +56,7 @@ module PolarisResource
 
         def handle_response(response, id_or_ids = nil)
           case response.code
-          when 200
+          when 200, 201
             build_from_response(response)
           when 404
             case id_or_ids
@@ -71,15 +71,6 @@ module PolarisResource
         end
 
       end
-
-      # def self.find(id_or_ids)
-      #   response = Typhoeus::Request.get(_find_uri(id_or_ids))
-      #   build_from_response(response)
-      # end
-
-      # def self._find_uri(id_or_ids)
-      #   "#{Polaris::Configuration.host}"
-      # end
 
     end
   end

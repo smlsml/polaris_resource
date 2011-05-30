@@ -15,8 +15,10 @@ module PolarisResource
             attributes[name.to_sym]
           end
 
-          define_method "#{name}=".to_sym do |value|
-            attributes[name.to_sym] = value
+          unless name.to_sym == :id
+            define_method "#{name}=".to_sym do |value|
+              attributes[name.to_sym] = value
+            end
           end
         end
 

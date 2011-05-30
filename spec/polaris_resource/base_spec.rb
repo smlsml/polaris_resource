@@ -75,9 +75,12 @@ end
 describe PolarisResource::Base, "defines an id property by default" do
   
   it "defines setter and getter methods for the id property" do
-    @base = PolarisResource::Base.new
+    body = { :status => 200, :content => { :id => 5 } }
+    response = PolarisResource::Response.new(:code => 200, :headers => "", :body => body.to_json, :time => 0.3)
+    
+    PolarisResource::Request.stub(:get).and_return(response)
+    @base = PolarisResource::Base.find(1)
     @base.should respond_to(:id)
-    @base.id = 5
     @base.id.should eql(5)
   end
   
@@ -131,8 +134,11 @@ describe PolarisResource::Base, ".to_param" do
   context "when the id attribute is set" do
     
     before(:each) do
-      @base = PolarisResource::Base.new
-      @base.id = 1
+      body = { :status => 200, :content => { :id => 1 } }
+      response = PolarisResource::Response.new(:code => 200, :headers => "", :body => body.to_json, :time => 0.3)
+      
+      PolarisResource::Request.stub(:get).and_return(response)
+      @base = PolarisResource::Base.find(1)
     end
     
     it "returns the id as a string" do

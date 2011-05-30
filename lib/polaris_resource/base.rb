@@ -19,12 +19,16 @@ module PolarisResource
     def self.build_from_response(response)
       content = Yajl::Parser.parse(response.body)['content']
       if content
-        if Array === content 
+        if Array === content
           content.collect do |attributes|
-            new(attributes)
+            obj = new
+            obj.merge_attributes(attributes)
+            obj
           end
         else
-          new(content)
+          obj = new
+          obj.merge_attributes(content)
+          obj
         end
       end
     end
@@ -32,22 +36,26 @@ module PolarisResource
     def initialize(new_attributes = {})
       new_attributes = HashWithIndifferentAccess.new(new_attributes)
       attributes.keys.each do |attribute|
-        attributes[attribute] = new_attributes[attribute]
+        attributes[attribute] = new_attributes[attribute] unless attribute.to_sym == :id
       end
     end
 
     def to_param
-      id.to_s if id
+      id.to_s unless new_record?
     end
 
     def build_from_response(response)
       content = Yajl::Parser.parse(response.body)['content']
       merge_attributes(content)
-      @new_record = false
     end
 
     def new_record?
-      @new_record.nil? ? true : @new_record
+      id.nil?
+    end
+    
+    def ==(comparison_object)      
+      comparison_object.equal?(self) ||
+        (comparison_object.instance_of?(self.class) && comparison_object.id == id && !comparison_object.new_record?)
     end
 
     # def self.build_from_response(response)
