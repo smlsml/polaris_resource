@@ -10,7 +10,7 @@ module PolarisResource
 
         def belongs_to(association)
           attribute_id_sym  = "#{association}_id".to_sym
-          attribute_uri_sym = "_#{association}_uri".to_sym
+          attribute_uri_sym = "belongs_to_#{association}_uri".to_sym
 
           property attribute_id_sym
 
@@ -24,7 +24,7 @@ module PolarisResource
         end
 
         def has_many(association)
-          attribute_uri_sym = "_#{association}_uri".to_sym
+          attribute_uri_sym = "has_many_#{association}_uri".to_sym
 
           define_method association do
           end
@@ -36,7 +36,7 @@ module PolarisResource
         end
 
         def has_one(association)
-          attribute_uri_sym = "_#{association}_uri".to_sym
+          attribute_uri_sym = "has_one_#{association}_uri".to_sym
 
           define_method association do
           end
