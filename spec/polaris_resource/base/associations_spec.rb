@@ -77,9 +77,11 @@ describe PolarisResource::Base::Associations, "#belongs_to" do
       @meeting.conference_id = nil
     end
     
-    it "returns nil" do
+    it "has a uri string that is nil" do
       @meeting.send(:belongs_to_conference_uri).should be_nil
     end
+    
+    it "returns nil"
     
   end
   
@@ -101,9 +103,11 @@ describe PolarisResource::Base::Associations, "#has_many" do
       @meeting = Meeting.new
     end
     
-    it "returns nil" do
+    it "has a uri string that is nil" do
       @meeting.send(:has_many_attendees_uri).should be_nil
     end
+    
+    it "returns nil"
     
   end
   
@@ -155,7 +159,7 @@ describe PolarisResource::Base::Associations, "#has_one" do
     Meeting.new.private_methods.should include('has_one_speaker_uri')
   end
   
-  context "when the record has no association_id" do
+  context "when the record has no id" do
     
     before(:each) do
       @meeting = Meeting.new
@@ -165,9 +169,11 @@ describe PolarisResource::Base::Associations, "#has_one" do
       @meeting.send(:has_one_speaker_uri).should be_nil
     end
     
+    it "returns nil"
+    
   end
   
-  context "when the record has an association_id" do
+  context "when the record has an id" do
     
     before(:each) do
       meeting_body = { :status => 200, :content => { :id => 1, :conference_id => 2 } }
