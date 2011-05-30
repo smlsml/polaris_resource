@@ -159,7 +159,28 @@ describe PolarisResource::Base::Finders, "#find" do
 end
 
 describe PolarisResource::Base::Finders, "#all" do
-  pending
+
+  before(:each) do
+    dogs =  [Dog.new(:name => "Daisy", :breed => "English Bulldog").attributes.merge(:id => 1)]
+    dogs << Dog.new(:name => "Wilbur", :breed => "Hounddog").attributes.merge(:id => 2)
+    dogs << Dog.new(:name => "Fido", :breed => "Dalmatian").attributes.merge(:id => 3)
+    body = {
+      :status  => 200,
+      :content => dogs
+    }
+    @response = PolarisResource::Response.new(:code => 200, :headers => "", :body => body.to_json, :time => 0.3)
+    PolarisResource::Request.stub(:get).and_return(@response)
+  end
+  
+  it "returns all found records" do
+    @dogs = Dog.all
+    @dogs.should be_an(Array)
+    @dogs.should have(3).dogs
+    @dogs.each do |dog|
+      dog.should be_a(Dog)
+    end
+  end
+
 end
 
 describe PolarisResource::Base::Finders, "#where" do

@@ -7,6 +7,10 @@ module PolarisResource
       end
 
       module ClassMethods
+        
+        def all
+          find_all
+        end
 
         def find(*id_or_ids)
           if id_or_ids.length == 1
@@ -40,16 +44,28 @@ module PolarisResource
         def find_some_uri(ids)
           "/#{model_name.underscore.pluralize}?ids=#{ids.join(',')}"
         end
+        
+        def find_all
+          response = PolarisResource::Request.get(find_all_uri)
+          handle_response(response)
+        end
+        
+        def find_all_uri
+          "/#{model_name.underscore.pluralize}"
+        end
 
-        def handle_response(response, id_or_ids)
+        def handle_response(response, id_or_ids = nil)
           case response.code
           when 200
             build_from_response(response)
           when 404
-            if Array === id_or_ids
+            case id_or_ids
+            when Array
               raise RecordNotFound, "Couldn't find all Dogs with IDs (#{id_or_ids.join(', ')})"
-            else
+            when Integer
               raise RecordNotFound, "Couldn't find #{model_name} with ID=#{id_or_ids}"
+            else
+              raise RecordNotFound
             end
           end
         end
