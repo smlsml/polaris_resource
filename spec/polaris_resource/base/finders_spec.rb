@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-class Dog < Polaris::Resource::Base
+class Dog < PolarisResource::Base
   property :name
   property :breed
 end
 
-describe Polaris::Resource::Base::Finders, "#find" do
+describe PolarisResource::Base::Finders, "#find" do
   
   context "when the argument is a single integer" do
     
@@ -16,12 +16,12 @@ describe Polaris::Resource::Base::Finders, "#find" do
           :status  => 200,
           :content => Dog.new(:name => "Daisy", :breed => "English Bulldog").attributes.merge(:id => 1)
         }
-        @response = Polaris::Resource::Response.new(:code => 200, :headers => "", :body => body.to_json, :time => 0.3)
-        Polaris::Resource::Request.stub(:get).and_return(@response)
+        @response = PolarisResource::Response.new(:code => 200, :headers => "", :body => body.to_json, :time => 0.3)
+        PolarisResource::Request.stub(:get).and_return(@response)
       end
       
       it "makes a request to /dogs/1 at the external service" do
-        Polaris::Resource::Request.should_receive(:get).with("/dogs/1").and_return(@response)
+        PolarisResource::Request.should_receive(:get).with("/dogs/1").and_return(@response)
         Dog.find(1)
       end
       
@@ -42,12 +42,12 @@ describe Polaris::Resource::Base::Finders, "#find" do
           :status  => 404,
           :content => nil
         }
-        @response = Polaris::Resource::Response.new(:code => 404, :headers => "", :body => body.to_json, :time => 0.3)
-        Polaris::Resource::Request.stub(:get).and_return(@response)
+        @response = PolarisResource::Response.new(:code => 404, :headers => "", :body => body.to_json, :time => 0.3)
+        PolarisResource::Request.stub(:get).and_return(@response)
       end
       
       it "raises a RecordNotFound error" do
-        lambda { Dog.find(1) }.should raise_error(Polaris::Resource::RecordNotFound, "Couldn't find Dog with ID=1")
+        lambda { Dog.find(1) }.should raise_error(PolarisResource::RecordNotFound, "Couldn't find Dog with ID=1")
       end
       
     end
@@ -66,12 +66,12 @@ describe Polaris::Resource::Base::Finders, "#find" do
           :status  => 200,
           :content => dogs
         }
-        @response = Polaris::Resource::Response.new(:code => 200, :headers => "", :body => body.to_json, :time => 0.3)
-        Polaris::Resource::Request.stub(:get).and_return(@response)
+        @response = PolarisResource::Response.new(:code => 200, :headers => "", :body => body.to_json, :time => 0.3)
+        PolarisResource::Request.stub(:get).and_return(@response)
       end
       
       it "makes a request to /dogs?ids=1,2,3 at the external service" do
-        Polaris::Resource::Request.should_receive(:get).with("/dogs?ids=1,2,3").and_return(@response)
+        PolarisResource::Request.should_receive(:get).with("/dogs?ids=1,2,3").and_return(@response)
         Dog.find([1,2,3])
       end
       
@@ -93,12 +93,12 @@ describe Polaris::Resource::Base::Finders, "#find" do
           :status  => 404,
           :content => nil
         }
-        @response = Polaris::Resource::Response.new(:code => 404, :headers => "", :body => body.to_json, :time => 0.3)
-        Polaris::Resource::Request.stub(:get).and_return(@response)
+        @response = PolarisResource::Response.new(:code => 404, :headers => "", :body => body.to_json, :time => 0.3)
+        PolarisResource::Request.stub(:get).and_return(@response)
       end
       
       it "raises a RecordNotFound error" do
-        lambda { Dog.find([1,2,3]) }.should raise_error(Polaris::Resource::RecordNotFound, "Couldn't find all Dogs with IDs (1, 2, 3)")
+        lambda { Dog.find([1,2,3]) }.should raise_error(PolarisResource::RecordNotFound, "Couldn't find all Dogs with IDs (1, 2, 3)")
       end
       
     end
@@ -111,22 +111,22 @@ describe Polaris::Resource::Base::Finders, "#find" do
   
 end
 
-describe Polaris::Resource::Base::Finders, "#all" do
+describe PolarisResource::Base::Finders, "#all" do
   pending
 end
 
-describe Polaris::Resource::Base::Finders, "#where" do
+describe PolarisResource::Base::Finders, "#where" do
   pending
 end
 
-describe Polaris::Resource::Base::Finders, "#limit" do
+describe PolarisResource::Base::Finders, "#limit" do
   pending
 end
 
-describe Polaris::Resource::Base::Finders, "#page" do
+describe PolarisResource::Base::Finders, "#page" do
   pending
 end
 
-describe Polaris::Resource::Base::Finders, "#results_per_page" do
+describe PolarisResource::Base::Finders, "#results_per_page" do
   pending
 end

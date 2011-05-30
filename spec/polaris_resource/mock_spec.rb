@@ -14,18 +14,18 @@ class Dummy
   end
 end
 
-describe Polaris::Resource::Mock, "#mock" do
+describe PolarisResource::Mock, "#mock" do
 
   it "returns a new instance of Mock" do
-    Polaris::Resource::Mock.mock(Dummy, 1).should be_a(Polaris::Resource::Mock)
+    PolarisResource::Mock.mock(Dummy, 1).should be_a(PolarisResource::Mock)
   end
 
 end
 
-describe Polaris::Resource::Mock, ".initialize" do
+describe PolarisResource::Mock, ".initialize" do
 
   before(:each) do
-    @mock = Polaris::Resource::Mock.new(Dummy, 1, Dummy.attributes)
+    @mock = PolarisResource::Mock.new(Dummy, 1, Dummy.attributes)
   end
 
   it "sets the @mock_class variable to the class passed in as a string" do
@@ -50,25 +50,25 @@ describe Polaris::Resource::Mock, ".initialize" do
   it "stubs the find method by stubbing the find url at '/:mock_class/:id'" do
     body = Dummy.attributes.merge({ :id => 1 }).to_json
     response = Typhoeus::Response.new(:code => 200, :headers => "", :body => body, :time => 0.3)
-    @test_stub = Typhoeus::HydraMock.new("#{Polaris::Resource::Configuration.host}/dummies/1", :get)
+    @test_stub = Typhoeus::HydraMock.new("#{PolarisResource::Configuration.host}/dummies/1", :get)
     @test_stub.and_return(response)
-    @stub = Polaris::Resource::Configuration.hydra.stubs.find do |stub|
+    @stub = PolarisResource::Configuration.hydra.stubs.find do |stub|
       stub.url == @test_stub.url
     end
-    @stub.should be_matches(Typhoeus::Request.new("#{Polaris::Resource::Configuration.host}/dummies/1", :method => :get))
+    @stub.should be_matches(Typhoeus::Request.new("#{PolarisResource::Configuration.host}/dummies/1", :method => :get))
     Yajl::Parser.parse(@stub.response.body).should eql(Yajl::Parser.parse(@test_stub.response.body))
   end
 
   context "when given a specific status code" do
 
     before(:each) do
-      Polaris::Resource::Mock.clear!
-      Polaris::Resource::Mock.new(Dummy, 1, Dummy.attributes, :status => 500)
+      PolarisResource::Mock.clear!
+      PolarisResource::Mock.new(Dummy, 1, Dummy.attributes, :status => 500)
     end
 
     it "returns a response with the given status code" do
-      Polaris::Resource::Configuration.hydra.should eql(Typhoeus::Hydra.hydra)
-      response = Typhoeus::Request.get("#{Polaris::Resource::Configuration.host}/dummies/1")
+      PolarisResource::Configuration.hydra.should eql(Typhoeus::Hydra.hydra)
+      response = Typhoeus::Request.get("#{PolarisResource::Configuration.host}/dummies/1")
       response.code.should eql(500)
     end
 
@@ -76,25 +76,25 @@ describe Polaris::Resource::Mock, ".initialize" do
 
 end
 
-describe Polaris::Resource::Mock, "#clear!" do
+describe PolarisResource::Mock, "#clear!" do
 
   it "clears all mock requests from Typhoeus" do
-    Polaris::Resource::Mock.new(Dummy, 1, Dummy.attributes)
-    Polaris::Resource::Mock.new(Dummy, 2, Dummy.attributes)
-    Polaris::Resource::Mock.new(Dummy, 3, Dummy.attributes)
-    Polaris::Resource::Configuration.hydra.stubs.should have(3).stubs
-    Polaris::Resource::Mock.clear!
-    Polaris::Resource::Configuration.hydra.stubs.should be_empty
+    PolarisResource::Mock.new(Dummy, 1, Dummy.attributes)
+    PolarisResource::Mock.new(Dummy, 2, Dummy.attributes)
+    PolarisResource::Mock.new(Dummy, 3, Dummy.attributes)
+    PolarisResource::Configuration.hydra.stubs.should have(3).stubs
+    PolarisResource::Mock.clear!
+    PolarisResource::Configuration.hydra.stubs.should be_empty
   end
 
 end
 
-describe Polaris::Resource::Mock, ".status" do
+describe PolarisResource::Mock, ".status" do
   
   context "when a status code has not been set" do
     
     before(:each) do
-      @mock = Polaris::Resource::Mock.new(Dummy, 1, Dummy.attributes)
+      @mock = PolarisResource::Mock.new(Dummy, 1, Dummy.attributes)
     end
     
     it "returns 200" do
@@ -106,7 +106,7 @@ describe Polaris::Resource::Mock, ".status" do
   context "when a status code has been set to 500" do
     
     before(:each) do
-      @mock = Polaris::Resource::Mock.new(Dummy, 1, Dummy.attributes, :status => 500)
+      @mock = PolarisResource::Mock.new(Dummy, 1, Dummy.attributes, :status => 500)
     end
     
     it "returns 500" do

@@ -1,6 +1,4 @@
-module Polaris
-  module Resource
-    class Request
-    end
+module PolarisResource
+  class Request
   end
 end

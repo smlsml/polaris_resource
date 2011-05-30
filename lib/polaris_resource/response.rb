@@ -1,6 +1,4 @@
-module Polaris
-  module Resource
-    class Response < Typhoeus::Response
-    end
+module PolarisResource
+  class Response < Typhoeus::Response
   end
 end

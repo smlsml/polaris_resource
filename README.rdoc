@@ -7,7 +7,7 @@ Working toward a DSL that is very ActiveResource/ActiveRecord-like with some fea
 
 For Example:
 
-    class Dummy < Polaris::Resource::Base
+    class Dummy < PolarisResource::Base
       property :name
       property :created_at
       property :has_smarts

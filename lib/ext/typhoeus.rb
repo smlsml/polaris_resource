@@ -4,7 +4,7 @@ module Typhoeus
     def check_allow_net_connect_with_error_wrapping!(request)
       check_allow_net_connect_without_error_wrapping!(request)
     rescue Typhoeus::Hydra::NetConnectNotAllowedError => ex
-      raise Polaris::Resource::NetConnectNotAllowedError, ex.message
+      raise PolarisResource::NetConnectNotAllowedError, ex.message
     end
     private :check_allow_net_connect_with_error_wrapping!
     

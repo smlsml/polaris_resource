@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-class Automobile < Polaris::Resource::Base
+class Automobile < PolarisResource::Base
   property :bhp
   property :wheels
   property :hybrid
   property :name
 end
 
-describe Polaris::Resource::Base, ".initialize" do
+describe PolarisResource::Base, ".initialize" do
   
   context "when no attributes hash is supplied" do
     
@@ -40,66 +40,66 @@ describe Polaris::Resource::Base, ".initialize" do
   
 end
 
-describe Polaris::Resource::Base, "implements Polaris::Resource::Base::Associations" do
+describe PolarisResource::Base, "implements PolarisResource::Base::Associations" do
   
-  it "includes the Polaris::Resource::Base::Associations module" do
-    Polaris::Resource::Base.included_modules.should include(Polaris::Resource::Base::Associations)
+  it "includes the PolarisResource::Base::Associations module" do
+    PolarisResource::Base.included_modules.should include(PolarisResource::Base::Associations)
   end
   
 end
 
-describe Polaris::Resource::Base, "implements Polaris::Resource::Base::Attributes" do
+describe PolarisResource::Base, "implements PolarisResource::Base::Attributes" do
   
-  it "includes the Polaris::Resource::Base::Attributes module" do
-    Polaris::Resource::Base.included_modules.should include(Polaris::Resource::Base::Attributes)
+  it "includes the PolarisResource::Base::Attributes module" do
+    PolarisResource::Base.included_modules.should include(PolarisResource::Base::Attributes)
   end
   
 end
 
-describe Polaris::Resource::Base, "implements Polaris::Resource::Base::Finders" do
+describe PolarisResource::Base, "implements PolarisResource::Base::Finders" do
   
-  it "includes the Polaris::Resource::Base::Finders module" do
-    Polaris::Resource::Base.included_modules.should include(Polaris::Resource::Base::Finders)
+  it "includes the PolarisResource::Base::Finders module" do
+    PolarisResource::Base.included_modules.should include(PolarisResource::Base::Finders)
   end
   
 end
 
-describe Polaris::Resource::Base, "implements Polaris::Resource::Base::Persistence" do
+describe PolarisResource::Base, "implements PolarisResource::Base::Persistence" do
   
-  it "includes the Polaris::Resource::Base::Persistence module" do
-    Polaris::Resource::Base.included_modules.should include(Polaris::Resource::Base::Persistence)
+  it "includes the PolarisResource::Base::Persistence module" do
+    PolarisResource::Base.included_modules.should include(PolarisResource::Base::Persistence)
   end
   
 end
 
-describe Polaris::Resource::Base, "defines an id property by default" do
+describe PolarisResource::Base, "defines an id property by default" do
   
   it "defines setter and getter methods for the id property" do
-    @base = Polaris::Resource::Base.new
+    @base = PolarisResource::Base.new
     @base.should respond_to(:id)
     @base.id = 5
     @base.id.should eql(5)
   end
   
   it "creates an attribute entry for the id property" do
-    Polaris::Resource::Base.new.attributes.should include(:id)
+    PolarisResource::Base.new.attributes.should include(:id)
   end
   
 end
 
-describe Polaris::Resource::Base, "#model_name" do
+describe PolarisResource::Base, "#model_name" do
   
   it "returns the model name of the class as a string" do
-    Polaris::Resource::Base.model_name.should eql("Base")
+    PolarisResource::Base.model_name.should eql("Base")
     Automobile.model_name.should eql("Automobile")
   end
   
 end
 
-describe Polaris::Resource::Base, ".new_record?" do
+describe PolarisResource::Base, ".new_record?" do
   
   before(:each) do
-    @base = Polaris::Resource::Base.new
+    @base = PolarisResource::Base.new
   end
   
   context "when the record is new" do
@@ -113,8 +113,8 @@ describe Polaris::Resource::Base, ".new_record?" do
   context "when the record is not new" do
     
     before(:each) do
-      response = Polaris::Resource::Response.new(:code => 201, :headers => "", :body => { :status => 200, :content => { :id => 1 } }.to_json, :time => 0.3)
-      Polaris::Resource::Request.stub(:post).and_return(response)
+      response = PolarisResource::Response.new(:code => 201, :headers => "", :body => { :status => 200, :content => { :id => 1 } }.to_json, :time => 0.3)
+      PolarisResource::Request.stub(:post).and_return(response)
       @base.save
     end
     
@@ -126,12 +126,12 @@ describe Polaris::Resource::Base, ".new_record?" do
   
 end
 
-describe Polaris::Resource::Base, ".to_param" do
+describe PolarisResource::Base, ".to_param" do
   
   context "when the id attribute is set" do
     
     before(:each) do
-      @base = Polaris::Resource::Base.new
+      @base = PolarisResource::Base.new
       @base.id = 1
     end
     
@@ -144,7 +144,7 @@ describe Polaris::Resource::Base, ".to_param" do
   context "when the id attribute is set" do
     
     before(:each) do
-      @base = Polaris::Resource::Base.new
+      @base = PolarisResource::Base.new
     end
     
     it "returns the id as a string" do

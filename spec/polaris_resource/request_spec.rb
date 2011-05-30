@@ -1,5 +1,5 @@
 require 'spec_helper'
 
-describe Polaris::Resource::Request do
+describe PolarisResource::Request do
   pending
 end
