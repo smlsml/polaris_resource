@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{polaris_resource}
-  s.version = "0.0.1"
+  s.version = "0.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ryan Moran"]
-  s.date = %q{2011-05-29}
+  s.date = %q{2011-05-30}
   s.description = %q{RESTful API Client}
   s.email = %q{ryan.moran@gmail.com}
   s.extra_rdoc_files = [
@@ -70,6 +70,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<jeweler>, ["= 1.6.0"])
       s.add_development_dependency(%q<rcov>, ["= 0.9.9"])
       s.add_development_dependency(%q<autotest>, ["= 4.4.6"])
+      s.add_development_dependency(%q<rocco>, ["= 0.7.0"])
     else
       s.add_dependency(%q<yajl-ruby>, ["~> 0.8.2"])
       s.add_dependency(%q<typhoeus>, ["~> 0.2.4"])
@@ -81,6 +82,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<jeweler>, ["= 1.6.0"])
       s.add_dependency(%q<rcov>, ["= 0.9.9"])
       s.add_dependency(%q<autotest>, ["= 4.4.6"])
+      s.add_dependency(%q<rocco>, ["= 0.7.0"])
     end
   else
     s.add_dependency(%q<yajl-ruby>, ["~> 0.8.2"])
@@ -93,6 +95,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<jeweler>, ["= 1.6.0"])
     s.add_dependency(%q<rcov>, ["= 0.9.9"])
     s.add_dependency(%q<autotest>, ["= 4.4.6"])
+    s.add_dependency(%q<rocco>, ["= 0.7.0"])
   end
 end
 
