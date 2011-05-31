@@ -58,3 +58,14 @@ describe PolarisResource::Base::Attributes, ".merge_attributes" do
   end
   
 end
+
+describe PolarisResource::Base::Attributes, "dirty tracking" do
+  
+  it "tracks dirty state for property values" do
+    @post = Post.new
+    @post.should_not be_title_changed
+    @post.title = "Dirty title"
+    @post.should be_title_changed
+  end
+  
+end

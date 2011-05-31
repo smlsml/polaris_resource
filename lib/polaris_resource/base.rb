@@ -6,7 +6,6 @@ require 'polaris_resource/base/persistence'
 module PolarisResource
   class Base
     extend  ActiveModel::Naming
-    include ActiveModel::Validations
     include Attributes
     include Associations
     include Finders

@@ -3,7 +3,9 @@ module PolarisResource
     module Attributes
 
       def self.included(base)
-        base.extend(ClassMethods)
+        base.send(:extend, ClassMethods)
+        base.send(:include, ActiveModel::Validations)
+        base.send(:include, ActiveModel::Dirty)
       end
 
       module ClassMethods
@@ -17,9 +19,12 @@ module PolarisResource
 
           unless name.to_sym == :id
             define_method "#{name}=".to_sym do |value|
+              send("#{name}_will_change!")
               attributes[name.to_sym] = value
             end
           end
+          
+          define_attribute_methods [name]
         end
 
         def default_attributes
@@ -30,6 +35,10 @@ module PolarisResource
 
       def attributes
         @attributes ||= self.class.default_attributes.dup
+      end
+      
+      def read_attribute_for_validation(key)
+        @attributes[key]
       end
 
       def attributes_without_id
