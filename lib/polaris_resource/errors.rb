@@ -5,6 +5,9 @@ module PolarisResource
   class NetConnectNotAllowedError < ::StandardError
   end
 
-  class RecordNotFound < ::StandardError
+  class ResourceNotFound < ::StandardError
+  end
+  
+  class UnrecognizedProperty < ::StandardError
   end
 end

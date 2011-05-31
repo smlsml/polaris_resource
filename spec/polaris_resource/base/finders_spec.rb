@@ -46,8 +46,8 @@ describe PolarisResource::Base::Finders, "#find" do
         PolarisResource::Request.stub(:get).and_return(@response)
       end
       
-      it "raises a RecordNotFound error" do
-        lambda { Dog.find(1) }.should raise_error(PolarisResource::RecordNotFound, "Couldn't find Dog with ID=1")
+      it "raises a ResourceNotFound error" do
+        lambda { Dog.find(1) }.should raise_error(PolarisResource::ResourceNotFound, "Couldn't find Dog with ID=1")
       end
       
     end
@@ -97,8 +97,8 @@ describe PolarisResource::Base::Finders, "#find" do
         PolarisResource::Request.stub(:get).and_return(@response)
       end
       
-      it "raises a RecordNotFound error" do
-        lambda { Dog.find([1,2,3]) }.should raise_error(PolarisResource::RecordNotFound, "Couldn't find all Dogs with IDs (1, 2, 3)")
+      it "raises a ResourceNotFound error" do
+        lambda { Dog.find([1,2,3]) }.should raise_error(PolarisResource::ResourceNotFound, "Couldn't find all Dogs with IDs (1, 2, 3)")
       end
       
     end
@@ -148,8 +148,8 @@ describe PolarisResource::Base::Finders, "#find" do
         PolarisResource::Request.stub(:get).and_return(@response)
       end
       
-      it "raises a RecordNotFound error" do
-        lambda { Dog.find(1,2,3) }.should raise_error(PolarisResource::RecordNotFound, "Couldn't find all Dogs with IDs (1, 2, 3)")
+      it "raises a ResourceNotFound error" do
+        lambda { Dog.find(1,2,3) }.should raise_error(PolarisResource::ResourceNotFound, "Couldn't find all Dogs with IDs (1, 2, 3)")
       end
       
     end
@@ -184,17 +184,92 @@ describe PolarisResource::Base::Finders, "#all" do
 end
 
 describe PolarisResource::Base::Finders, "#where" do
-  pending
+  
+  context "when the where attribute is an acceptable attribute" do
+    
+    context "for a where clause with one attribute" do
+      
+      before(:each) do
+        @response = PolarisResource::Response.new(:code => 200, :headers => "", :body => {}.to_json, :time => 0.3)
+      end
+      
+      it "makes a request to find all records with the given query parameter" do
+        PolarisResource::Request.should_receive(:get).with("/dogs?name=Daisy").and_return(@response)
+        Dog.where(:name => "Daisy")
+      end
+      
+    end
+    
+    context "for a where clause with multiple attributes" do
+      
+      before(:each) do
+        @response = PolarisResource::Response.new(:code => 200, :headers => "", :body => {}.to_json, :time => 0.3)
+      end
+      
+      it "makes a request to find all records with the given query parameters" do
+        PolarisResource::Request.should_receive(:get).with("/dogs?breed=English Bulldog&name=Daisy").and_return(@response)
+        Dog.where(:name => "Daisy", :breed => "English Bulldog")
+      end
+      
+    end
+    
+  end
+  
+  context "when the where attribute is not an acceptable attribute" do
+    
+    it "raises an UnrecognizedProperty error" do
+      lambda {
+        Dog.where(:age => 2)
+      }.should raise_error(PolarisResource::UnrecognizedProperty, ":age is not a recognized Dog property.")
+    end
+    
+  end
+  
 end
 
 describe PolarisResource::Base::Finders, "#limit" do
-  pending
-end
+  
+  before(:each) do
+    @response = PolarisResource::Response.new(:code => 200, :headers => "", :body => {}.to_json, :time => 0.3)
+  end
 
-describe PolarisResource::Base::Finders, "#page" do
-  pending
+  it "makes a request to find all of the given records, but with a given limit" do
+    PolarisResource::Request.should_receive(:get).with("/dogs?limit=10").and_return(@response)
+    Dog.limit(10)
+  end
+
 end
 
 describe PolarisResource::Base::Finders, "#results_per_page" do
-  pending
+  
+  it "defaults to 10" do
+    Dog.results_per_page.should eql(10)
+  end
+  
+  context "when set to something other than the default" do
+    
+    before(:each) do
+      Dog.results_per_page = 25
+    end
+    
+    it "returns the number of results to be returned on a page request" do
+      Dog.results_per_page.should eql(25)
+    end
+    
+  end
+  
+end
+
+describe PolarisResource::Base::Finders, "#page" do
+  
+  before(:each) do
+    Dog.results_per_page = 10
+    @response = PolarisResource::Response.new(:code => 200, :headers => "", :body => {}.to_json, :time => 0.3)
+  end
+
+  it "makes a request to find all of the given records, but with a given limit and offset" do
+    PolarisResource::Request.should_receive(:get).with("/dogs?limit=10&offset=20").and_return(@response)
+    Dog.page(3)
+  end
+  
 end
