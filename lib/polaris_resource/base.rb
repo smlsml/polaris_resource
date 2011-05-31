@@ -58,20 +58,5 @@ module PolarisResource
         (comparison_object.instance_of?(self.class) && comparison_object.id == id && !comparison_object.new_record?)
     end
 
-    # def self.build_from_response(response)
-    #   if response.success?
-    #     content = Yajl::Parser.parse(response.body)['content']
-    #     if Array === content
-    #       content.collect do |attributes|
-    #         new(attributes)
-    #       end
-    #     else
-    #       new(content)
-    #     end
-    #   else
-    #     []
-    #   end
-    # end
-
   end
 end

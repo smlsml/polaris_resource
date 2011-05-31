@@ -12,4 +12,5 @@ group :development do
   gem 'jeweler',  '1.6.0'
   gem 'rcov',     '0.9.9'
   gem 'autotest', '4.4.6'
+  gem 'rocco',    '0.7.0'
 end
