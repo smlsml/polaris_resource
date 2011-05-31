@@ -15,8 +15,10 @@ module PolarisResource
           property attribute_id_sym
 
           define_method association do
-            response = PolarisResource::Request.get(send(attribute_uri_sym))
-            association.to_s.classify.constantize.handle_response(response)
+            if send(attribute_id_sym)
+              response = PolarisResource::Request.get(send(attribute_uri_sym))
+              association.to_s.classify.constantize.handle_response(response)
+            end
           end
 
           define_method attribute_uri_sym do
@@ -29,8 +31,12 @@ module PolarisResource
           attribute_uri_sym = "has_many_#{association}_uri".to_sym
 
           define_method association do
-            response = PolarisResource::Request.get(send(attribute_uri_sym))
-            association.to_s.classify.constantize.handle_response(response)
+            if new_record?
+              []
+            else
+              response = PolarisResource::Request.get(send(attribute_uri_sym))
+              association.to_s.classify.constantize.handle_response(response)
+            end
           end
 
           define_method attribute_uri_sym do
@@ -43,8 +49,10 @@ module PolarisResource
           attribute_uri_sym = "has_one_#{association}_uri".to_sym
 
           define_method association do
-            response = PolarisResource::Request.get(send(attribute_uri_sym))
-            association.to_s.classify.constantize.handle_response(response)
+            unless new_record?
+              response = PolarisResource::Request.get(send(attribute_uri_sym))
+              association.to_s.classify.constantize.handle_response(response)
+            end
           end
 
           define_method attribute_uri_sym do

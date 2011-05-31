@@ -31,7 +31,7 @@ describe PolarisResource::Base::Associations, "#belongs_to" do
     Meeting.new.private_methods.should include('belongs_to_conference_uri')
   end
   
-  context "when the belongs_to association is fulfilled by is contracted 'association_id' attribute" do
+  context "when the belongs_to association is fulfilled by its contracted 'association_id' attribute" do
     
     before(:each) do
       meeting_body = { :status => 200, :content => { :id => 1, :conference_id => 2 } }
@@ -70,7 +70,7 @@ describe PolarisResource::Base::Associations, "#belongs_to" do
     
   end
   
-  context "when the belongs_to association is fulfilled by is contracted 'association_id' attribute" do
+  context "when the belongs_to association is fulfilled by its contracted 'association_id' attribute" do
     
     before(:each) do
       @meeting = Meeting.new
@@ -81,7 +81,9 @@ describe PolarisResource::Base::Associations, "#belongs_to" do
       @meeting.send(:belongs_to_conference_uri).should be_nil
     end
     
-    it "returns nil"
+    it "returns nil" do
+      @meeting.conference.should be_nil
+    end
     
   end
   
@@ -107,7 +109,11 @@ describe PolarisResource::Base::Associations, "#has_many" do
       @meeting.send(:has_many_attendees_uri).should be_nil
     end
     
-    it "returns nil"
+    it "returns an empty array" do
+      @attendees = @meeting.attendees
+      @attendees.should be_an(Array)
+      @attendees.should be_empty
+    end
     
   end
   
@@ -169,7 +175,9 @@ describe PolarisResource::Base::Associations, "#has_one" do
       @meeting.send(:has_one_speaker_uri).should be_nil
     end
     
-    it "returns nil"
+    it "returns nil" do
+      @meeting.speaker.should be_nil
+    end
     
   end
   
