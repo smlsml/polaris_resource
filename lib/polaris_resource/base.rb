@@ -12,6 +12,7 @@ module PolarisResource
     include Persistence
 
     property :id
+    attr_reader :errors
 
     def self.build_from_response(response)
       content = Yajl::Parser.parse(response.body)['content']
@@ -31,6 +32,8 @@ module PolarisResource
     end
 
     def initialize(new_attributes = {})
+      @errors = ActiveModel::Errors.new(self)
+      
       new_attributes = HashWithIndifferentAccess.new(new_attributes)
       attributes.keys.each do |attribute|
         attributes[attribute] = new_attributes[attribute] unless attribute.to_sym == :id
@@ -43,17 +46,6 @@ module PolarisResource
 
     def to_param
       id.to_s unless new_record?
-    end
-
-    def errors
-      obj = Object.new
-      def obj.[](key)
-        []
-      end
-      def obj.full_messages()
-        []
-      end
-      obj
     end
     
     def valid?

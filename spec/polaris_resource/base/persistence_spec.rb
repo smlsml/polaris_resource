@@ -47,9 +47,15 @@ describe PolarisResource::Base::Persistence, "#save" do
       @california.should_not be_new_record
     end
     
-    it "sets the errors hash based on the response"
+    it "sets the errors hash based on the response" do
+      @california.save
+      @california.errors.should be_empty
+    end
     
-    it "sets the valid? flag based on the response"
+    it "sets the valid? flag based on the response" do
+      @california.save
+      @california.should be_valid
+    end
     
   end
   
@@ -93,9 +99,15 @@ describe PolarisResource::Base::Persistence, "#save" do
       @state.save
     end
     
-    it "sets the errors hash based on the response"
+    it "sets the errors hash based on the response" do
+      @state.save
+      @state.errors.should be_empty
+    end
     
-    it "sets the valid? flag based on the response"
+    it "sets the valid? flag based on the response" do
+      @state.save
+      @state.should be_valid
+    end
     
   end
   
