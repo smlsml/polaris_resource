@@ -30,6 +30,10 @@ module PolarisResource
         def default_attributes
           @attributes ||= HashWithIndifferentAccess.new(superclass.respond_to?(:default_attributes) ? superclass.default_attributes : {})
         end
+        
+        def attribute_defined?(attribute)
+          default_attributes.keys.include?(attribute.to_s)
+        end
 
       end
 
@@ -52,7 +56,7 @@ module PolarisResource
       end
 
       def update_attribute(attribute, value)
-        attributes[attribute] = value
+        attributes[attribute] = value if self.class.attribute_defined?(attribute)
       end
 
     end

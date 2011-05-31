@@ -23,12 +23,12 @@ module PolarisResource
         def find(*id_or_ids)
           if id_or_ids.length == 1
             case id_or_ids.first
-            when Integer
-              find_one(id_or_ids.first)
+            when Integer, String
+              find_one(id_or_ids.first.to_i)
             when Array
               find_some(id_or_ids.first)
             else
-              raise ArgumentError, "Unrecognized argument."
+              raise ArgumentError, "Unrecognized argument (#{id_or_ids.first.inspect})."
             end
           else
             find_some(id_or_ids)
@@ -45,12 +45,8 @@ module PolarisResource
         end
 
         def find_some(ids)
-          response = PolarisResource::Request.get(find_some_uri(ids))
+          response = PolarisResource::Request.get(find_all_uri, :ids => ids)
           handle_response(response, ids)
-        end
-
-        def find_some_uri(ids)
-          "/#{model_name.underscore.pluralize}?ids=#{ids.join(',')}"
         end
         
         def find_all
@@ -63,39 +59,26 @@ module PolarisResource
         end
         
         def where(query_attributes)
-          response = PolarisResource::Request.get(where_uri(query_attributes))
-          handle_response(response)
-        end
-        
-        def where_uri(query_attributes)
-          query_parameter_pairs = []
-          HashWithIndifferentAccess.new(query_attributes).sort.each do |key, value|
-            if default_attributes.keys.include?(key)
-              query_parameter_pairs << "#{key}=#{value}"
-            else
-              raise UnrecognizedProperty, ":#{key} is not a recognized #{model_name} property."
-            end
+          query_attributes.each do |key, value|
+            raise UnrecognizedProperty, ":#{key} is not a recognized #{model_name} property." unless attribute_defined?(key)
           end
-          find_all_uri << "?" << query_parameter_pairs.join("&")
+          response = PolarisResource::Request.get(find_all_uri, query_attributes)
+          handle_response(response)
         end
         
         def limit(amount)
-          response = PolarisResource::Request.get(limit_uri(amount))
+          response = PolarisResource::Request.get(find_all_uri, :limit => amount)
           handle_response(response)
-        end
-        
-        def limit_uri(amount)
-          find_all_uri << "?" << "limit=#{amount.to_i}"
         end
         
         def page(page_number)
-          response = PolarisResource::Request.get(page_uri(page_number))
+          response = PolarisResource::Request.get(find_all_uri, page_params(page_number))
           handle_response(response)
         end
         
-        def page_uri(page_number)
+        def page_params(page_number)
           offset = (page_number - 1) * results_per_page
-          find_all_uri << "?limit=#{results_per_page}&offset=#{offset}"
+          { :limit => results_per_page, :offset => offset }
         end
 
         def handle_response(response, id_or_ids = nil)

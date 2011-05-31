@@ -3,7 +3,7 @@ module PolarisResource
     
     def initialize(response_or_attributes = {})
       if Typhoeus::Response === response_or_attributes
-        @response = response
+        @response = response_or_attributes
       else
         @response = Typhoeus::Response.new(response_or_attributes)
       end

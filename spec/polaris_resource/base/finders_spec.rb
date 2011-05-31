@@ -71,7 +71,7 @@ describe PolarisResource::Base::Finders, "#find" do
       end
       
       it "makes a request to /dogs?ids=1,2,3 at the external service" do
-        PolarisResource::Request.should_receive(:get).with("/dogs?ids=1,2,3").and_return(@response)
+        PolarisResource::Request.should_receive(:get).with("/dogs", { :ids => [1,2,3] }).and_return(@response)
         Dog.find([1,2,3])
       end
       
@@ -122,7 +122,7 @@ describe PolarisResource::Base::Finders, "#find" do
       end
       
       it "makes a request to /dogs?ids=1,2,3 at the external service" do
-        PolarisResource::Request.should_receive(:get).with("/dogs?ids=1,2,3").and_return(@response)
+        PolarisResource::Request.should_receive(:get).with("/dogs", { :ids => [1,2,3] }).and_return(@response)
         Dog.find(1,2,3)
       end
       
@@ -194,7 +194,7 @@ describe PolarisResource::Base::Finders, "#where" do
       end
       
       it "makes a request to find all records with the given query parameter" do
-        PolarisResource::Request.should_receive(:get).with("/dogs?name=Daisy").and_return(@response)
+        PolarisResource::Request.should_receive(:get).with("/dogs", { :name => "Daisy" }).and_return(@response)
         Dog.where(:name => "Daisy")
       end
       
@@ -207,7 +207,7 @@ describe PolarisResource::Base::Finders, "#where" do
       end
       
       it "makes a request to find all records with the given query parameters" do
-        PolarisResource::Request.should_receive(:get).with("/dogs?breed=English Bulldog&name=Daisy").and_return(@response)
+        PolarisResource::Request.should_receive(:get).with("/dogs", { :breed => "English Bulldog", :name => "Daisy" }).and_return(@response)
         Dog.where(:name => "Daisy", :breed => "English Bulldog")
       end
       
@@ -218,7 +218,7 @@ describe PolarisResource::Base::Finders, "#where" do
   context "when the where attribute is not an acceptable attribute" do
     
     it "raises an UnrecognizedProperty error" do
-      lambda {
+       lambda {
         Dog.where(:age => 2)
       }.should raise_error(PolarisResource::UnrecognizedProperty, ":age is not a recognized Dog property.")
     end
@@ -234,7 +234,7 @@ describe PolarisResource::Base::Finders, "#limit" do
   end
 
   it "makes a request to find all of the given records, but with a given limit" do
-    PolarisResource::Request.should_receive(:get).with("/dogs?limit=10").and_return(@response)
+    PolarisResource::Request.should_receive(:get).with("/dogs", { :limit => 10 }).and_return(@response)
     Dog.limit(10)
   end
 
@@ -268,7 +268,7 @@ describe PolarisResource::Base::Finders, "#page" do
   end
 
   it "makes a request to find all of the given records, but with a given limit and offset" do
-    PolarisResource::Request.should_receive(:get).with("/dogs?limit=10&offset=20").and_return(@response)
+    PolarisResource::Request.should_receive(:get).with("/dogs", { :limit => 10, :offset => 20 }).and_return(@response)
     Dog.page(3)
   end
   
