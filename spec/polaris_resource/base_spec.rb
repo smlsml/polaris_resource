@@ -7,6 +7,13 @@ class Automobile < PolarisResource::Base
   property :name
 end
 
+describe PolarisResource::Base, "ActiveModel Lint" do
+
+  let(:model_under_test) { PolarisResource::Base.new }
+  it_behaves_like "ActiveModel"
+
+end
+
 describe PolarisResource::Base, ".initialize" do
   
   context "when no attributes hash is supplied" do
@@ -90,15 +97,6 @@ describe PolarisResource::Base, "defines an id property by default" do
   
 end
 
-describe PolarisResource::Base, "#model_name" do
-  
-  it "returns the model name of the class as a string" do
-    PolarisResource::Base.model_name.should eql("Base")
-    Automobile.model_name.should eql("Automobile")
-  end
-  
-end
-
 describe PolarisResource::Base, ".new_record?" do
   
   before(:each) do
@@ -157,6 +155,14 @@ describe PolarisResource::Base, ".to_param" do
       @base.to_param.should be_nil
     end
     
+  end
+  
+end
+
+describe PolarisResource::Base, "validations" do
+  
+  it "includes the ActiveModel::Validations module" do
+    PolarisResource::Base.included_modules.should include(ActiveModel::Validations)
   end
   
 end

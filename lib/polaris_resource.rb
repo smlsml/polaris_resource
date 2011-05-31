@@ -4,6 +4,9 @@ require 'yajl/json_gem'
 # Typhoeus is able to do some pretty cool stuff with its Hydra parallel request infrastructure.
 require 'typhoeus'
 
+# ActiveModel to support naming, validations, errors, and such...
+require 'active_model'
+
 # I almost feel like a lot of this should just be in stdlib by now.
 require 'active_support/time'
 require 'active_support/core_ext/numeric/time'

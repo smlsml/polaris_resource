@@ -5,16 +5,14 @@ require 'polaris_resource/base/persistence'
 
 module PolarisResource
   class Base
+    extend  ActiveModel::Naming
+    include ActiveModel::Validations
     include Attributes
     include Associations
     include Finders
     include Persistence
 
     property :id
-
-    def self.model_name
-      self.name.split('::').last
-    end
 
     def self.build_from_response(response)
       content = Yajl::Parser.parse(response.body)['content']
@@ -40,8 +38,35 @@ module PolarisResource
       end
     end
 
+    def to_model
+      self
+    end
+
     def to_param
       id.to_s unless new_record?
+    end
+
+    def errors
+      obj = Object.new
+      def obj.[](key)
+        []
+      end
+      def obj.full_messages()
+        []
+      end
+      obj
+    end
+    
+    def valid?
+      true
+    end
+    
+    def persisted?
+      true
+    end
+    
+    def to_key
+      attributes.keys if persisted?
     end
 
     def build_from_response(response)
@@ -52,10 +77,10 @@ module PolarisResource
     def new_record?
       id.nil?
     end
-    
+
     def ==(comparison_object)      
       comparison_object.equal?(self) ||
-        (comparison_object.instance_of?(self.class) && comparison_object.id == id && !comparison_object.new_record?)
+      (comparison_object.instance_of?(self.class) && comparison_object.id == id && !comparison_object.new_record?)
     end
 
   end
