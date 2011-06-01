@@ -10,4 +10,7 @@ module PolarisResource
   
   class UnrecognizedProperty < ::StandardError
   end
+  
+  class UnrecognizedTypeCastClass < ::StandardError
+  end
 end

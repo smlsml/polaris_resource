@@ -10,7 +10,8 @@ module PolarisResource
 
       module ClassMethods
 
-        def property(name)
+        def property(name, typecast_class = nil)
+          typecast_attributes.store(name.to_sym, typecast_class)
           default_attributes.store(name.to_sym, nil)
 
           define_method name.to_sym do
@@ -20,7 +21,7 @@ module PolarisResource
           unless name.to_sym == :id
             define_method "#{name}=".to_sym do |value|
               send("#{name}_will_change!")
-              attributes[name.to_sym] = value
+              update_attribute(name, value)
             end
           end
           
@@ -29,6 +30,10 @@ module PolarisResource
 
         def default_attributes
           @attributes ||= HashWithIndifferentAccess.new(superclass.respond_to?(:default_attributes) ? superclass.default_attributes : {})
+        end
+        
+        def typecast_attributes
+          @typecast_attributes ||= HashWithIndifferentAccess.new(superclass.respond_to?(:default_attributes) ? superclass.default_attributes : {})
         end
         
         def attribute_defined?(attribute)
@@ -44,6 +49,10 @@ module PolarisResource
       def read_attribute_for_validation(key)
         @attributes[key]
       end
+      
+      def typecast(attribute, value)
+        TypeCaster.cast(value, self.class.typecast_attributes[attribute.to_sym])
+      end
 
       def attributes_without_id
         attributes.reject { |k,v| k == 'id' }
@@ -51,12 +60,12 @@ module PolarisResource
 
       def merge_attributes(new_attributes)
         new_attributes.each do |key, value|
-          update_attribute(key, value)
+          update_attribute(key, value) if self.class.attribute_defined?(key)
         end
       end
 
       def update_attribute(attribute, value)
-        attributes[attribute] = value if self.class.attribute_defined?(attribute)
+        attributes[attribute.to_sym] = typecast(attribute, value)
       end
 
     end

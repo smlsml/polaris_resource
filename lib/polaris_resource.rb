@@ -21,6 +21,7 @@ require 'polaris_resource/errors'
 require 'polaris_resource/mock'
 require 'polaris_resource/request'
 require 'polaris_resource/response'
+require 'polaris_resource/type_caster'
 
 # There are some Typhoeus patches contained here.
 require 'ext/typhoeus'
