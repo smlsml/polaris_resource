@@ -33,6 +33,7 @@ end
 
 RSpec::Core::RakeTask.new(:rcov) do |spec|
   spec.pattern = 'spec/**/*_spec.rb'
+  spec.rcov_opts = "--exclude osx\/objc,gems\/,spec\/"
   spec.rcov = true
 end
 
