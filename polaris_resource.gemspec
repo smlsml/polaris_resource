@@ -26,6 +26,7 @@ Gem::Specification.new do |s|
     "VERSION",
     "autotest/discover.rb",
     "lib/ext/typhoeus.rb",
+    "lib/polaris_client/associations.rb",
     "lib/polaris_resource.rb",
     "lib/polaris_resource/base.rb",
     "lib/polaris_resource/base/associations.rb",

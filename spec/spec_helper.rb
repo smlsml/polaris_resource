@@ -1,6 +1,7 @@
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 
+require 'support/active_record'
 require 'rspec'
 require 'polaris_resource'
 

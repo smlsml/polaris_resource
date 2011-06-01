@@ -25,3 +25,7 @@ require 'polaris_resource/type_caster'
 
 # There are some Typhoeus patches contained here.
 require 'ext/typhoeus'
+
+# Associations for application objects, typically ActiveRecord, to resource
+require 'polaris_client/associations'
+ActiveRecord::Base.send(:include, PolarisClient::Associations) if defined?(ActiveRecord)
