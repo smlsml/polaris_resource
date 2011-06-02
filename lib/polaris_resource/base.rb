@@ -75,14 +75,21 @@ module PolarisResource
     end
     
     def method_missing(m, *args, &block)
-      if @attributes.keys.include?(m.to_s)
-        define_method m do
-          @attributes[m]
+      m_without_equals = m.to_s.delete('=')
+      
+      if @attributes.keys.include?(m_without_equals)
+        
+        if m.to_s.include?('=')
+          self.class.send(:define_method, m) do |value|
+            @attributes[m_without_equals] = value
+          end
+        else
+          self.class.send(:define_method, m) do
+            @attributes[m]
+          end
         end
         
-        define_method "#{m}=" do |value|
-          @attributes[m] = value
-        end
+        send(m, *args, &block)
       else
         super
       end
