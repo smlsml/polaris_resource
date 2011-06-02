@@ -35,8 +35,9 @@ module PolarisResource
       @errors = ActiveModel::Errors.new(self)
       
       new_attributes = HashWithIndifferentAccess.new(new_attributes)
-      attributes.keys.each do |attribute|
-        attributes[attribute] = new_attributes[attribute]
+      new_attributes.each do |attribute, value|
+        self.class.default_attributes.store(attribute.to_sym, nil) unless self.class.attribute_defined?(attribute)
+        attributes[attribute] = value
       end
     end
 
