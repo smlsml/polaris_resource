@@ -60,7 +60,7 @@ module PolarisResource
 
       def merge_attributes(new_attributes)
         new_attributes.each do |key, value|
-          update_attribute(key, value) if self.class.attribute_defined?(key)
+          update_attribute(key, value)
         end
       end
 

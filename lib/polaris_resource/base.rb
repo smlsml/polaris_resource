@@ -36,7 +36,7 @@ module PolarisResource
       
       new_attributes = HashWithIndifferentAccess.new(new_attributes)
       attributes.keys.each do |attribute|
-        attributes[attribute] = new_attributes[attribute] unless attribute.to_sym == :id
+        attributes[attribute] = new_attributes[attribute]
       end
     end
 
@@ -72,6 +72,20 @@ module PolarisResource
     def ==(comparison_object)      
       comparison_object.equal?(self) ||
       (comparison_object.instance_of?(self.class) && comparison_object.id == id && !comparison_object.new_record?)
+    end
+    
+    def method_missing(m, *args, &block)
+      if @attributes.keys.include?(m.to_s)
+        define_method m do
+          @attributes[m]
+        end
+        
+        define_method "#{m}=" do |value|
+          @attributes[m] = value
+        end
+      else
+        super
+      end
     end
 
   end
