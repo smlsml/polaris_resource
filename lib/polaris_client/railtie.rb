@@ -1,0 +1,1 @@
+ActiveRecord::Base.send(:include, PolarisClient::Associations) if defined?(ActiveRecord)

@@ -28,20 +28,14 @@ describe PolarisClient::Associations, "#belongs_to" do
       item_body = { :status => 200, :content => { :id => 3 } }
       item_response = PolarisResource::Response.new(:code => 200, :headers => "", :body => item_body.to_json, :time => 0.3)
       
-      PolarisResource::Request.stub(:get) do |uri|
-        case uri
-        when '/items/3'
-          item_response
-        end
-      end
+      PolarisResource::Request.stub(:get).and_return(item_response)
       
       @item = Item.find(3)
-      
     end
     
     it "returns the association object when the id is specified" do
       @purchase = Purchase.new
-      @purchase.item_id=3
+      @purchase.item_id = 3
       @purchase.item.should be_a(Item)
       @purchase.item.id.should eql(3)
     end
