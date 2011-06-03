@@ -20,18 +20,19 @@ module PolarisResource
           find_all
         end
 
-        def find(*id_or_ids)
-          if id_or_ids.length == 1
-            case id_or_ids.first
+        def find(*args)
+          options = args.extract_options!
+          if args.length == 1
+            case args.first
             when Integer, String
-              find_one(id_or_ids.first.to_i)
+              find_one(args.first.to_i)
             when Array
-              find_some(id_or_ids.first)
+              find_some(args.first)
             else
               raise ArgumentError, "Unrecognized argument (#{id_or_ids.first.inspect})."
             end
           else
-            find_some(id_or_ids)
+            find_some(args)
           end
         end
 
@@ -88,7 +89,7 @@ module PolarisResource
           when 404
             case id_or_ids
             when Array
-              raise ResourceNotFound, "Couldn't find all Dogs with IDs (#{id_or_ids.join(', ')})"
+              raise ResourceNotFound, "Couldn't find all #{model_name.pluralize} with IDs (#{id_or_ids.join(', ')})"
             when Integer
               raise ResourceNotFound, "Couldn't find #{model_name} with ID=#{id_or_ids}"
             else

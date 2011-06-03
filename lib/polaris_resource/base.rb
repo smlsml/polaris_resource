@@ -69,6 +69,14 @@ module PolarisResource
     def new_record?
       id.nil?
     end
+    
+    def self.base_class
+      self
+    end
+
+    def destroyed?
+      false
+    end
 
     def ==(comparison_object)      
       comparison_object.equal?(self) ||
