@@ -18,8 +18,8 @@ module PolarisResource
       
       def logger
         @logger ||= begin
-          logger = ActiveSupport::BufferedLogger.new(path)
-          logger.level = ActiveSupport::BufferedLogger.const_get(config.log_level.to_s.upcase)
+          logger = ActiveSupport::BufferedLogger.new(STDOUT)
+          logger.level = ActiveSupport::BufferedLogger.const_get(ActiveSupport::BufferedLogger::INFO)
           logger
         rescue StandardError => e
           logger = ActiveSupport::BufferedLogger.new(STDERR)
