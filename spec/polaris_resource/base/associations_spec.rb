@@ -1,22 +1,5 @@
 require 'spec_helper'
 
-class Meeting < PolarisResource::Base
-  belongs_to :conference
-  has_many   :attendees
-  has_one    :speaker
-end
-
-class Conference < PolarisResource::Base
-  has_many :meetings
-end
-
-class Attendee < PolarisResource::Base
-end
-
-class Speaker < PolarisResource::Base
-  belongs_to :meeting
-end
-
 describe PolarisResource::Base::Associations, "#belongs_to" do
   
   it "creates a property for this class matching association name, e.g. belong_to :author # => :author_id" do

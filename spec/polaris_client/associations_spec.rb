@@ -1,17 +1,5 @@
 require 'spec_helper'
 
-class Item < PolarisResource::Base
-  belongs_to :conference
-  has_many   :attendees
-  has_one    :speaker
-end
-
-class Purchase < ActiveRecord::Base
-  belongs_to_resource :item
-  
-  attr_accessor :item_id
-end
-
 describe PolarisClient::Associations, "#belongs_to" do
   
   it "defines a getter method" do

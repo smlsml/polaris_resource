@@ -1,9 +1,5 @@
 require 'spec_helper'
 
-class Post < PolarisResource::Base
-  property :title
-end
-
 describe PolarisResource::Base::Attributes, "#property" do
   
   it "defines setter and getter methods for the given property" do

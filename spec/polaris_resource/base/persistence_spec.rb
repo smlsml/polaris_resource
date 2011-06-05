@@ -1,11 +1,5 @@
 require 'spec_helper'
 
-class State < PolarisResource::Base
-  property :name
-  property :capital
-  property :motto
-end
-
 describe PolarisResource::Base::Persistence, "#save" do
   
   context "when the instance is a new record" do
@@ -42,9 +36,9 @@ describe PolarisResource::Base::Persistence, "#save" do
     end
     
     it "marks the instance as not new" do
-      @california.should be_new_record
+      @california.new_record?.should be_true
       @california.save
-      @california.should_not be_new_record
+      @california.new_record?.should be_false
     end
     
     it "sets the errors hash based on the response" do

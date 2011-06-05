@@ -1,10 +1,5 @@
 require 'spec_helper'
 
-class Dog < PolarisResource::Base
-  property :name
-  property :breed
-end
-
 describe PolarisResource::Base::Finders, "#find" do
   
   context "when the argument is a single integer" do

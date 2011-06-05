@@ -18,11 +18,9 @@ module PolarisResource
             attributes[name.to_sym]
           end
 
-          unless name.to_sym == :id
-            define_method "#{name}=".to_sym do |value|
-              send("#{name}_will_change!")
-              update_attribute(name, value)
-            end
+          define_method "#{name}=".to_sym do |value|
+            send("#{name}_will_change!")
+            update_attribute(name, value)
           end
           
           define_attribute_methods [name]

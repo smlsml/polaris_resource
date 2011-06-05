@@ -1,12 +1,5 @@
 require 'spec_helper'
 
-class Automobile < PolarisResource::Base
-  property :bhp
-  property :wheels
-  property :hybrid
-  property :name
-end
-
 describe PolarisResource::Base, "ActiveModel Lint" do
 
   let(:model_under_test) { PolarisResource::Base.new }
@@ -100,13 +93,13 @@ end
 describe PolarisResource::Base, ".new_record?" do
   
   before(:each) do
-    @base = PolarisResource::Base.new
+    @attendee = Attendee.new
   end
   
   context "when the record is new" do
     
     it "returns true" do
-      @base.should be_new_record
+      @attendee.new_record?.should be_true
     end
     
   end
@@ -114,13 +107,13 @@ describe PolarisResource::Base, ".new_record?" do
   context "when the record is not new" do
     
     before(:each) do
-      response = PolarisResource::Response.new(:code => 201, :headers => "", :body => { :status => 200, :content => { :id => 1 } }.to_json, :time => 0.3)
+      response = PolarisResource::Response.new(:code => 201, :headers => "", :body => { :status => 201, :content => { :id => 1 } }.to_json, :time => 0.3)
       PolarisResource::Request.stub(:post).and_return(response)
-      @base.save
+      @attendee.save
     end
     
     it "returns false" do
-      @base.should_not be_new_record
+      @attendee.should_not be_new_record
     end
     
   end
