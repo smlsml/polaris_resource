@@ -15,6 +15,26 @@ module PolarisResource
       def hydra=(hydra)
         Typhoeus::Hydra.hydra = hydra
       end
+      
+      def logger
+        @logger ||= begin
+          logger = ActiveSupport::BufferedLogger.new(path)
+          logger.level = ActiveSupport::BufferedLogger.const_get(config.log_level.to_s.upcase)
+          logger
+        rescue StandardError => e
+          logger = ActiveSupport::BufferedLogger.new(STDERR)
+          logger.level = ActiveSupport::BufferedLogger::WARN
+          logger.warn(
+            "PolarisResource Error: Unable to access log file. Please ensure that #{path} exists and is chmod 0666. " +
+            "The log level has been raised to WARN and the output directed to STDERR until the problem is fixed."
+          )
+          logger
+        end
+      end
+      
+      def logger=(_logger)
+        @logger = _logger
+      end
 
       def enable_stubbing!
         @stubbing_enabled = true

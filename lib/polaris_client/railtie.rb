@@ -6,6 +6,10 @@ module PolarisClient
     initializer "polaris_client.configure_request_cache" do |app|
       app.middleware.use PolarisResource::RequestCache
     end
+    
+    initializer "polaris_resource.configure_logger" do |app|
+      PolarisResource::Configuration.logger = app.config.logger
+    end
 
   end
 end
