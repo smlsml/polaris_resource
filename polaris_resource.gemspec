@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{polaris_resource}
-  s.version = "0.1.0"
+  s.version = "0.1.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ryan Moran"]
-  s.date = %q{2011-05-31}
+  s.date = %q{2011-06-04}
   s.description = %q{RESTful API Client}
   s.email = %q{ryan.moran@gmail.com}
   s.extra_rdoc_files = [
@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
     "autotest/discover.rb",
     "lib/ext/typhoeus.rb",
     "lib/polaris_client/associations.rb",
+    "lib/polaris_client/railtie.rb",
     "lib/polaris_resource.rb",
     "lib/polaris_resource/base.rb",
     "lib/polaris_resource/base/associations.rb",
@@ -38,7 +39,56 @@ Gem::Specification.new do |s|
     "lib/polaris_resource/mock.rb",
     "lib/polaris_resource/request.rb",
     "lib/polaris_resource/response.rb",
+    "lib/polaris_resource/type_caster.rb",
     "polaris_resource.gemspec",
+    "spec/dummy/Rakefile",
+    "spec/dummy/app/controllers/application_controller.rb",
+    "spec/dummy/app/helpers/application_helper.rb",
+    "spec/dummy/app/models/purchase.rb",
+    "spec/dummy/app/resources/attendee.rb",
+    "spec/dummy/app/resources/automobile.rb",
+    "spec/dummy/app/resources/conference.rb",
+    "spec/dummy/app/resources/dog.rb",
+    "spec/dummy/app/resources/item.rb",
+    "spec/dummy/app/resources/meeting.rb",
+    "spec/dummy/app/resources/post.rb",
+    "spec/dummy/app/resources/speaker.rb",
+    "spec/dummy/app/resources/state.rb",
+    "spec/dummy/app/views/layouts/application.html.erb",
+    "spec/dummy/config.ru",
+    "spec/dummy/config/application.rb",
+    "spec/dummy/config/boot.rb",
+    "spec/dummy/config/database.yml",
+    "spec/dummy/config/environment.rb",
+    "spec/dummy/config/environments/development.rb",
+    "spec/dummy/config/environments/production.rb",
+    "spec/dummy/config/environments/test.rb",
+    "spec/dummy/config/initializers/backtrace_silencers.rb",
+    "spec/dummy/config/initializers/inflections.rb",
+    "spec/dummy/config/initializers/mime_types.rb",
+    "spec/dummy/config/initializers/secret_token.rb",
+    "spec/dummy/config/initializers/session_store.rb",
+    "spec/dummy/config/locales/en.yml",
+    "spec/dummy/config/routes.rb",
+    "spec/dummy/db/migrate/20110605002144_create_purchases.rb",
+    "spec/dummy/db/test.sqlite3",
+    "spec/dummy/log/development.log",
+    "spec/dummy/log/production.log",
+    "spec/dummy/log/server.log",
+    "spec/dummy/log/test.log",
+    "spec/dummy/public/404.html",
+    "spec/dummy/public/422.html",
+    "spec/dummy/public/500.html",
+    "spec/dummy/public/favicon.ico",
+    "spec/dummy/public/javascripts/application.js",
+    "spec/dummy/public/javascripts/controls.js",
+    "spec/dummy/public/javascripts/dragdrop.js",
+    "spec/dummy/public/javascripts/effects.js",
+    "spec/dummy/public/javascripts/prototype.js",
+    "spec/dummy/public/javascripts/rails.js",
+    "spec/dummy/public/stylesheets/.gitkeep",
+    "spec/dummy/script/rails",
+    "spec/polaris_client/associations_spec.rb",
     "spec/polaris_resource/base/associations_spec.rb",
     "spec/polaris_resource/base/attributes_spec.rb",
     "spec/polaris_resource/base/finders_spec.rb",
@@ -67,26 +117,34 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<activemodel>, ["~> 3.0.7"])
       s.add_runtime_dependency(%q<activesupport>, ["~> 3.0.7"])
       s.add_runtime_dependency(%q<i18n>, ["~> 0.5.0"])
-      s.add_development_dependency(%q<rspec>, ["= 2.6.0"])
+      s.add_development_dependency(%q<rake>, ["= 0.8.7"])
+      s.add_development_dependency(%q<rails>, ["= 3.0.7"])
+      s.add_development_dependency(%q<sqlite3>, ["= 1.3.3"])
+      s.add_development_dependency(%q<rspec-rails>, ["= 2.6.0"])
       s.add_development_dependency(%q<yard>, ["= 0.6.8"])
       s.add_development_dependency(%q<bundler>, ["= 1.0.14"])
       s.add_development_dependency(%q<jeweler>, ["= 1.6.0"])
       s.add_development_dependency(%q<rcov>, ["= 0.9.9"])
       s.add_development_dependency(%q<autotest>, ["= 4.4.6"])
       s.add_development_dependency(%q<rocco>, ["= 0.7.0"])
+      s.add_development_dependency(%q<awesome_print>, ["= 0.4.0"])
     else
       s.add_dependency(%q<yajl-ruby>, ["~> 0.8.2"])
       s.add_dependency(%q<typhoeus>, ["~> 0.2.4"])
       s.add_dependency(%q<activemodel>, ["~> 3.0.7"])
       s.add_dependency(%q<activesupport>, ["~> 3.0.7"])
       s.add_dependency(%q<i18n>, ["~> 0.5.0"])
-      s.add_dependency(%q<rspec>, ["= 2.6.0"])
+      s.add_dependency(%q<rake>, ["= 0.8.7"])
+      s.add_dependency(%q<rails>, ["= 3.0.7"])
+      s.add_dependency(%q<sqlite3>, ["= 1.3.3"])
+      s.add_dependency(%q<rspec-rails>, ["= 2.6.0"])
       s.add_dependency(%q<yard>, ["= 0.6.8"])
       s.add_dependency(%q<bundler>, ["= 1.0.14"])
       s.add_dependency(%q<jeweler>, ["= 1.6.0"])
       s.add_dependency(%q<rcov>, ["= 0.9.9"])
       s.add_dependency(%q<autotest>, ["= 4.4.6"])
       s.add_dependency(%q<rocco>, ["= 0.7.0"])
+      s.add_dependency(%q<awesome_print>, ["= 0.4.0"])
     end
   else
     s.add_dependency(%q<yajl-ruby>, ["~> 0.8.2"])
@@ -94,13 +152,17 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<activemodel>, ["~> 3.0.7"])
     s.add_dependency(%q<activesupport>, ["~> 3.0.7"])
     s.add_dependency(%q<i18n>, ["~> 0.5.0"])
-    s.add_dependency(%q<rspec>, ["= 2.6.0"])
+    s.add_dependency(%q<rake>, ["= 0.8.7"])
+    s.add_dependency(%q<rails>, ["= 3.0.7"])
+    s.add_dependency(%q<sqlite3>, ["= 1.3.3"])
+    s.add_dependency(%q<rspec-rails>, ["= 2.6.0"])
     s.add_dependency(%q<yard>, ["= 0.6.8"])
     s.add_dependency(%q<bundler>, ["= 1.0.14"])
     s.add_dependency(%q<jeweler>, ["= 1.6.0"])
     s.add_dependency(%q<rcov>, ["= 0.9.9"])
     s.add_dependency(%q<autotest>, ["= 4.4.6"])
     s.add_dependency(%q<rocco>, ["= 0.7.0"])
+    s.add_dependency(%q<awesome_print>, ["= 0.4.0"])
   end
 end
 
