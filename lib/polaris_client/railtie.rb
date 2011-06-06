@@ -8,8 +8,9 @@ module PolarisClient
     end
     
     initializer "polaris_resource.configure_logger", :after => :initialize_logger do |app|
-      PolarisResource::Configuration.logger = app.config.logger
+      PolarisResource::Configuration.logger = Rails.logger
     end
 
   end
+
 end

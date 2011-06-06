@@ -17,23 +17,11 @@ module PolarisResource
       end
       
       def logger
-        @logger ||= begin
-          logger = ActiveSupport::BufferedLogger.new(STDOUT)
-          logger.level = ActiveSupport::BufferedLogger.const_get(ActiveSupport::BufferedLogger::INFO)
-          logger
-        rescue StandardError => e
-          logger = ActiveSupport::BufferedLogger.new(STDERR)
-          logger.level = ActiveSupport::BufferedLogger::WARN
-          logger.warn(
-            "PolarisResource Error: Unable to access log file. Please ensure that #{path} exists and is chmod 0666. " +
-            "The log level has been raised to WARN and the output directed to STDERR until the problem is fixed."
-          )
-          logger
-        end
+        @logger ||= ::Logger.new(STDOUT)
       end
       
-      def logger=(_logger)
-        @logger = _logger
+      def logger=(logger)
+        @logger = logger
       end
 
       def enable_stubbing!

@@ -14,7 +14,8 @@ require 'active_support/hash_with_indifferent_access'
 require 'active_support/core_ext/string/inflections'
 require 'active_support/inflections'
 require 'active_support/core_ext/array/extract_options'
-require 'active_support/buffered_logger'
+require 'active_support/notifications'
+require 'active_support/log_subscriber'
 
 # The bulk of the library consists of the Base class and its modules, the request/response wrappers, mocking, configuration, and errors.
 require 'polaris_resource/base'
@@ -27,6 +28,7 @@ require 'polaris_resource/type_caster'
 
 # Associations for application objects, typically ActiveRecord, to resource
 require 'polaris_client/associations'
+require 'polaris_client/log_subscriber'
 require 'polaris_client/railtie' if defined?(Rails)
 
 # There are some Typhoeus patches contained here.
