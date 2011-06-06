@@ -16,8 +16,7 @@ module PolarisResource
 
           define_method association do
             if send(attribute_id_sym)
-              response = PolarisResource::Request.get(send(attribute_uri_sym))
-              association.to_s.classify.constantize.handle_response(response)
+              association.to_s.classify.constantize.send(:get, send(attribute_uri_sym))
             end
           end
 
@@ -34,8 +33,7 @@ module PolarisResource
             if new_record?
               []
             else
-              response = PolarisResource::Request.get(send(attribute_uri_sym))
-              association.to_s.classify.constantize.handle_response(response)
+              association.to_s.classify.constantize.send(:get, send(attribute_uri_sym))
             end
           end
 
@@ -50,8 +48,7 @@ module PolarisResource
 
           define_method association do
             unless new_record?
-              response = PolarisResource::Request.get(send(attribute_uri_sym))
-              association.to_s.classify.constantize.handle_response(response)
+              association.to_s.classify.constantize.send(:get, send(attribute_uri_sym))
             end
           end
 

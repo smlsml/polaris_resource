@@ -26,7 +26,7 @@ describe PolarisResource::Base::Associations, "#belongs_to" do
       conference_body = { :status => 200, :content => { :id => 2 } }
       conference_response = PolarisResource::Response.new(:code => 200, :headers => "", :body => conference_body.to_json, :time => 0.3)
       
-      PolarisResource::Request.stub(:get) do |uri|
+      PolarisResource::Request.stub(:get) do |uri, params|
         case uri
         when '/meetings/1'
           meeting_response
@@ -109,7 +109,7 @@ describe PolarisResource::Base::Associations, "#has_many" do
       attendees_body = { :status => 200, :content => [{ :id => 2 }, { :id => 5 }] }
       attendees_response = PolarisResource::Response.new(:code => 200, :headers => "", :body => attendees_body.to_json, :time => 0.3)
       
-      PolarisResource::Request.stub(:get) do |uri|
+      PolarisResource::Request.stub(:get) do |uri, params|
         case uri
         when '/meetings/1'
           meeting_response
@@ -173,7 +173,7 @@ describe PolarisResource::Base::Associations, "#has_one" do
       speaker_body = { :status => 200, :content => { :id => 5, :meeting_id => 1 } }
       speaker_response = PolarisResource::Response.new(:code => 200, :headers => "", :body => speaker_body.to_json, :time => 0.3)
       
-      PolarisResource::Request.stub(:get) do |uri|
+      PolarisResource::Request.stub(:get) do |uri, params|
         case uri
         when '/meetings/1/speaker'
           speaker_response

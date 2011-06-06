@@ -1,0 +1,1 @@
+PolarisResource::Configuration.host = "http://localhost:3002"

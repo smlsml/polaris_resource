@@ -285,3 +285,191 @@ Migrating to CreatePurchases (20110605002144)
  WHERE type = 'table' AND NOT name = 'sqlite_sequence'
   [1m[36mSQL (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations"[0m
 Migrating to CreatePurchases (20110605002144)
+  [1m[36mSQL (0.4ms)[0m  [1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [1m[35mSQL (0.1ms)[0m   SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+  [1m[36mSQL (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations"[0m
+Migrating to CreatePurchases (20110605002144)
+  [1m[35mItem GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/items/3[0m
+  [1m[36mItem GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/items/3
+  [1m[35mItem GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/items/3[0m
+  [1m[36mItem GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/items/3
+Could not log "request.polaris_resource" event. NoMethodError: undefined method `cached?' for nil:NilClass
+Could not log "request.polaris_resource" event. NoMethodError: undefined method `cached?' for nil:NilClass
+Could not log "request.polaris_resource" event. NoMethodError: undefined method `cached?' for nil:NilClass
+Could not log "request.polaris_resource" event. NoMethodError: undefined method `cached?' for nil:NilClass
+Could not log "request.polaris_resource" event. NoMethodError: undefined method `cached?' for nil:NilClass
+Could not log "request.polaris_resource" event. NoMethodError: undefined method `cached?' for nil:NilClass
+  [1m[35mDog GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/dogs/1[0m
+  [1m[36mDog GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/dogs/1
+  [1m[35mDog GET (300.0ms)[0m [1m[31m[404][0m [1mhttp://localhost:3000/dogs/1[0m
+  [1m[36mDog GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/dogs {:ids=>[1, 2, 3]}
+  [1m[35mDog GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/dogs {:ids=>[1, 2, 3]}[0m
+  [1m[36mDog GET (300.0ms)[0m [1m[31m[404][0m http://localhost:3000/dogs {:ids=>[1, 2, 3]}
+  [1m[35mDog GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/dogs {:ids=>[1, 2, 3]}[0m
+  [1m[36mDog GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/dogs {:ids=>[1, 2, 3]}
+  [1m[35mDog GET (300.0ms)[0m [1m[31m[404][0m [1mhttp://localhost:3000/dogs {:ids=>[1, 2, 3]}[0m
+  [1m[36mDog GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/dogs
+  [1m[35mDog GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/dogs {:name=>"Daisy"}[0m
+  [1m[36mDog GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/dogs {:breed=>"English Bulldog", :name=>"Daisy"}
+  [1m[35mDog GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/dogs {:limit=>10}[0m
+  [1m[36mDog GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/dogs {:limit=>10, :offset=>20}
+  [1m[35mPolarisResource::Base GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/polaris_resource/bases/1[0m
+  [1m[36mPolarisResource::Base GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/polaris_resource/bases/1
+  [1m[36mSQL (0.3ms)[0m  [1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [1m[35mSQL (0.1ms)[0m   SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+  [1m[36mSQL (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations"[0m
+Migrating to CreatePurchases (20110605002144)
+  [1m[35mItem GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/items/3[0m
+  [1m[36mItem GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/items/3
+  [1m[35mItem GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/items/3[0m
+  [1m[36mItem GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/items/3
+  [1m[35mMeeting GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/meetings/1[0m
+  [1m[36mMeeting GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/meetings/1
+  [1m[35mConference GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/conferences/2[0m
+  [1m[36mMeeting GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/conferences/2/meetings
+Could not log "request.polaris_resource" event. NoMethodError: undefined method `cached?' for nil:NilClass
+Could not log "request.polaris_resource" event. NoMethodError: undefined method `cached?' for nil:NilClass
+Could not log "request.polaris_resource" event. NoMethodError: undefined method `cached?' for nil:NilClass
+Could not log "request.polaris_resource" event. NoMethodError: undefined method `cached?' for nil:NilClass
+  [1m[35mDog GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/dogs/1[0m
+  [1m[36mDog GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/dogs/1
+  [1m[35mDog GET (300.0ms)[0m [1m[31m[404][0m [1mhttp://localhost:3000/dogs/1[0m
+  [1m[36mDog GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/dogs {:ids=>[1, 2, 3]}
+  [1m[35mDog GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/dogs {:ids=>[1, 2, 3]}[0m
+  [1m[36mDog GET (300.0ms)[0m [1m[31m[404][0m http://localhost:3000/dogs {:ids=>[1, 2, 3]}
+  [1m[35mDog GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/dogs {:ids=>[1, 2, 3]}[0m
+  [1m[36mDog GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/dogs {:ids=>[1, 2, 3]}
+  [1m[35mDog GET (300.0ms)[0m [1m[31m[404][0m [1mhttp://localhost:3000/dogs {:ids=>[1, 2, 3]}[0m
+  [1m[36mDog GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/dogs
+  [1m[35mDog GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/dogs {:name=>"Daisy"}[0m
+  [1m[36mDog GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/dogs {:breed=>"English Bulldog", :name=>"Daisy"}
+  [1m[35mDog GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/dogs {:limit=>10}[0m
+  [1m[36mDog GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/dogs {:limit=>10, :offset=>20}
+  [1m[35mPolarisResource::Base GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/polaris_resource/bases/1[0m
+  [1m[36mPolarisResource::Base GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/polaris_resource/bases/1
+  [1m[36mSQL (0.4ms)[0m  [1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [1m[35mSQL (0.1ms)[0m   SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+  [1m[36mSQL (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations"[0m
+Migrating to CreatePurchases (20110605002144)
+  [1m[35mItem GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/items/3[0m
+  [1m[36mItem GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/items/3
+  [1m[35mItem GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/items/3[0m
+  [1m[36mItem GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/items/3
+  [1m[35mMeeting GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/meetings/1[0m
+  [1m[36mMeeting GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/meetings/1
+  [1m[35mConference GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/conferences/2[0m
+  [1m[36mMeeting GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/conferences/2/meetings
+Could not log "request.polaris_resource" event. NoMethodError: undefined method `cached?' for nil:NilClass
+Could not log "request.polaris_resource" event. NoMethodError: undefined method `cached?' for nil:NilClass
+Could not log "request.polaris_resource" event. NoMethodError: undefined method `cached?' for nil:NilClass
+Could not log "request.polaris_resource" event. NoMethodError: undefined method `cached?' for nil:NilClass
+  [1m[35mDog GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/dogs/1[0m
+  [1m[36mDog GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/dogs/1
+  [1m[35mDog GET (300.0ms)[0m [1m[31m[404][0m [1mhttp://localhost:3000/dogs/1[0m
+  [1m[36mDog GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/dogs {:ids=>[1, 2, 3]}
+  [1m[35mDog GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/dogs {:ids=>[1, 2, 3]}[0m
+  [1m[36mDog GET (300.0ms)[0m [1m[31m[404][0m http://localhost:3000/dogs {:ids=>[1, 2, 3]}
+  [1m[35mDog GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/dogs {:ids=>[1, 2, 3]}[0m
+  [1m[36mDog GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/dogs {:ids=>[1, 2, 3]}
+  [1m[35mDog GET (300.0ms)[0m [1m[31m[404][0m [1mhttp://localhost:3000/dogs {:ids=>[1, 2, 3]}[0m
+  [1m[36mDog GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/dogs
+  [1m[35mDog GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/dogs {:name=>"Daisy"}[0m
+  [1m[36mDog GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/dogs {:breed=>"English Bulldog", :name=>"Daisy"}
+  [1m[35mDog GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/dogs {:limit=>10}[0m
+  [1m[36mDog GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/dogs {:limit=>10, :offset=>20}
+  [1m[35mPolarisResource::Base GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/polaris_resource/bases/1[0m
+  [1m[36mPolarisResource::Base GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/polaris_resource/bases/1
+  [1m[36mSQL (0.4ms)[0m  [1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [1m[35mSQL (0.1ms)[0m   SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+  [1m[36mSQL (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations"[0m
+Migrating to CreatePurchases (20110605002144)
+  [1m[35mItem GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/items/3[0m
+  [1m[36mItem GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/items/3
+  [1m[35mItem GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/items/3[0m
+  [1m[36mItem GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/items/3
+  [1m[35mMeeting GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/meetings/1[0m
+  [1m[36mMeeting GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/meetings/1
+  [1m[35mConference GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/conferences/2[0m
+  [1m[36mMeeting GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/conferences/2/meetings
+Could not log "request.polaris_resource" event. NoMethodError: undefined method `cached?' for nil:NilClass
+Could not log "request.polaris_resource" event. NoMethodError: undefined method `cached?' for nil:NilClass
+  [1m[35mMeeting GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/meetings/1[0m
+  [1m[36mMeeting GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/meetings/1
+  [1m[35mSpeaker GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/meetings/1/speaker[0m
+  [1m[36mMeeting GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/meetings/1
+  [1m[35mDog GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/dogs/1[0m
+  [1m[36mDog GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/dogs/1
+  [1m[35mDog GET (300.0ms)[0m [1m[31m[404][0m [1mhttp://localhost:3000/dogs/1[0m
+  [1m[36mDog GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/dogs {:ids=>[1, 2, 3]}
+  [1m[35mDog GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/dogs {:ids=>[1, 2, 3]}[0m
+  [1m[36mDog GET (300.0ms)[0m [1m[31m[404][0m http://localhost:3000/dogs {:ids=>[1, 2, 3]}
+  [1m[35mDog GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/dogs {:ids=>[1, 2, 3]}[0m
+  [1m[36mDog GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/dogs {:ids=>[1, 2, 3]}
+  [1m[35mDog GET (300.0ms)[0m [1m[31m[404][0m [1mhttp://localhost:3000/dogs {:ids=>[1, 2, 3]}[0m
+  [1m[36mDog GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/dogs
+  [1m[35mDog GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/dogs {:name=>"Daisy"}[0m
+  [1m[36mDog GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/dogs {:breed=>"English Bulldog", :name=>"Daisy"}
+  [1m[35mDog GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/dogs {:limit=>10}[0m
+  [1m[36mDog GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/dogs {:limit=>10, :offset=>20}
+  [1m[35mPolarisResource::Base GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/polaris_resource/bases/1[0m
+  [1m[36mPolarisResource::Base GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/polaris_resource/bases/1
+  [1m[36mSQL (0.4ms)[0m  [1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [1m[35mSQL (0.1ms)[0m   SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+  [1m[36mSQL (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations"[0m
+Migrating to CreatePurchases (20110605002144)
+  [1m[35mItem GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/items/3[0m
+  [1m[36mItem GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/items/3
+  [1m[35mItem GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/items/3[0m
+  [1m[36mItem GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/items/3
+  [1m[35mMeeting GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/meetings/1[0m
+  [1m[36mMeeting GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/meetings/1
+  [1m[35mConference GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/conferences/2[0m
+  [1m[36mMeeting GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/conferences/2/meetings
+  [1m[35mMeeting GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/meetings/1[0m
+  [1m[36mMeeting GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/meetings/1
+  [1m[35mAttendee GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/meetings/1/attendees[0m
+  [1m[36mMeeting GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/meetings/1
+  [1m[35mMeeting GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/meetings/1[0m
+  [1m[36mSpeaker GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/meetings/1/speaker
+  [1m[35mMeeting GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/meetings/1[0m
+  [1m[36mDog GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/dogs/1
+  [1m[35mDog GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/dogs/1[0m
+  [1m[36mDog GET (300.0ms)[0m [1m[31m[404][0m http://localhost:3000/dogs/1
+  [1m[35mDog GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/dogs {:ids=>[1, 2, 3]}[0m
+  [1m[36mDog GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/dogs {:ids=>[1, 2, 3]}
+  [1m[35mDog GET (300.0ms)[0m [1m[31m[404][0m [1mhttp://localhost:3000/dogs {:ids=>[1, 2, 3]}[0m
+  [1m[36mDog GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/dogs {:ids=>[1, 2, 3]}
+  [1m[35mDog GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/dogs {:ids=>[1, 2, 3]}[0m
+  [1m[36mDog GET (300.0ms)[0m [1m[31m[404][0m http://localhost:3000/dogs {:ids=>[1, 2, 3]}
+  [1m[35mDog GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/dogs[0m
+  [1m[36mDog GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/dogs {:name=>"Daisy"}
+  [1m[35mDog GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/dogs {:breed=>"English Bulldog", :name=>"Daisy"}[0m
+  [1m[36mDog GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/dogs {:limit=>10}
+  [1m[35mDog GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/dogs {:limit=>10, :offset=>20}[0m
+  [1m[36mPolarisResource::Base GET (300.0ms)[0m [1m[32m[200][0m http://localhost:3000/polaris_resource/bases/1
+  [1m[35mPolarisResource::Base GET (300.0ms)[0m [1m[32m[200][0m [1mhttp://localhost:3000/polaris_resource/bases/1[0m

@@ -6,36 +6,27 @@ module PolarisResource
     end
 
     def self.get(path, params = {})
-      response = nil
-      ActiveSupport::Notifications.instrument("request.polaris_resource", :method => :get, :path => build_path(path), :params => params) do
-        response = cache[[path, params]] ||= Typhoeus::Request.get(build_path(path), build_params(params))
+      @cached = false
+      response = begin
+        cached_response = cache[[path, params]]
+        if cached_response
+          @cached = true
+        else
+          cached_response = cache[[path, params]] = Typhoeus::Request.get(build_path(path), build_params(params))
+        end
+        cached_response
       end
-      
-      ActiveSupport::Notifications.instrument("response.polaris_resource", :response => response) do
-        PolarisResource::Response.new(response)
-      end
+      PolarisResource::Response.new(response, @cached)
     end
 
     def self.post(path, params = {})
-      response = nil
-      ActiveSupport::Notifications.instrument("request.polaris_resource", :method => :get, :path => build_path(path), :params => params) do
-        response = Typhoeus::Request.post(build_path(path), build_params(params))
-      end
-      
-      ActiveSupport::Notifications.instrument("response.polaris_resource", :response => response) do
-        PolarisResource::Response.new(response)
-      end
+      response = Typhoeus::Request.post(build_path(path), build_params(params))
+      PolarisResource::Response.new(response)
     end
 
     def self.put(path, params = {})
-      response = nil
-      ActiveSupport::Notifications.instrument("request.polaris_resource", :method => :get, :path => build_path(path), :params => params ) do
-        response = Typhoeus::Request.put(build_path(path), build_params(params))
-      end
-      
-      ActiveSupport::Notifications.instrument("response.polaris_resource", :response => response) do
-        PolarisResource::Response.new(response)
-      end
+      response = Typhoeus::Request.put(build_path(path), build_params(params))
+      PolarisResource::Response.new(response)
     end
 
     def self.build_path(path)

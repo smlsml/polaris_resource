@@ -37,8 +37,7 @@ module PolarisResource
         end
 
         def find_one(id)
-          response = PolarisResource::Request.get(find_one_uri(id))
-          handle_response(response, id)
+          get(find_one_uri(id), {}, id)
         end
 
         def find_one_uri(id)
@@ -46,13 +45,11 @@ module PolarisResource
         end
 
         def find_some(ids)
-          response = PolarisResource::Request.get(find_all_uri, :ids => ids)
-          handle_response(response, ids)
+          get(find_all_uri, { :ids => ids }, ids)
         end
         
         def find_all
-          response = PolarisResource::Request.get(find_all_uri)
-          handle_response(response)
+          get(find_all_uri)
         end
         
         def find_all_uri
@@ -63,18 +60,15 @@ module PolarisResource
           query_attributes.each do |key, value|
             raise UnrecognizedProperty, ":#{key} is not a recognized #{model_name} property." unless attribute_defined?(key)
           end
-          response = PolarisResource::Request.get(find_all_uri, query_attributes)
-          handle_response(response)
+          get(find_all_uri, query_attributes)
         end
         
         def limit(amount)
-          response = PolarisResource::Request.get(find_all_uri, :limit => amount)
-          handle_response(response)
+          get(find_all_uri, :limit => amount)
         end
         
         def page(page_number)
-          response = PolarisResource::Request.get(find_all_uri, page_params(page_number))
-          handle_response(response)
+          get(find_all_uri, page_params(page_number))
         end
         
         def page_params(page_number)
@@ -97,6 +91,14 @@ module PolarisResource
             end
           end
         end
+        
+        def get(path, params = {}, id_or_ids = nil)
+          response = PolarisResource::Request.get(path, params)
+          ActiveSupport::Notifications.instrument('request.polaris_resource', :path => path, :params => params, :method => :get, :class => self, :response => response) do
+            handle_response(response, id_or_ids)
+          end
+        end
+        private :get
 
       end
 

@@ -16,7 +16,7 @@ describe PolarisResource::Base::Finders, "#find" do
       end
       
       it "makes a request to /dogs/1 at the external service" do
-        PolarisResource::Request.should_receive(:get).with("/dogs/1").and_return(@response)
+        PolarisResource::Request.should_receive(:get).with("/dogs/1", {}).and_return(@response)
         Dog.find(1)
       end
       
