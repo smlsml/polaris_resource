@@ -36,9 +36,9 @@ describe PolarisResource::Base::Persistence, "#save" do
     end
     
     it "marks the instance as not new" do
-      @california.new_record?.should be_true
+      @california.should be_new_record
       @california.save
-      @california.new_record?.should be_false
+      @california.should_not be_new_record
     end
     
     it "sets the errors hash based on the response" do

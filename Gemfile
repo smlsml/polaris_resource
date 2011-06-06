@@ -18,4 +18,5 @@ group :development, :test do
   gem 'autotest',      '4.4.6'
   gem 'rocco',         '0.7.0'
   gem 'awesome_print', '0.4.0'
+  gem 'pry',           '0.8.3'
 end

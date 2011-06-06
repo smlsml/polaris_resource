@@ -99,7 +99,7 @@ describe PolarisResource::Base, ".new_record?" do
   context "when the record is new" do
     
     it "returns true" do
-      @attendee.new_record?.should be_true
+      @attendee.should be_new_record
     end
     
   end

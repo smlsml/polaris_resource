@@ -54,7 +54,7 @@ module PolarisResource
     end
     
     def persisted?
-      true
+      !id.nil?
     end
     
     def to_key
@@ -67,7 +67,7 @@ module PolarisResource
     end
 
     def new_record?
-      id.nil?
+      !persisted?
     end
     
     def self.base_class
