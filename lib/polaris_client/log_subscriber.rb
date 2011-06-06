@@ -2,11 +2,11 @@ module PolarisClient
   class LogSubscriber < ActiveSupport::LogSubscriber
 
     def request(event)
-      debug "#{event.inspect}"
+      debug "#{event[:method].upcase} #{event[:path]} #{event[:params].inspect} [#{event.duration} ms]"
     end
     
     def response(event)
-      debug "#{event.inspect}"
+      debug "#{event[:response].code}"
     end
 
     def logger
