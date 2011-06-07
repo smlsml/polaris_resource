@@ -58,7 +58,15 @@ module PolarisResource
 
       def merge_attributes(new_attributes)
         new_attributes.each do |key, value|
-          update_attribute(key, value)
+          if key.to_sym == :errors
+            value.each do |k, v|
+              v.each do |message|
+                errors.add(k, message)
+              end
+            end
+          else
+            update_attribute(key, value)
+          end
         end
       end
 

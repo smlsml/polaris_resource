@@ -1,0 +1,4 @@
+require 'polaris_resource/associations/association'
+require 'polaris_resource/associations/belongs_to_association'
+require 'polaris_resource/associations/has_many_association'
+require 'polaris_resource/associations/has_one_association'

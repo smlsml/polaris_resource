@@ -9,10 +9,6 @@ describe PolarisResource::Base::Associations, "#belongs_to" do
   it "defines a getter method" do
     Meeting.new.should respond_to(:conference)
   end
-
-  it "defines a private method called 'belongs_to_conference_uri'" do
-    Meeting.new.private_methods.should include('belongs_to_conference_uri')
-  end
   
   context "when the belongs_to association is fulfilled by its contracted 'association_id' attribute" do
     
@@ -40,11 +36,7 @@ describe PolarisResource::Base::Associations, "#belongs_to" do
       @meeting = Meeting.find(1)
     end
     
-    it "has a uri string matching '/conferences/2'" do
-      @meeting.send(:belongs_to_conference_uri).should eql('/conferences/2')
-    end
-    
-    it "returns the association object" do
+    it "returns the belongs_to association object" do
       @conference = @meeting.conference
       @conference.should be_a(Conference)
       @conference.id.should eql(2)
@@ -58,10 +50,6 @@ describe PolarisResource::Base::Associations, "#belongs_to" do
     before(:each) do
       @meeting = Meeting.new
       @meeting.conference_id = nil
-    end
-    
-    it "has a uri string that is nil" do
-      @meeting.send(:belongs_to_conference_uri).should be_nil
     end
     
     it "returns nil" do
@@ -78,18 +66,10 @@ describe PolarisResource::Base::Associations, "#has_many" do
     Meeting.new.should respond_to(:attendees)
   end
   
-  it "defines a private method called 'has_many_attendees_uri'" do
-    Meeting.new.private_methods.should include('has_many_attendees_uri')
-  end
-  
   context "when the record has no id" do
     
     before(:each) do
       @meeting = Meeting.new
-    end
-    
-    it "has a uri string that is nil" do
-      @meeting.send(:has_many_attendees_uri).should be_nil
     end
     
     it "returns an empty array" do
@@ -121,10 +101,6 @@ describe PolarisResource::Base::Associations, "#has_many" do
       @meeting = Meeting.find(1)
     end
     
-    it "has a uri string matching '/meetings/1/attendees'" do
-      @meeting.send(:has_many_attendees_uri).should eql('/meetings/1/attendees')
-    end
-    
     it "returns the associated objects" do
       @attendees = @meeting.attendees
       @attendees.should be_an(Array)
@@ -144,18 +120,10 @@ describe PolarisResource::Base::Associations, "#has_one" do
     Meeting.new.should respond_to(:speaker)
   end
   
-  it "defines a private method called 'has_one_speaker_uri'" do
-    Meeting.new.private_methods.should include('has_one_speaker_uri')
-  end
-  
   context "when the record has no id" do
     
     before(:each) do
       @meeting = Meeting.new
-    end
-    
-    it "has a uri that is nil" do
-      @meeting.send(:has_one_speaker_uri).should be_nil
     end
     
     it "returns nil" do
@@ -183,10 +151,6 @@ describe PolarisResource::Base::Associations, "#has_one" do
       end
       
       @meeting = Meeting.find(1)
-    end
-    
-    it "has a uri string matching '/meetings/1/speaker'" do
-      @meeting.send(:has_one_speaker_uri).should eql('/meetings/1/speaker')
     end
     
     it "returns the association object" do
