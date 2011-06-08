@@ -29,11 +29,12 @@ describe PolarisClient::Associations, "#belongs_to" do
     end
     
     it 'can set an association directly' do
-      @purchase = Purchase.new
+      @purchase = Purchase.new(:some_other_attribute=>'here')
       @purchase.item = @item
       @purchase.item_id.should eql(3)
       @purchase.item.should be_a(Item)
       @purchase.item.id.should eql(3)
+      @purchase.item.some_other_attribute.should eql('here')
     end
     
     it "returns nil when the id is not specified" do
