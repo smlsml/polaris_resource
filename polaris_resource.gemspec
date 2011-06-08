@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{polaris_resource}
-  s.version = "0.2.0"
+  s.version = "0.2.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ryan Moran"]
-  s.date = %q{2011-06-07}
+  s.date = %q{2011-06-08}
   s.description = %q{RESTful API Client}
   s.email = %q{ryan.moran@gmail.com}
   s.extra_rdoc_files = [
@@ -36,7 +36,6 @@ Gem::Specification.new do |s|
     "lib/polaris_resource/associations/has_many_association.rb",
     "lib/polaris_resource/associations/has_one_association.rb",
     "lib/polaris_resource/base.rb",
-    "lib/polaris_resource/base/associations.rb",
     "lib/polaris_resource/base/attributes.rb",
     "lib/polaris_resource/base/finders.rb",
     "lib/polaris_resource/base/persistence.rb",
@@ -93,7 +92,7 @@ Gem::Specification.new do |s|
     "spec/dummy/public/stylesheets/.gitkeep",
     "spec/dummy/script/rails",
     "spec/polaris_client/associations_spec.rb",
-    "spec/polaris_resource/base/associations_spec.rb",
+    "spec/polaris_resource/associations_spec.rb",
     "spec/polaris_resource/base/attributes_spec.rb",
     "spec/polaris_resource/base/finders_spec.rb",
     "spec/polaris_resource/base/persistence_spec.rb",
