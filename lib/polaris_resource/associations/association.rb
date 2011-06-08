@@ -2,10 +2,18 @@ module PolarisResource
   module Associations
     class Association < ActiveSupport::BasicObject
       
-      def initialize(owner, association)
+      def initialize(owner, association, target = nil)
         @owner       = owner
         @association = association
-        @target      = nil
+        @target      = target
+      end
+      
+      def id
+        loaded_target.id
+      end
+      
+      def id=(id)
+        loaded_target.id = id
       end
       
       def load_target!
