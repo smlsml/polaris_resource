@@ -76,6 +76,10 @@ module PolarisResource
     def destroyed?
       false
     end
+    
+    def respond_to?(method)
+      attributes.include?(method) ? true : super
+    end
 
     def ==(comparison_object)      
       comparison_object.equal?(self) ||

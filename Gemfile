@@ -2,8 +2,8 @@ source "http://rubygems.org"
 
 gem 'yajl-ruby',     '~>0.8.2'
 gem 'typhoeus',      '~>0.2.4'
-gem 'activemodel',   '~>3.0.7'
-gem 'activesupport', '~>3.0.7'
+gem 'activemodel',   '~>3.0.0'
+gem 'activesupport', '~>3.0.0'
 gem 'i18n',          '~>0.5.0'
 
 group :development, :test do
