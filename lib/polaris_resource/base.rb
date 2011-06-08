@@ -36,7 +36,7 @@ module PolarisResource
       new_attributes = HashWithIndifferentAccess.new(new_attributes)
       new_attributes.each do |attribute, value|
         self.class.default_attributes.store(attribute.to_sym, nil) unless self.class.attribute_defined?(attribute)
-        attributes[attribute] = value
+        update_attribute(attribute, value)
       end
     end
 
