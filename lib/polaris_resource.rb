@@ -27,6 +27,7 @@ require 'polaris_resource/request'
 require 'polaris_resource/response'
 require 'polaris_resource/type_caster'
 require 'polaris_resource/associations'
+require 'polaris_resource/relation'
 
 # Associations for application objects, typically ActiveRecord, to resource
 require 'polaris_client/associations'

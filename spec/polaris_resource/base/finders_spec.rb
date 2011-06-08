@@ -185,12 +185,17 @@ describe PolarisResource::Base::Finders, "#where" do
     context "for a where clause with one attribute" do
       
       before(:each) do
-        @response = PolarisResource::Response.new(:code => 200, :headers => "", :body => {}.to_json, :time => 0.3)
+        dogs =  [Dog.new(:name => "Daisy", :breed => "English Bulldog").attributes.merge(:id => 1)]
+        body = {
+          :status  => 200,
+          :content => dogs
+        }
+        @response = PolarisResource::Response.new(:code => 200, :headers => "", :body => body.to_json, :time => 0.3)
       end
       
       it "makes a request to find all records with the given query parameter" do
         PolarisResource::Request.should_receive(:get).with("/dogs", { :name => "Daisy" }).and_return(@response)
-        Dog.where(:name => "Daisy")
+        Dog.where(:name => "Daisy").first
       end
       
     end
@@ -198,24 +203,19 @@ describe PolarisResource::Base::Finders, "#where" do
     context "for a where clause with multiple attributes" do
       
       before(:each) do
-        @response = PolarisResource::Response.new(:code => 200, :headers => "", :body => {}.to_json, :time => 0.3)
+        dogs =  [Dog.new(:name => "Daisy", :breed => "English Bulldog").attributes.merge(:id => 1)]
+        body = {
+          :status  => 200,
+          :content => dogs
+        }
+        @response = PolarisResource::Response.new(:code => 200, :headers => "", :body => body.to_json, :time => 0.3)
       end
       
       it "makes a request to find all records with the given query parameters" do
         PolarisResource::Request.should_receive(:get).with("/dogs", { :breed => "English Bulldog", :name => "Daisy" }).and_return(@response)
-        Dog.where(:name => "Daisy", :breed => "English Bulldog")
+        Dog.where(:name => "Daisy", :breed => "English Bulldog").first
       end
       
-    end
-    
-  end
-  
-  context "when the where attribute is not an acceptable attribute" do
-    
-    it "raises an UnrecognizedProperty error" do
-       lambda {
-        Dog.where(:age => 2)
-      }.should raise_error(PolarisResource::UnrecognizedProperty, ":age is not a recognized Dog property.")
     end
     
   end
@@ -225,12 +225,19 @@ end
 describe PolarisResource::Base::Finders, "#limit" do
   
   before(:each) do
-    @response = PolarisResource::Response.new(:code => 200, :headers => "", :body => {}.to_json, :time => 0.3)
+    dogs =  [Dog.new(:name => "Daisy", :breed => "English Bulldog").attributes.merge(:id => 1)]
+    dogs << Dog.new(:name => "Wilbur", :breed => "Hounddog").attributes.merge(:id => 2)
+    dogs << Dog.new(:name => "Fido", :breed => "Dalmatian").attributes.merge(:id => 3)
+    body = {
+      :status  => 200,
+      :content => dogs
+    }
+    @response = PolarisResource::Response.new(:code => 200, :headers => "", :body => body.to_json, :time => 0.3)
   end
 
   it "makes a request to find all of the given records, but with a given limit" do
     PolarisResource::Request.should_receive(:get).with("/dogs", { :limit => 10 }).and_return(@response)
-    Dog.limit(10)
+    Dog.limit(10).all
   end
 
 end
@@ -259,12 +266,20 @@ describe PolarisResource::Base::Finders, "#page" do
   
   before(:each) do
     Dog.results_per_page = 10
-    @response = PolarisResource::Response.new(:code => 200, :headers => "", :body => {}.to_json, :time => 0.3)
+    
+    dogs =  [Dog.new(:name => "Daisy", :breed => "English Bulldog").attributes.merge(:id => 1)]
+    dogs << Dog.new(:name => "Wilbur", :breed => "Hounddog").attributes.merge(:id => 2)
+    dogs << Dog.new(:name => "Fido", :breed => "Dalmatian").attributes.merge(:id => 3)
+    body = {
+      :status  => 200,
+      :content => dogs
+    }
+    @response = PolarisResource::Response.new(:code => 200, :headers => "", :body => body.to_json, :time => 0.3)
   end
 
   it "makes a request to find all of the given records, but with a given limit and offset" do
     PolarisResource::Request.should_receive(:get).with("/dogs", { :limit => 10, :offset => 20 }).and_return(@response)
-    Dog.page(3)
+    Dog.page(3).all
   end
   
 end

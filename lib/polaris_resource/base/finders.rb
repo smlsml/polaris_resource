@@ -57,23 +57,15 @@ module PolarisResource
         end
         
         def where(query_attributes)
-          query_attributes.each do |key, value|
-            raise UnrecognizedProperty, ":#{key} is not a recognized #{model_name} property." unless attribute_defined?(key)
-          end
-          _get(find_all_uri, query_attributes)
+          Relation.new(self).where(query_attributes)
         end
         
         def limit(amount)
-          _get(find_all_uri, :limit => amount)
+          Relation.new(self).limit(amount)
         end
         
         def page(page_number)
-          _get(find_all_uri, page_params(page_number))
-        end
-        
-        def page_params(page_number)
-          offset = (page_number - 1) * results_per_page
-          { :limit => results_per_page, :offset => offset }
+          Relation.new(self).page(page_number)
         end
 
         def handle_response(response, id_or_ids = nil)

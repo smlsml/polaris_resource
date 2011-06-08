@@ -8,10 +8,6 @@ module PolarisResource
         @target      = nil
       end
       
-      def loaded?
-        !!@target
-      end
-      
       def load_target!
         # Left to be implemented by the subclasses
       end
