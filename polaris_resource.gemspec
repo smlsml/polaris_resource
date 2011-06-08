@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{polaris_resource}
-  s.version = "0.1.1"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ryan Moran"]
-  s.date = %q{2011-06-04}
+  s.date = %q{2011-06-07}
   s.description = %q{RESTful API Client}
   s.email = %q{ryan.moran@gmail.com}
   s.extra_rdoc_files = [
@@ -27,8 +27,14 @@ Gem::Specification.new do |s|
     "autotest/discover.rb",
     "lib/ext/typhoeus.rb",
     "lib/polaris_client/associations.rb",
+    "lib/polaris_client/log_subscriber.rb",
     "lib/polaris_client/railtie.rb",
     "lib/polaris_resource.rb",
+    "lib/polaris_resource/associations.rb",
+    "lib/polaris_resource/associations/association.rb",
+    "lib/polaris_resource/associations/belongs_to_association.rb",
+    "lib/polaris_resource/associations/has_many_association.rb",
+    "lib/polaris_resource/associations/has_one_association.rb",
     "lib/polaris_resource/base.rb",
     "lib/polaris_resource/base/associations.rb",
     "lib/polaris_resource/base/attributes.rb",
@@ -37,6 +43,7 @@ Gem::Specification.new do |s|
     "lib/polaris_resource/configuration.rb",
     "lib/polaris_resource/errors.rb",
     "lib/polaris_resource/mock.rb",
+    "lib/polaris_resource/relation.rb",
     "lib/polaris_resource/request.rb",
     "lib/polaris_resource/response.rb",
     "lib/polaris_resource/type_caster.rb",
@@ -66,16 +73,13 @@ Gem::Specification.new do |s|
     "spec/dummy/config/initializers/backtrace_silencers.rb",
     "spec/dummy/config/initializers/inflections.rb",
     "spec/dummy/config/initializers/mime_types.rb",
+    "spec/dummy/config/initializers/polaris_resource.rb",
     "spec/dummy/config/initializers/secret_token.rb",
     "spec/dummy/config/initializers/session_store.rb",
     "spec/dummy/config/locales/en.yml",
     "spec/dummy/config/routes.rb",
     "spec/dummy/db/migrate/20110605002144_create_purchases.rb",
     "spec/dummy/db/test.sqlite3",
-    "spec/dummy/log/development.log",
-    "spec/dummy/log/production.log",
-    "spec/dummy/log/server.log",
-    "spec/dummy/log/test.log",
     "spec/dummy/public/404.html",
     "spec/dummy/public/422.html",
     "spec/dummy/public/500.html",
@@ -96,8 +100,10 @@ Gem::Specification.new do |s|
     "spec/polaris_resource/base_spec.rb",
     "spec/polaris_resource/configuration_spec.rb",
     "spec/polaris_resource/mock_spec.rb",
+    "spec/polaris_resource/relation_spec.rb",
     "spec/polaris_resource/request_spec.rb",
     "spec/polaris_resource/response_spec.rb",
+    "spec/polaris_resource/type_caster_spec.rb",
     "spec/shared/active_model_lint_test.rb",
     "spec/spec_helper.rb",
     "spec/support/configuration.rb"
@@ -128,6 +134,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<autotest>, ["= 4.4.6"])
       s.add_development_dependency(%q<rocco>, ["= 0.7.0"])
       s.add_development_dependency(%q<awesome_print>, ["= 0.4.0"])
+      s.add_development_dependency(%q<pry>, ["= 0.8.3"])
     else
       s.add_dependency(%q<yajl-ruby>, ["~> 0.8.2"])
       s.add_dependency(%q<typhoeus>, ["~> 0.2.4"])
@@ -145,6 +152,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<autotest>, ["= 4.4.6"])
       s.add_dependency(%q<rocco>, ["= 0.7.0"])
       s.add_dependency(%q<awesome_print>, ["= 0.4.0"])
+      s.add_dependency(%q<pry>, ["= 0.8.3"])
     end
   else
     s.add_dependency(%q<yajl-ruby>, ["~> 0.8.2"])
@@ -163,6 +171,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<autotest>, ["= 4.4.6"])
     s.add_dependency(%q<rocco>, ["= 0.7.0"])
     s.add_dependency(%q<awesome_print>, ["= 0.4.0"])
+    s.add_dependency(%q<pry>, ["= 0.8.3"])
   end
 end
 
