@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe PolarisResource::Base::Associations, "#belongs_to" do
+describe PolarisResource::Associations, "#belongs_to" do
   
   it "creates a property for this class matching association name, e.g. belong_to :author # => :author_id" do
     Meeting.new.attributes.should include('conference_id')
@@ -60,7 +60,7 @@ describe PolarisResource::Base::Associations, "#belongs_to" do
   
 end
 
-describe PolarisResource::Base::Associations, "#has_many" do
+describe PolarisResource::Associations, "#has_many" do
   
   it "creates a getter method" do
     Meeting.new.should respond_to(:attendees)
@@ -114,7 +114,7 @@ describe PolarisResource::Base::Associations, "#has_many" do
   
 end
 
-describe PolarisResource::Base::Associations, "#has_one" do
+describe PolarisResource::Associations, "#has_one" do
   
   it "creates a getter method" do
     Meeting.new.should respond_to(:speaker)

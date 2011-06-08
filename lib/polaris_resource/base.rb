@@ -1,4 +1,3 @@
-require 'polaris_resource/base/associations'
 require 'polaris_resource/base/attributes'
 require 'polaris_resource/base/finders'
 require 'polaris_resource/base/persistence'
@@ -6,8 +5,8 @@ require 'polaris_resource/base/persistence'
 module PolarisResource
   class Base
     extend  ActiveModel::Naming
+    include PolarisResource::Associations
     include Attributes
-    include Associations
     include Finders
     include Persistence
 

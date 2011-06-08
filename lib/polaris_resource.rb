@@ -19,7 +19,6 @@ require 'active_support/log_subscriber'
 require 'active_support/basic_object'
 
 # The bulk of the library consists of the Base class and its modules, the request/response wrappers, mocking, configuration, and errors.
-require 'polaris_resource/base'
 require 'polaris_resource/configuration'
 require 'polaris_resource/errors'
 require 'polaris_resource/mock'
@@ -28,6 +27,7 @@ require 'polaris_resource/response'
 require 'polaris_resource/type_caster'
 require 'polaris_resource/associations'
 require 'polaris_resource/relation'
+require 'polaris_resource/base'
 
 # Associations for application objects, typically ActiveRecord, to resource
 require 'polaris_client/associations'

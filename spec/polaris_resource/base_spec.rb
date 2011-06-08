@@ -43,7 +43,7 @@ end
 describe PolarisResource::Base, "implements PolarisResource::Base::Associations" do
   
   it "includes the PolarisResource::Base::Associations module" do
-    PolarisResource::Base.included_modules.should include(PolarisResource::Base::Associations)
+    PolarisResource::Base.included_modules.should include(PolarisResource::Associations)
   end
   
 end
