@@ -12,25 +12,25 @@ module PolarisResource
 
     module ClassMethods
 
-      def belongs_to(association)
+      def belongs_to(association, options = {})
         attribute_id_sym  = "#{association}_id".to_sym
 
         property attribute_id_sym
 
         define_method association do
-          BelongsToAssociation.new(self, association)
+          BelongsToAssociation.new(self, association, nil, options)
         end
       end
 
-      def has_many(association)
+      def has_many(association, options = {})
         define_method association do
-          HasManyAssociation.new(self, association)
+          HasManyAssociation.new(self, association, nil, options)
         end
       end
 
-      def has_one(association)
+      def has_one(association, options = {})
         define_method association do
-          HasOneAssociation.new(self, association)
+          HasOneAssociation.new(self, association, nil, options)
         end
       end
 

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe PolarisResource::Base::Attributes, "#property" do
+describe PolarisResource::Attributes, "#property" do
   
   it "defines setter and getter methods for the given property" do
     @post = Post.new
@@ -15,7 +15,7 @@ describe PolarisResource::Base::Attributes, "#property" do
   
 end
 
-describe PolarisResource::Base::Attributes, ".attributes" do
+describe PolarisResource::Attributes, ".attributes" do
   
   it "returns the attributes hash" do
     Post.new.attributes.should eql(HashWithIndifferentAccess.new({ :id => nil, :title => nil }))
@@ -23,7 +23,7 @@ describe PolarisResource::Base::Attributes, ".attributes" do
   
 end
 
-describe PolarisResource::Base::Attributes, "#default_attributes" do
+describe PolarisResource::Attributes, "#default_attributes" do
   
   it "returns the default attributes has which will be applied as the attributes when a new object is instantiated" do
     Post.default_attributes.should eql(HashWithIndifferentAccess.new({ :id => nil, :title => nil }))
@@ -31,7 +31,7 @@ describe PolarisResource::Base::Attributes, "#default_attributes" do
   
 end
 
-describe PolarisResource::Base::Attributes, ".update_attribute" do
+describe PolarisResource::Attributes, ".update_attribute" do
   
   it "updates the attribute with the given value" do
     @post = Post.new(:title => "Horton Hears a Who")
@@ -42,7 +42,7 @@ describe PolarisResource::Base::Attributes, ".update_attribute" do
   
 end
 
-describe PolarisResource::Base::Attributes, ".merge_attributes" do
+describe PolarisResource::Attributes, ".merge_attributes" do
   
   it "updates each attribute with the given value" do
     @post = Post.new(:title => "Green Eggs and Ham")
@@ -55,7 +55,7 @@ describe PolarisResource::Base::Attributes, ".merge_attributes" do
   
 end
 
-describe PolarisResource::Base::Attributes, "dirty tracking" do
+describe PolarisResource::Attributes, "dirty tracking" do
   
   it "tracks dirty state for property values" do
     @post = Post.new

@@ -1,11 +1,7 @@
-require 'polaris_resource/base/attributes'
-require 'polaris_resource/base/finders'
-require 'polaris_resource/base/persistence'
-
 module PolarisResource
   class Base
     extend  ActiveModel::Naming
-    include PolarisResource::Associations
+    include Associations
     include Attributes
     include Finders
     include Persistence

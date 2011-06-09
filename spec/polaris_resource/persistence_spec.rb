@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe PolarisResource::Base::Persistence, "#save" do
+describe PolarisResource::Persistence, "#save" do
   
   context "when the instance is a new record" do
     
@@ -107,7 +107,7 @@ describe PolarisResource::Base::Persistence, "#save" do
   
 end
 
-describe PolarisResource::Base::Persistence, "#update_attributes" do
+describe PolarisResource::Persistence, "#update_attributes" do
   
   before(:each) do
     @attributes = HashWithIndifferentAccess.new({

@@ -51,7 +51,7 @@ end
 describe PolarisResource::Base, "implements PolarisResource::Base::Attributes" do
   
   it "includes the PolarisResource::Base::Attributes module" do
-    PolarisResource::Base.included_modules.should include(PolarisResource::Base::Attributes)
+    PolarisResource::Base.included_modules.should include(PolarisResource::Attributes)
   end
   
 end
@@ -59,7 +59,7 @@ end
 describe PolarisResource::Base, "implements PolarisResource::Base::Finders" do
   
   it "includes the PolarisResource::Base::Finders module" do
-    PolarisResource::Base.included_modules.should include(PolarisResource::Base::Finders)
+    PolarisResource::Base.included_modules.should include(PolarisResource::Finders)
   end
   
 end
@@ -67,7 +67,7 @@ end
 describe PolarisResource::Base, "implements PolarisResource::Base::Persistence" do
   
   it "includes the PolarisResource::Base::Persistence module" do
-    PolarisResource::Base.included_modules.should include(PolarisResource::Base::Persistence)
+    PolarisResource::Base.included_modules.should include(PolarisResource::Persistence)
   end
   
 end

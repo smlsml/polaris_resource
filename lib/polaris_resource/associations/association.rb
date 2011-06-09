@@ -2,10 +2,13 @@ module PolarisResource
   module Associations
     class Association < ActiveSupport::BasicObject
       
-      def initialize(owner, association, target = nil)
+      def initialize(owner, association, target = nil, options = {})
         @owner       = owner
         @association = association
         @target      = target
+        @options     = {}
+        
+        @options[:polymorphic] = options[:polymorphic] || false
       end
       
       def id

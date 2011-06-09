@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe PolarisResource::Base::Finders, "#find" do
+describe PolarisResource::Finders, "#find" do
   
   context "when the argument is a single integer" do
     
@@ -153,7 +153,7 @@ describe PolarisResource::Base::Finders, "#find" do
   
 end
 
-describe PolarisResource::Base::Finders, "#all" do
+describe PolarisResource::Finders, "#all" do
 
   before(:each) do
     dogs =  [Dog.new(:name => "Daisy", :breed => "English Bulldog").attributes.merge(:id => 1)]
@@ -178,7 +178,7 @@ describe PolarisResource::Base::Finders, "#all" do
 
 end
 
-describe PolarisResource::Base::Finders, "#where" do
+describe PolarisResource::Finders, "#where" do
   
   context "when the where attribute is an acceptable attribute" do
     
@@ -222,7 +222,7 @@ describe PolarisResource::Base::Finders, "#where" do
   
 end
 
-describe PolarisResource::Base::Finders, "#limit" do
+describe PolarisResource::Finders, "#limit" do
   
   before(:each) do
     dogs =  [Dog.new(:name => "Daisy", :breed => "English Bulldog").attributes.merge(:id => 1)]
@@ -242,7 +242,7 @@ describe PolarisResource::Base::Finders, "#limit" do
 
 end
 
-describe PolarisResource::Base::Finders, "#results_per_page" do
+describe PolarisResource::Finders, "#results_per_page" do
   
   it "defaults to 10" do
     Dog.results_per_page.should eql(10)
@@ -262,7 +262,7 @@ describe PolarisResource::Base::Finders, "#results_per_page" do
   
 end
 
-describe PolarisResource::Base::Finders, "#page" do
+describe PolarisResource::Finders, "#page" do
   
   before(:each) do
     Dog.results_per_page = 10
