@@ -68,6 +68,7 @@ module PolarisResource
             update_attribute(key, value)
           end
         end
+        self
       end
 
       def update_attribute(attribute, value)

@@ -18,14 +18,10 @@ module PolarisResource
       if content
         if Array === content
           content.collect do |attributes|
-            obj = new
-            obj.merge_attributes(attributes)
-            obj
+            obj = new.merge_attributes(attributes)
           end
         else
-          obj = new
-          obj.merge_attributes(content)
-          obj
+          obj = new.merge_attributes(content)
         end
       end
     end
