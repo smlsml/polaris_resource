@@ -11,7 +11,7 @@ module PolarisResource
     end
 
     def cached?
-      @cached
+      !!@cached
     end
 
     def respond_to?(method)
