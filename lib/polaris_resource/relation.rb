@@ -30,6 +30,8 @@ module PolarisResource
       loaded_target
     end
     
+    private
+    
     def _page_params(page_number)
       offset = (page_number - 1) * @owner.results_per_page
       { :limit => @owner.results_per_page, :offset => offset }

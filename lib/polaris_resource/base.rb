@@ -21,15 +21,17 @@ module PolarisResource
         update_attribute(attribute, value)
       end
     end
-    
-    def self.base_class
-      self
-    end
 
     def ==(comparison_object)      
       comparison_object.equal?(self) ||
       (comparison_object.instance_of?(self.class) && comparison_object.id == id && !comparison_object.new_record?)
     end
+    
+    def self.base_class
+      self
+    end
+    
+    private
     
     def method_missing(m, *args, &block)
       m_without_equals = m.to_s.delete('=')

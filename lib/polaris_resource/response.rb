@@ -15,8 +15,7 @@ module PolarisResource
     end
 
     def respond_to?(method)
-      methods.include?(method) ||
-        @response.respond_to?(method.to_sym)
+      methods.include?(method) || @response.respond_to?(method.to_sym)
     end
 
     def method_missing(m, *args, &block)

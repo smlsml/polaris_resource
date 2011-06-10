@@ -27,6 +27,7 @@ module PolarisResource
       def parse_string(value)
         value.to_s
       end
+      private :parse_string
       
       def parse_integer(value)
         if value.respond_to?(:to_i)
@@ -39,6 +40,7 @@ module PolarisResource
           end
         end
       end
+      private :parse_integer
       
       def parse_datetime(value)
         if value.respond_to?(:to_datetime)
@@ -49,6 +51,7 @@ module PolarisResource
       rescue ArgumentError
         nil
       end
+      private :parse_datetime
       
       def parse_date(value)
         if value.respond_to?(:to_time)
@@ -57,6 +60,7 @@ module PolarisResource
           Date.parse(value) unless [TrueClass, FalseClass, NilClass, Fixnum].include?(value.class)
         end
       end
+      private :parse_date
 
       def parse_time(value)
         if value.respond_to?(:to_time)
@@ -67,10 +71,12 @@ module PolarisResource
       rescue ArgumentError
         nil
       end
+      private :parse_time
 
       def parse_boolean(value)
         !["nil", nil, "false", false, "0", 0].include?(value)
       end
+      private :parse_boolean
 
     end
 

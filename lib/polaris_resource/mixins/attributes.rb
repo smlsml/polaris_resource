@@ -56,6 +56,10 @@ module PolarisResource
       def attributes_without_id
         attributes.reject { |k,v| k == 'id' }
       end
+      
+      def update_attribute(attribute, value)
+        attributes[attribute.to_sym] = typecast(attribute, value)
+      end
 
       def merge_attributes(new_attributes)
         new_attributes.each do |key, value|
@@ -71,10 +75,7 @@ module PolarisResource
         end
         self
       end
-
-      def update_attribute(attribute, value)
-        attributes[attribute.to_sym] = typecast(attribute, value)
-      end
+      private :merge_attributes
       
     end
 

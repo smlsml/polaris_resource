@@ -48,7 +48,7 @@ describe PolarisResource::Attributes, ".merge_attributes" do
     @post = Post.new(:title => "Green Eggs and Ham")
     @post.id.should be_nil
     @post.title.should eql("Green Eggs and Ham")
-    @post.merge_attributes(:title => "Red Fish, Blue Fish, One Fish, Two Fish", :id => 5)
+    @post.send(:merge_attributes, { :title => "Red Fish, Blue Fish, One Fish, Two Fish", :id => 5 })
     @post.id.should eql(5)
     @post.title.should eql("Red Fish, Blue Fish, One Fish, Two Fish")
   end

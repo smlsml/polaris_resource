@@ -4,18 +4,6 @@ module PolarisResource
 
     module ClassMethods
 
-      def results_per_page
-        @results_per_page || 10
-      end
-
-      def results_per_page=(_results_per_page)
-        @results_per_page = _results_per_page
-      end
-
-      def all
-        find_all
-      end
-
       def find(*args)
         options = args.extract_options!
         if args.length == 1
@@ -31,25 +19,13 @@ module PolarisResource
           find_some(args)
         end
       end
-
-      def find_one(id)
-        _get(find_one_uri(id), {}, id)
+      
+      def all
+        find_all
       end
-
-      def find_one_uri(id)
-        "/#{model_name.underscore.pluralize}/#{id}"
-      end
-
-      def find_some(ids)
-        _get(find_all_uri, { :ids => ids }, ids)
-      end
-
-      def find_all
-        _get(find_all_uri)
-      end
-
-      def find_all_uri
-        "/#{model_name.underscore.pluralize}"
+      
+      def first
+        limit(1).first
       end
 
       def where(query_attributes)
@@ -63,25 +39,13 @@ module PolarisResource
       def page(page_number)
         Relation.new(self).page(page_number)
       end
-
-      def handle_response(response, id_or_ids = nil)
-        case response.code
-        when 200..299
-          build_from_response(response)
-        when 404
-          raise_not_found(id_or_ids)
-        end
+      
+      def results_per_page
+        @results_per_page || 10
       end
 
-      def raise_not_found(id_or_ids)
-        case id_or_ids
-        when Array
-          raise ResourceNotFound, "Couldn't find all #{model_name.pluralize} with IDs (#{id_or_ids.join(', ')})"
-        when Integer
-          raise ResourceNotFound, "Couldn't find #{model_name} with ID=#{id_or_ids}"
-        else
-          raise ResourceNotFound
-        end
+      def results_per_page=(_results_per_page)
+        @results_per_page = _results_per_page
       end
 
       def _get(path, params = {}, id_or_ids = nil)
@@ -91,6 +55,30 @@ module PolarisResource
         end
       end
       private :_get
+      
+      def find_one(id)
+        _get(find_one_uri(id), {}, id)
+      end
+      private :find_one
+
+      def find_one_uri(id)
+        "/#{model_name.underscore.pluralize}/#{id}"
+      end
+      private :find_one_uri
+
+      def find_some(ids)
+        _get(find_all_uri, { :ids => ids }, ids)
+      end
+      private :find_some
+
+      def find_all
+        _get(find_all_uri)
+      end
+      private :find_all
+
+      def find_all_uri
+        "/#{model_name.underscore.pluralize}"
+      end
 
     end
 
