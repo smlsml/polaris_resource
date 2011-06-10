@@ -9,6 +9,7 @@ module PolarisResource
       def _uri
         "/#{@owner.class.model_name.underscore.pluralize}/#{@owner.id}/#{@association}"
       end
+      private :_uri
       
     end
   end

@@ -1,5 +1,25 @@
 require 'spec_helper'
 
+describe PolarisResource::Relation, "where" do
+  pending
+end
+
+describe PolarisResource::Relation, "limit" do
+  pending
+end
+
+describe PolarisResource::Relation, "page" do
+  pending
+end
+
+describe PolarisResource::Relation, "all" do
+  pending
+end
+
+describe PolarisResource::Relation, "to_a" do
+  pending
+end
+
 describe PolarisResource::Relation, "chaining relations" do
   
   before(:each) do
@@ -14,6 +34,7 @@ describe PolarisResource::Relation, "chaining relations" do
   end
   
   it "makes a request to find all of the given records, with the chained parameters" do
+    Dog.results_per_page = 10
     PolarisResource::Request.should_receive(:get).with("/dogs", { :name => "Daisy", :breed => "English Bulldog", :limit => 2, :offset => 20 }).and_return(@response)
     Dog.where(:name => "Daisy", :breed => "English Bulldog").page(3).limit(2).all
   end

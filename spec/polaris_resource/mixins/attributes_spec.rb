@@ -15,6 +15,22 @@ describe PolarisResource::Attributes, "#property" do
   
 end
 
+describe PolarisResource::Attributes, "#default_attributes" do
+  
+  it "returns the default attributes has which will be applied as the attributes when a new object is instantiated" do
+    Post.default_attributes.should eql(HashWithIndifferentAccess.new({ :id => nil, :title => nil }))
+  end
+  
+end
+
+describe PolarisResource::Attributes, "#typecast_attributes" do
+  pending
+end
+
+describe PolarisResource::Attributes, "#attribute_defined?" do
+  pending
+end
+
 describe PolarisResource::Attributes, ".attributes" do
   
   it "returns the attributes hash" do
@@ -23,12 +39,16 @@ describe PolarisResource::Attributes, ".attributes" do
   
 end
 
-describe PolarisResource::Attributes, "#default_attributes" do
-  
-  it "returns the default attributes has which will be applied as the attributes when a new object is instantiated" do
-    Post.default_attributes.should eql(HashWithIndifferentAccess.new({ :id => nil, :title => nil }))
-  end
-  
+describe PolarisResource::Attributes, ".read_attribute_for_validation" do
+  pending
+end
+
+describe PolarisResource::Attributes, ".typecast" do
+  pending
+end
+
+describe PolarisResource::Attributes, ".attributes_without_id" do
+  pending
 end
 
 describe PolarisResource::Attributes, ".update_attribute" do
@@ -57,11 +77,23 @@ end
 
 describe PolarisResource::Attributes, "dirty tracking" do
   
+  it "includes the ActiveModel::Validations module" do
+    PolarisResource::Base.included_modules.should include(ActiveModel::Dirty)
+  end
+  
   it "tracks dirty state for property values" do
     @post = Post.new
     @post.should_not be_title_changed
     @post.title = "Dirty title"
     @post.should be_title_changed
+  end
+  
+end
+
+describe PolarisResource::Attributes, "validations" do
+  
+  it "includes the ActiveModel::Validations module" do
+    PolarisResource::Base.included_modules.should include(ActiveModel::Validations)
   end
   
 end

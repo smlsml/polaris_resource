@@ -14,14 +14,6 @@ class Fake
   end
 end
 
-describe PolarisResource::Mock, "#mock" do
-
-  it "returns a new instance of Mock" do
-    PolarisResource::Mock.mock(Fake, 1).should be_a(PolarisResource::Mock)
-  end
-
-end
-
 describe PolarisResource::Mock, ".initialize" do
 
   before(:each) do
@@ -76,17 +68,8 @@ describe PolarisResource::Mock, ".initialize" do
 
 end
 
-describe PolarisResource::Mock, "#clear!" do
-
-  it "clears all mock requests from Typhoeus" do
-    PolarisResource::Mock.new(Fake, 1, Fake.attributes)
-    PolarisResource::Mock.new(Fake, 2, Fake.attributes)
-    PolarisResource::Mock.new(Fake, 3, Fake.attributes)
-    PolarisResource::Configuration.hydra.stubs.should have(3).stubs
-    PolarisResource::Mock.clear!
-    PolarisResource::Configuration.hydra.stubs.should be_empty
-  end
-
+describe PolarisResource::Mock, ".id" do
+  pending
 end
 
 describe PolarisResource::Mock, ".status" do
@@ -115,4 +98,25 @@ describe PolarisResource::Mock, ".status" do
     
   end
   
+end
+
+describe PolarisResource::Mock, "#mock" do
+
+  it "returns a new instance of Mock" do
+    PolarisResource::Mock.mock(Fake, 1).should be_a(PolarisResource::Mock)
+  end
+
+end
+
+describe PolarisResource::Mock, "#clear!" do
+
+  it "clears all mock requests from Typhoeus" do
+    PolarisResource::Mock.new(Fake, 1, Fake.attributes)
+    PolarisResource::Mock.new(Fake, 2, Fake.attributes)
+    PolarisResource::Mock.new(Fake, 3, Fake.attributes)
+    PolarisResource::Configuration.hydra.stubs.should have(3).stubs
+    PolarisResource::Mock.clear!
+    PolarisResource::Configuration.hydra.stubs.should be_empty
+  end
+
 end

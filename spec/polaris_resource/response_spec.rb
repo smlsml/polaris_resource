@@ -1,6 +1,14 @@
 require 'spec_helper'
 
-describe PolarisResource::Response do
+describe PolarisResource::Response, ".cached?" do
+  pending
+end
+
+describe PolarisResource::Response, ".respond_to?" do
+  pending
+end
+
+describe PolarisResource::Response, ".method_missing" do
 
   it "wraps a Typhoeus::Response object" do
     @response = PolarisResource::Response.new

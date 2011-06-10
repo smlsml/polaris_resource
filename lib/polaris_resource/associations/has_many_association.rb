@@ -9,6 +9,7 @@ module PolarisResource
       def _uri
         "/#{@owner.class.model_name.underscore.pluralize}/#{@owner.id}/#{@association.to_s.pluralize}"
       end
+      private :_uri
       
       def where(query_attributes)
         transform_association_to_relation.where(query_attributes)
@@ -25,6 +26,7 @@ module PolarisResource
       def transform_association_to_relation
         Relation.new(@association.to_s.classify.constantize).where("#{@owner.class.to_s.underscore}_id".to_sym => @owner.id)
       end
+      private :transform_association_to_relation
       
     end
   end

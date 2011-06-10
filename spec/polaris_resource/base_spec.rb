@@ -7,6 +7,62 @@ describe PolarisResource::Base, "ActiveModel Lint" do
 
 end
 
+describe PolarisResource::Base, "implements PolarisResource::Associations" do
+  
+  it "includes the PolarisResource::Associations module" do
+    PolarisResource::Base.included_modules.should include(PolarisResource::Associations)
+  end
+  
+end
+
+describe PolarisResource::Base, "implements PolarisResource::Attributes" do
+  
+  it "includes the PolarisResource::Attributes module" do
+    PolarisResource::Base.included_modules.should include(PolarisResource::Attributes)
+  end
+  
+end
+
+describe PolarisResource::Base, "implements PolarisResource::Conversion" do
+  
+  it "includes the PolarisResource::Finders module" do
+    PolarisResource::Base.included_modules.should include(PolarisResource::Conversion)
+  end
+  
+end
+
+describe PolarisResource::Base, "implements PolarisResource::Finders" do
+  
+  it "includes the PolarisResource::Finders module" do
+    PolarisResource::Base.included_modules.should include(PolarisResource::Finders)
+  end
+  
+end
+
+describe PolarisResource::Base, "implements PolarisResource::Introspection" do
+  
+  it "includes the PolarisResource::Finders module" do
+    PolarisResource::Base.included_modules.should include(PolarisResource::Introspection)
+  end
+  
+end
+
+describe PolarisResource::Base, "implements PolarisResource::Persistence" do
+  
+  it "includes the PolarisResource::Persistence module" do
+    PolarisResource::Base.included_modules.should include(PolarisResource::Persistence)
+  end
+  
+end
+
+describe PolarisResource::Base, "implements PolarisResource::ResponseParsing" do
+  
+  it "includes the PolarisResource::Finders module" do
+    PolarisResource::Base.included_modules.should include(PolarisResource::ResponseParsing)
+  end
+  
+end
+
 describe PolarisResource::Base, ".initialize" do
   
   context "when no attributes hash is supplied" do
@@ -40,36 +96,8 @@ describe PolarisResource::Base, ".initialize" do
   
 end
 
-describe PolarisResource::Base, "implements PolarisResource::Base::Associations" do
-  
-  it "includes the PolarisResource::Base::Associations module" do
-    PolarisResource::Base.included_modules.should include(PolarisResource::Associations)
-  end
-  
-end
-
-describe PolarisResource::Base, "implements PolarisResource::Base::Attributes" do
-  
-  it "includes the PolarisResource::Base::Attributes module" do
-    PolarisResource::Base.included_modules.should include(PolarisResource::Attributes)
-  end
-  
-end
-
-describe PolarisResource::Base, "implements PolarisResource::Base::Finders" do
-  
-  it "includes the PolarisResource::Base::Finders module" do
-    PolarisResource::Base.included_modules.should include(PolarisResource::Finders)
-  end
-  
-end
-
-describe PolarisResource::Base, "implements PolarisResource::Base::Persistence" do
-  
-  it "includes the PolarisResource::Base::Persistence module" do
-    PolarisResource::Base.included_modules.should include(PolarisResource::Persistence)
-  end
-  
+describe PolarisResource::Base, ".errors" do
+  pending
 end
 
 describe PolarisResource::Base, "defines an id property by default" do
@@ -90,72 +118,10 @@ describe PolarisResource::Base, "defines an id property by default" do
   
 end
 
-describe PolarisResource::Base, ".new_record?" do
-  
-  before(:each) do
-    @attendee = Attendee.new
-  end
-  
-  context "when the record is new" do
-    
-    it "returns true" do
-      @attendee.should be_new_record
-    end
-    
-  end
-  
-  context "when the record is not new" do
-    
-    before(:each) do
-      response = PolarisResource::Response.new(:code => 201, :headers => "", :body => { :status => 201, :content => { :id => 1 } }.to_json, :time => 0.3)
-      PolarisResource::Request.stub(:post).and_return(response)
-      @attendee.save
-    end
-    
-    it "returns false" do
-      @attendee.should_not be_new_record
-    end
-    
-  end
-  
+describe PolarisResource::Base, ".==" do
+  pending
 end
 
-describe PolarisResource::Base, ".to_param" do
-  
-  context "when the id attribute is set" do
-    
-    before(:each) do
-      body = { :status => 200, :content => { :id => 1 } }
-      response = PolarisResource::Response.new(:code => 200, :headers => "", :body => body.to_json, :time => 0.3)
-      
-      PolarisResource::Request.stub(:get).and_return(response)
-      @base = PolarisResource::Base.find(1)
-    end
-    
-    it "returns the id as a string" do
-      @base.to_param.should eql("1")
-    end
-    
-  end
-  
-  context "when the id attribute is set" do
-    
-    before(:each) do
-      @base = PolarisResource::Base.new
-    end
-    
-    it "returns the id as a string" do
-      @base.to_param.should be_nil
-    end
-    
-  end
-  
-end
-
-describe PolarisResource::Base, "validations" do
-  
-  it "includes the ActiveModel::Validations module" do
-    PolarisResource::Base.included_modules.should include(ActiveModel::Validations)
-  end
-  
+describe PolarisResource::Base, "#base_class" do
+  pending
 end

@@ -47,6 +47,7 @@ module PolarisResource
         content = Yajl::Parser.parse(response.body)['content']
         merge_attributes(content)
       end
+      private :build_from_response
       
     end
   end

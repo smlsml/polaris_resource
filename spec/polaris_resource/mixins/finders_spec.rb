@@ -178,6 +178,10 @@ describe PolarisResource::Finders, "#all" do
 
 end
 
+describe PolarisResource::Finders, "#first" do
+  pending
+end
+
 describe PolarisResource::Finders, "#where" do
   
   context "when the where attribute is an acceptable attribute" do
@@ -242,26 +246,6 @@ describe PolarisResource::Finders, "#limit" do
 
 end
 
-describe PolarisResource::Finders, "#results_per_page" do
-  
-  it "defaults to 10" do
-    Dog.results_per_page.should eql(10)
-  end
-  
-  context "when set to something other than the default" do
-    
-    before(:each) do
-      Dog.results_per_page = 25
-    end
-    
-    it "returns the number of results to be returned on a page request" do
-      Dog.results_per_page.should eql(25)
-    end
-    
-  end
-  
-end
-
 describe PolarisResource::Finders, "#page" do
   
   before(:each) do
@@ -280,6 +264,26 @@ describe PolarisResource::Finders, "#page" do
   it "makes a request to find all of the given records, but with a given limit and offset" do
     PolarisResource::Request.should_receive(:get).with("/dogs", { :limit => 10, :offset => 20 }).and_return(@response)
     Dog.page(3).all
+  end
+  
+end
+
+describe PolarisResource::Finders, "#results_per_page" do
+  
+  it "defaults to 10" do
+    Dog.results_per_page.should eql(10)
+  end
+  
+  context "when set to something other than the default" do
+    
+    before(:each) do
+      Dog.results_per_page = 25
+    end
+    
+    it "returns the number of results to be returned on a page request" do
+      Dog.results_per_page.should eql(25)
+    end
+    
   end
   
 end

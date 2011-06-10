@@ -59,6 +59,10 @@ describe PolarisResource::Configuration, "#hydra" do
   
 end
 
+describe PolarisResource::Configuration, "#logger" do
+  pending
+end
+
 describe PolarisResource::Configuration, "#enable_stubbing!" do
   
   it "enables stubbing of resources" do
@@ -75,6 +79,10 @@ describe PolarisResource::Configuration, "#disable_stubbing!" do
     PolarisResource::Configuration.should_not be_stubbing_enabled
   end
   
+end
+
+describe PolarisResource::Configuration, "#stubbing_enabled?" do
+  pending
 end
 
 describe PolarisResource::Configuration, "#allow_net_connect" do

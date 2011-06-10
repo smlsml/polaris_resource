@@ -18,3 +18,11 @@ describe PolarisResource::Request, "#get" do
   end
 
 end
+
+describe PolarisResource::Request, "#post" do
+  pending
+end
+
+describe PolarisResource::Request, "#put" do
+  pending
+end

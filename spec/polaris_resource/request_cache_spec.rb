@@ -1,5 +1,5 @@
 require 'spec_helper'
 
-describe PolarisResource::RequestCache do
-  
+describe PolarisResource::RequestCache, ".call" do
+  pending
 end
