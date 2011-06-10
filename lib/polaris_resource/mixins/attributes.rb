@@ -77,6 +77,19 @@ module PolarisResource
       end
       private :merge_attributes
       
+      def define_attribute_accessor(method)
+        if method.to_s.include?('=')
+          self.class.send(:define_method, method) do |value|
+            attributes[method.to_s.delete('=')] = value
+          end
+        else
+          self.class.send(:define_method, method) do
+            attributes[method]
+          end
+        end
+      end
+      private :define_attribute_accessor
+      
     end
 
   end
