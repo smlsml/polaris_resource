@@ -3,24 +3,14 @@ module PolarisResource
     extend  ActiveModel::Naming
     include Associations
     include Attributes
+    include Conversion
     include Finders
+    include Introspection
     include Persistence
+    include ResponseParsing
 
     property :id
     attr_reader :errors
-
-    def self.build_from_response(response)
-      content = Yajl::Parser.parse(response.body)['content']
-      if content
-        if Array === content
-          content.collect do |attributes|
-            obj = new.merge_attributes(attributes)
-          end
-        else
-          obj = new.merge_attributes(content)
-        end
-      end
-    end
 
     def initialize(new_attributes = {})
       @errors = ActiveModel::Errors.new(self)
@@ -31,46 +21,9 @@ module PolarisResource
         update_attribute(attribute, value)
       end
     end
-
-    def to_model
-      self
-    end
-
-    def to_param
-      id.to_s unless new_record?
-    end
-    
-    def valid?
-      true
-    end
-    
-    def persisted?
-      !id.nil?
-    end
-    
-    def to_key
-      attributes.keys if persisted?
-    end
-
-    def build_from_response(response)
-      content = Yajl::Parser.parse(response.body)['content']
-      merge_attributes(content)
-    end
-
-    def new_record?
-      !persisted?
-    end
     
     def self.base_class
       self
-    end
-
-    def destroyed?
-      false
-    end
-    
-    def respond_to?(method)
-      attributes.include?(method) ? true : super
     end
 
     def ==(comparison_object)      

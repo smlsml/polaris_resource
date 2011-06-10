@@ -19,10 +19,13 @@ module PolarisResource
   autoload :TypeCaster,    'polaris_resource/type_caster'
   
   # MIXINS
-  autoload :Associations,  'polaris_resource/mixins/associations'
-  autoload :Attributes,    'polaris_resource/mixins/attributes'
-  autoload :Finders,       'polaris_resource/mixins/finders'
-  autoload :Persistence,   'polaris_resource/mixins/persistence'
+  autoload :Associations,    'polaris_resource/mixins/associations'
+  autoload :Attributes,      'polaris_resource/mixins/attributes'
+  autoload :Conversion,      'polaris_resource/mixins/conversion'
+  autoload :Finders,         'polaris_resource/mixins/finders'
+  autoload :Introspection,   'polaris_resource/mixins/introspection'
+  autoload :Persistence,     'polaris_resource/mixins/persistence'
+  autoload :ResponseParsing, 'polaris_resource/mixins/response_parsing'
   
   # ERROR CLASSES
   autoload :ConfigurationError,        'polaris_resource/errors'
