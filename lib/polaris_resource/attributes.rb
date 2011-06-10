@@ -1,8 +1,8 @@
 module PolarisResource
   module Attributes
+    extend ActiveSupport::Concern
 
-    def self.included(base)
-      base.send(:extend, ClassMethods)
+    included do |base|
       base.send(:include, ActiveModel::Validations)
       base.send(:include, ActiveModel::Dirty)
     end
@@ -38,40 +38,44 @@ module PolarisResource
       end
 
     end
+    
+    module InstanceMethods
 
-    def attributes
-      @attributes ||= self.class.default_attributes.dup
-    end
-
-    def read_attribute_for_validation(key)
-      @attributes[key]
-    end
-
-    def typecast(attribute, value)
-      TypeCaster.cast(value, self.class.typecast_attributes[attribute.to_sym])
-    end
-
-    def attributes_without_id
-      attributes.reject { |k,v| k == 'id' }
-    end
-
-    def merge_attributes(new_attributes)
-      new_attributes.each do |key, value|
-        if key.to_sym == :errors
-          value.each do |k, v|
-            v.each do |message|
-              errors.add(k, message)
-            end
-          end
-        else
-          update_attribute(key, value)
-        end
+      def attributes
+        @attributes ||= self.class.default_attributes.dup
       end
-      self
-    end
 
-    def update_attribute(attribute, value)
-      attributes[attribute.to_sym] = typecast(attribute, value)
+      def read_attribute_for_validation(key)
+        @attributes[key]
+      end
+
+      def typecast(attribute, value)
+        TypeCaster.cast(value, self.class.typecast_attributes[attribute.to_sym])
+      end
+
+      def attributes_without_id
+        attributes.reject { |k,v| k == 'id' }
+      end
+
+      def merge_attributes(new_attributes)
+        new_attributes.each do |key, value|
+          if key.to_sym == :errors
+            value.each do |k, v|
+              v.each do |message|
+                errors.add(k, message)
+              end
+            end
+          else
+            update_attribute(key, value)
+          end
+        end
+        self
+      end
+
+      def update_attribute(attribute, value)
+        attributes[attribute.to_sym] = typecast(attribute, value)
+      end
+      
     end
 
   end

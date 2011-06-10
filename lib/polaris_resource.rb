@@ -1,6 +1,12 @@
 # We are using Yalj::Ruby for its JSON parsing hotness.
 require 'yajl/json_gem'
 
+# Typhoeus is used for HTTP requests in parallel.
+require 'typhoeus'
+
+# ActiveModel provides validations, errors, naming...
+require 'active_model'
+
 # The bulk of the library consists of the Base class and its modules, the request/response wrappers, mocking, configuration, and errors.
 module PolarisResource
   autoload :Associations,  'polaris_resource/associations'

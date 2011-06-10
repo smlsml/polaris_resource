@@ -1,9 +1,6 @@
 module PolarisResource
   module Finders
-
-    def self.included(base)
-      base.extend(ClassMethods)
-    end
+    extend ActiveSupport::Concern
 
     module ClassMethods
 

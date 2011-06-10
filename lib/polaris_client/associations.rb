@@ -1,16 +1,13 @@
 module PolarisClient
   module Associations
-
-    def self.included(base)
-      base.extend(ClassMethods)
-    end
+    extend ActiveSupport::Concern
 
     module ClassMethods
 
       def belongs_to_resource(association)
         define_method association do
           instance_variable_get("@#{association}") ||
-            instance_variable_set("@#{association}", PolarisResource::Associations::BelongsToAssociation.new(self, association))
+          instance_variable_set("@#{association}", PolarisResource::Associations::BelongsToAssociation.new(self, association))
         end
 
         define_method "#{association}=" do |target|

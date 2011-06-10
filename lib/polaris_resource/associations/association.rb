@@ -19,6 +19,10 @@ module PolarisResource
         loaded_target.id = id
       end
       
+      def nil?
+        loaded_target.nil?
+      end
+      
       def load_target!
         # Left to be implemented by the subclasses
       end

@@ -38,7 +38,7 @@ describe PolarisClient::Associations, "#belongs_to" do
     
     it "returns nil when the id is not specified" do
       @purchase = Purchase.new
-      @purchase.item.should be_nil
+      @purchase.item.should eql(nil)
     end
     
   end
