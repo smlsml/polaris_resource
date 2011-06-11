@@ -179,7 +179,21 @@ describe PolarisResource::Finders, "#all" do
 end
 
 describe PolarisResource::Finders, "#first" do
-  pending
+  
+  before(:each) do
+    body = {
+      :status  => 200,
+      :content => [Dog.new(:name => "Daisy", :breed => "English Bulldog").attributes.merge(:id => 1)]
+    }
+    @response = PolarisResource::Response.new(:code => 200, :headers => "", :body => body.to_json, :time => 0.3)
+    PolarisResource::Request.stub(:get).and_return(@response)
+  end
+  
+  it "returns first found record" do
+    @dog = Dog.first
+    @dog.should be_a(Dog)
+  end
+  
 end
 
 describe PolarisResource::Finders, "#where" do

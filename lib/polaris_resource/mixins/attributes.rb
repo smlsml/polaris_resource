@@ -2,11 +2,6 @@ module PolarisResource
   module Attributes
     extend ActiveSupport::Concern
 
-    included do |base|
-      base.send(:include, ActiveModel::Validations)
-      base.send(:include, ActiveModel::Dirty)
-    end
-
     module ClassMethods
 
       def property(name, typecast_class = nil)
@@ -46,7 +41,7 @@ module PolarisResource
       end
 
       def read_attribute_for_validation(key)
-        @attributes[key]
+        attributes[key]
       end
 
       def typecast(attribute, value)

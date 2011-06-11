@@ -69,7 +69,15 @@ describe PolarisResource::Mock, ".initialize" do
 end
 
 describe PolarisResource::Mock, ".id" do
-  pending
+  
+  before(:each) do
+    @mock = PolarisResource::Mock.new(Fake, 1, Fake.attributes)
+  end
+  
+  it "returns the id attribute" do
+    @mock.id.should eql(1)
+  end
+  
 end
 
 describe PolarisResource::Mock, ".status" do

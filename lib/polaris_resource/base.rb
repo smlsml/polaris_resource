@@ -1,6 +1,8 @@
 module PolarisResource
   class Base
     extend  ActiveModel::Naming
+    include ActiveModel::Validations
+    include ActiveModel::Dirty
     include Associations
     include Attributes
     include Conversion
@@ -10,11 +12,8 @@ module PolarisResource
     include ResponseParsing
 
     property :id
-    attr_reader :errors
 
     def initialize(new_attributes = {})
-      @errors = ActiveModel::Errors.new(self)
-      
       new_attributes = HashWithIndifferentAccess.new(new_attributes)
       new_attributes.each do |attribute, value|
         self.class.default_attributes.store(attribute.to_sym, nil) unless self.class.attribute_defined?(attribute)

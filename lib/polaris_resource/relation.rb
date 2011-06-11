@@ -23,7 +23,7 @@ module PolarisResource
     end
     
     def all
-      to_a
+      loaded_target
     end
     
     def to_a
@@ -51,7 +51,7 @@ module PolarisResource
     
     def method_missing(m, *args, &block)
       if Array.method_defined?(m)
-        to_a.send(m, *args, &block)
+        loaded_target.send(m, *args, &block)
       elsif loaded_target.respond_to?(m)
         loaded_target.send(m, *args, &block)
       else

@@ -96,10 +96,6 @@ describe PolarisResource::Base, ".initialize" do
   
 end
 
-describe PolarisResource::Base, ".errors" do
-  pending
-end
-
 describe PolarisResource::Base, "defines an id property by default" do
   
   it "defines setter and getter methods for the id property" do

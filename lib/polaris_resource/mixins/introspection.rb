@@ -4,10 +4,6 @@ module PolarisResource
     
     module InstanceMethods
       
-      def valid?
-        true
-      end
-      
       def persisted?
         !id.nil?
       end
