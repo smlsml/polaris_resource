@@ -11,7 +11,7 @@ module PolarisResource
     include Persistence
     include ResponseParsing
 
-    property :id
+    property :id, :integer
 
     def initialize(new_attributes = {})
       new_attributes = HashWithIndifferentAccess.new(new_attributes)

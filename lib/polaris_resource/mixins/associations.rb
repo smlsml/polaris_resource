@@ -15,19 +15,22 @@ module PolarisResource
         property attribute_id_sym
 
         define_method association do
-          BelongsToAssociation.new(self, association, nil, options)
+          instance_variable_get("@#{association}") ||
+            instance_variable_set("@#{association}", BelongsToAssociation.new(self, association, nil, options))
         end
       end
 
       def has_many(association, options = {})
         define_method association do
-          HasManyAssociation.new(self, association, nil, options)
+          instance_variable_get("@#{association}") ||
+            instance_variable_set("@#{association}", HasManyAssociation.new(self, association, nil, options))
         end
       end
 
       def has_one(association, options = {})
         define_method association do
-          HasOneAssociation.new(self, association, nil, options)
+          instance_variable_get("@#{association}") ||
+            instance_variable_set("@#{association}", HasOneAssociation.new(self, association, nil, options))
         end
       end
 

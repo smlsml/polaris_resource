@@ -15,10 +15,6 @@ module PolarisResource
         loaded_target.id
       end
       
-      def id=(id)
-        loaded_target.id = id
-      end
-      
       def nil?
         loaded_target.nil?
       end
