@@ -19,36 +19,6 @@ describe PolarisResource::Associations::Association, ".id" do
   
 end
 
-describe PolarisResource::Associations::Association, ".nil?" do
-  
-  context "when the loaded target is nil" do
-    
-    before(:each) do
-      @association = PolarisResource::Associations::Association.new(Speaker.new, :meeting)
-      @association.stub(:load_target!).and_return(nil)
-    end
-    
-    it "returns true" do
-      @association.should be_nil
-    end
-    
-  end
-  
-  context "when the loaded target is not nil" do
-    
-    before(:each) do
-      @association = PolarisResource::Associations::Association.new(Speaker.new, :meeting)
-      @association.stub(:load_target!).and_return(Meeting.new)
-    end
-    
-    it "returns false" do
-      @association.should_not be_nil
-    end
-    
-  end
-  
-end
-
 describe PolarisResource::Associations::Association, ".loaded_target" do
   
   before(:each) do
