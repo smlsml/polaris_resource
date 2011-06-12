@@ -60,7 +60,32 @@ describe PolarisResource::Configuration, "#hydra" do
 end
 
 describe PolarisResource::Configuration, "#logger" do
-  pending
+  
+  context "when logger has not been set" do
+    
+    before(:each) do
+      PolarisResource::Configuration.logger = nil
+    end
+    
+    it "returns the default Logger instance" do
+      PolarisResource::Configuration.logger.should be_a(Logger)
+    end
+    
+  end
+  
+  context "when logger has been set" do
+    
+    before(:each) do
+      @logger = Logger.new(STDOUT)
+      PolarisResource::Configuration.logger = @logger
+    end
+    
+    it "returns the specified Logger instance" do
+      PolarisResource::Configuration.logger.should eql(@logger)
+    end
+    
+  end
+  
 end
 
 describe PolarisResource::Configuration, "#enable_stubbing!" do
@@ -82,7 +107,31 @@ describe PolarisResource::Configuration, "#disable_stubbing!" do
 end
 
 describe PolarisResource::Configuration, "#stubbing_enabled?" do
-  pending
+  
+  context "when stubbing is enabled" do
+    
+    before(:each) do
+      PolarisResource::Configuration.enable_stubbing!
+    end
+    
+    it "returns true" do
+      PolarisResource::Configuration.should be_stubbing_enabled
+    end
+    
+  end
+  
+  context "when stubbing is disabled" do
+    
+    before(:each) do
+      PolarisResource::Configuration.disable_stubbing!
+    end
+  
+    it "returns false" do
+      PolarisResource::Configuration.should_not be_stubbing_enabled
+    end
+    
+  end
+  
 end
 
 describe PolarisResource::Configuration, "#allow_net_connect" do

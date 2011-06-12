@@ -119,5 +119,9 @@ describe PolarisResource::Base, ".==" do
 end
 
 describe PolarisResource::Base, "#base_class" do
-  pending
+
+  it "returns the current class" do
+    Dog.base_class.should eql(Dog)
+  end
+
 end
