@@ -16,10 +16,11 @@ module PolarisResource
     def run!
       uncached_queue.each { |request| hydra.queue(request) }
       hydra.run
+      @queue.clear
     end
     
     def uncached_queue
-      @queue.collect { |request| request if RequestCache.cache[[request.path, request.params]].nil? }.compact
+      @queue.collect { |request| request if RequestCache.cache[request.cache_key].nil? }.compact
     end
     
   end

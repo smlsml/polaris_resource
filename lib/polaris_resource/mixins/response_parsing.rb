@@ -4,6 +4,12 @@ module PolarisResource
     
     module ClassMethods
       
+      def response_from_request(request, metadata)
+        ActiveSupport::Notifications.instrument('request.polaris_resource', :path => request.path, :params => request.params, :method => request.method, :class => self, :response => request.response) do
+          handle_response(request, metadata)
+        end
+      end
+      
       def build_from_response(response)
         content = Yajl::Parser.parse(response.body)['content']
         if content

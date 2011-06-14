@@ -19,7 +19,8 @@ module PolarisResource
         if cached_response = RequestCache.cache[cache_key]
           Response.new(cached_response, true)
         else
-          RequestCache.cache[cache_key] = Response.new(@request.response)
+          RequestCache.cache[cache_key] = @request.response
+          Response.new(RequestCache.cache[cache_key])
         end
       end
     end
