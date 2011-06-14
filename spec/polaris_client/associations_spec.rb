@@ -13,10 +13,8 @@ describe PolarisClient::Associations, "#belongs_to" do
   context "when the belongs_to association is fulfilled by its contracted 'association_id' attribute" do
     
     before(:each) do
-      item_body = { :status => 200, :content => { :id => 3 } }
-      item_response = PolarisResource::Response.new(:code => 200, :headers => "", :body => item_body.to_json, :time => 0.3)
-      
-      PolarisResource::Request.stub(:get).and_return(item_response)
+      item = Item.new(:id => 3)
+      Item.stub(:get).and_return(item)
       
       @item = Item.find(3)
     end

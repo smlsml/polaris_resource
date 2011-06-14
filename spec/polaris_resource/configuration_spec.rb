@@ -61,6 +61,14 @@ end
 
 describe PolarisResource::Configuration, "#logger" do
   
+  before(:all) do
+    @original_logger = PolarisResource::Configuration.logger
+  end
+  
+  after(:all) do
+    PolarisResource::Configuration.logger = @original_logger
+  end
+  
   context "when logger has not been set" do
     
     before(:each) do

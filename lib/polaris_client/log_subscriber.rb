@@ -60,5 +60,3 @@ module PolarisClient
 
   end
 end
-
-PolarisClient::LogSubscriber.attach_to :polaris_resource

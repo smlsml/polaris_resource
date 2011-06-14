@@ -6,8 +6,12 @@ module PolarisResource
     end
 
     def call(env)
-      PolarisResource::Request.cache.clear
+      self.class.cache.clear
       @app.call(env)
+    end
+    
+    def self.cache
+      @cache ||= {}
     end
 
   end

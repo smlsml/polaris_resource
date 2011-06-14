@@ -17,22 +17,23 @@ module PolarisResource
         end
       end
       
-      def handle_response(response, id_or_ids = nil)
+      def handle_response(request, metadata)
+        response = request.response
         case response.code
         when 200..299
           build_from_response(response)
         when 404
-          raise_not_found(id_or_ids)
+          raise_not_found(request)
         end
       end
       private :handle_response
 
-      def raise_not_found(id_or_ids)
-        case id_or_ids
-        when Array
-          raise ResourceNotFound, "Couldn't find all #{model_name.pluralize} with IDs (#{id_or_ids.join(', ')})"
-        when Integer
-          raise ResourceNotFound, "Couldn't find #{model_name} with ID=#{id_or_ids}"
+      def raise_not_found(request)
+        case
+        when request.params[:ids]
+          raise ResourceNotFound, "Couldn't find all #{model_name.pluralize} with IDs (#{request.params[:ids].join(', ')})"
+        when request.params[:id]
+          raise ResourceNotFound, "Couldn't find #{model_name} with ID=#{request.params[:id]}"
         else
           raise ResourceNotFound
         end

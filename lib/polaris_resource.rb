@@ -14,6 +14,7 @@ module PolarisResource
   autoload :Mock,          'polaris_resource/mock'
   autoload :Relation,      'polaris_resource/relation'
   autoload :Request,       'polaris_resource/request'
+  autoload :RequestQueue,  'polaris_resource/request_queue'
   autoload :RequestCache,  'polaris_resource/request_cache'
   autoload :Response,      'polaris_resource/response'
   autoload :TypeCaster,    'polaris_resource/type_caster'
@@ -25,6 +26,7 @@ module PolarisResource
   autoload :Finders,         'polaris_resource/mixins/finders'
   autoload :Introspection,   'polaris_resource/mixins/introspection'
   autoload :Persistence,     'polaris_resource/mixins/persistence'
+  autoload :RequestHandling, 'polaris_resource/mixins/request_handling'
   autoload :ResponseParsing, 'polaris_resource/mixins/response_parsing'
   
   # ERROR CLASSES

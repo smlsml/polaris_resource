@@ -47,17 +47,9 @@ module PolarisResource
       def results_per_page=(_results_per_page)
         @results_per_page = _results_per_page
       end
-
-      def _get(path, params = {}, id_or_ids = nil)
-        response = PolarisResource::Request.get(path, params)
-        ActiveSupport::Notifications.instrument('request.polaris_resource', :path => path, :params => params, :method => :get, :class => self, :response => response) do
-          handle_response(response, id_or_ids)
-        end
-      end
-      private :_get
       
       def find_one(id)
-        _get(find_one_uri(id), {}, id)
+        get(find_one_uri(id), {})
       end
       private :find_one
 
@@ -67,12 +59,12 @@ module PolarisResource
       private :find_one_uri
 
       def find_some(ids)
-        _get(find_all_uri, { :ids => ids }, ids)
+        get(find_all_uri, { :ids => ids })
       end
       private :find_some
 
       def find_all
-        _get(find_all_uri)
+        get(find_all_uri)
       end
       private :find_all
 

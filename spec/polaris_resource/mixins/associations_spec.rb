@@ -13,25 +13,19 @@ describe PolarisResource::Associations, "#belongs_to" do
   context "when the belongs_to association is fulfilled by its contracted 'association_id' attribute" do
     
     before(:each) do
-      meeting_body = { :status => 200, :content => { :id => 1, :conference_id => 2 } }
-      meeting_response = PolarisResource::Response.new(:code => 200, :headers => "", :body => meeting_body.to_json, :time => 0.3)
+      meeting = Meeting.new(:id => 1, :conference_id => 2)
+      meetings = [meeting]
+      conference = Conference.new(:id => 2)
       
-      meetings_body = { :status => 200, :content => [{ :id => 1, :conference_id => 2 }] }
-      meetings_response = PolarisResource::Response.new(:code => 200, :headers => "", :body => meetings_body.to_json, :time => 0.3)
-      
-      conference_body = { :status => 200, :content => { :id => 2 } }
-      conference_response = PolarisResource::Response.new(:code => 200, :headers => "", :body => conference_body.to_json, :time => 0.3)
-      
-      PolarisResource::Request.stub(:get) do |uri, params|
+      Meeting.stub(:get) do |uri, params|
         case uri
         when '/meetings/1'
-          meeting_response
-        when '/conferences/2'
-          conference_response
+          meeting
         when '/conferences/2/meetings'
-          meetings_response
+          meetings
         end
       end
+      Conference.stub(:get).and_return(conference)
       
       @meeting = Meeting.find(1)
     end
@@ -83,20 +77,11 @@ describe PolarisResource::Associations, "#has_many" do
   context "when the record has an id" do
     
     before(:each) do
-      meeting_body = { :status => 200, :content => { :id => 1, :conference_id => 2 } }
-      meeting_response = PolarisResource::Response.new(:code => 200, :headers => "", :body => meeting_body.to_json, :time => 0.3)
+      meeting = Meeting.new(:id => 1, :conference_id => 2)
+      attendees = [Attendee.new(:id => 2), Attendee.new(:id => 5)]
       
-      attendees_body = { :status => 200, :content => [{ :id => 2 }, { :id => 5 }] }
-      attendees_response = PolarisResource::Response.new(:code => 200, :headers => "", :body => attendees_body.to_json, :time => 0.3)
-      
-      PolarisResource::Request.stub(:get) do |uri, params|
-        case uri
-        when '/meetings/1'
-          meeting_response
-        when '/meetings/1/attendees'
-          attendees_response
-        end
-      end
+      Meeting.stub(:get).and_return(meeting)
+      Attendee.stub(:get).and_return(attendees)
       
       @meeting = Meeting.find(1)
     end
@@ -135,20 +120,11 @@ describe PolarisResource::Associations, "#has_one" do
   context "when the record has an id" do
     
     before(:each) do
-      meeting_body = { :status => 200, :content => { :id => 1, :conference_id => 2 } }
-      meeting_response = PolarisResource::Response.new(:code => 200, :headers => "", :body => meeting_body.to_json, :time => 0.3)
+      meeting = Meeting.new(:id => 1, :conference_id => 2)
+      speaker = Speaker.new(:id => 5, :meeting_id => 1)
       
-      speaker_body = { :status => 200, :content => { :id => 5, :meeting_id => 1 } }
-      speaker_response = PolarisResource::Response.new(:code => 200, :headers => "", :body => speaker_body.to_json, :time => 0.3)
-      
-      PolarisResource::Request.stub(:get) do |uri, params|
-        case uri
-        when '/meetings/1/speaker'
-          speaker_response
-        when '/meetings/1'
-          meeting_response
-        end
-      end
+      Meeting.stub(:get).and_return(meeting)
+      Speaker.stub(:get).and_return(speaker)
       
       @meeting = Meeting.find(1)
     end

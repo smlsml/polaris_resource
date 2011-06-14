@@ -99,10 +99,9 @@ end
 describe PolarisResource::Base, "defines an id property by default" do
   
   it "defines setter and getter methods for the id property" do
-    body = { :status => 200, :content => { :id => 5 } }
-    response = PolarisResource::Response.new(:code => 200, :headers => "", :body => body.to_json, :time => 0.3)
+    base = PolarisResource::Base.new(:id => 5)
     
-    PolarisResource::Request.stub(:get).and_return(response)
+    PolarisResource::Base.stub(:get).and_return(base)
     @base = PolarisResource::Base.find(1)
     @base.should respond_to(:id)
     @base.id.should eql(5)

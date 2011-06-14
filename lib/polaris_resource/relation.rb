@@ -46,7 +46,7 @@ module PolarisResource
     end
     
     def load_target!
-      @owner.send(:_get, @owner.find_all_uri, @params)
+      @owner.get(@owner.find_all_uri, @params)
     end
     
     def method_missing(m, *args, &block)

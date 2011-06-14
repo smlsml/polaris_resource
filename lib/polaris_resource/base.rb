@@ -9,6 +9,7 @@ module PolarisResource
     include Finders
     include Introspection
     include Persistence
+    include RequestHandling
     include ResponseParsing
 
     property :id, :integer

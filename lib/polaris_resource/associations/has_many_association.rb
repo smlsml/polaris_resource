@@ -3,7 +3,7 @@ module PolarisResource
     class HasManyAssociation < Association
       
       def load_target!
-        @owner.id ? @association.to_s.classify.constantize.send(:_get, _uri) : []
+        @owner.id ? @association.to_s.classify.constantize.get(_uri) : []
       end
       
       def _uri

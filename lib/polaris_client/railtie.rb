@@ -10,6 +10,10 @@ module PolarisClient
     initializer "polaris_resource.configure_logger", :after => :initialize_logger do |app|
       PolarisResource::Configuration.logger = Rails.logger
     end
+    
+    initializer "polaris_client.log_subscriber", :after => "polaris_resource.configure_logger" do
+      PolarisClient::LogSubscriber.attach_to :polaris_resource
+    end
 
   end
 

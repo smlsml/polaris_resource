@@ -3,13 +3,8 @@ require 'spec_helper'
 describe PolarisResource::Associations::Association, ".id" do
   
   before(:each) do
-    meeting =  Meeting.new(:title => "Rails Development").attributes.merge(:id => 5)
-    body = {
-      :status  => 200,
-      :content => meeting
-    }
-    response = PolarisResource::Response.new(:code => 200, :headers => "", :body => body.to_json, :time => 0.3)
-    PolarisResource::Request.stub(:get).and_return(response)
+    meeting =  Meeting.new(:id => 5, :title => "Rails Development")
+    Meeting.stub(:get).and_return(meeting)
   end
   
   it "calls the loaded target and retrieves it's id" do
@@ -22,16 +17,11 @@ end
 describe PolarisResource::Associations::Association, ".loaded_target" do
   
   before(:each) do
-    meeting =  Meeting.new(:title => "Rails Development").attributes.merge(:id => 5)
-    body = {
-      :status  => 200,
-      :content => meeting
-    }
-    @response = PolarisResource::Response.new(:code => 200, :headers => "", :body => body.to_json, :time => 0.3)
+    @meeting =  Meeting.new(:id => 5, :title => "Rails Development")
   end
   
   it "loads target only once" do
-    PolarisResource::Request.should_receive(:get).once.and_return(@response)
+    Meeting.should_receive(:get).once.and_return(@meeting)
     @speaker = Speaker.new(:meeting_id => 5)
     @speaker.meeting.id
     @speaker.meeting.id
@@ -42,13 +32,8 @@ end
 describe PolarisResource::Associations::Association, ".method_missing" do
 
   before(:each) do
-    meeting =  Meeting.new(:title => "Rails Development").attributes.merge(:id => 5)
-    body = {
-      :status  => 200,
-      :content => meeting
-    }
-    @response = PolarisResource::Response.new(:code => 200, :headers => "", :body => body.to_json, :time => 0.3)
-    PolarisResource::Request.stub(:get).and_return(@response)
+    meeting =  Meeting.new(:id => 5, :title => "Rails Development")
+    Meeting.stub(:get).and_return(meeting)
   end
   
   it "calls the loaded target and tries the method on the target" do

@@ -17,10 +17,7 @@ describe PolarisResource::Conversion, ".to_param" do
   context "when the id attribute is set" do
     
     before(:each) do
-      body = { :status => 200, :content => { :id => 1 } }
-      response = PolarisResource::Response.new(:code => 200, :headers => "", :body => body.to_json, :time => 0.3)
-      
-      PolarisResource::Request.stub(:get).and_return(response)
+      PolarisResource::Base.stub(:get).and_return(PolarisResource::Base.new(:id => 1))
       @base = PolarisResource::Base.find(1)
     end
     
@@ -61,8 +58,7 @@ describe PolarisResource::Conversion, ".to_key" do
   context "when the object is persisted" do
 
     before(:each) do
-      response = PolarisResource::Response.new(:code => 200, :headers => "", :body => { :status => 201, :content => { :id => 1, :name => "Daisy", :breed => "English Bulldog", :age => 2 } }.to_json, :time => 0.3)
-      PolarisResource::Request.stub(:get).and_return(response)
+      Dog.stub(:get).and_return(Dog.new(:id => 1, :name => "Daisy", :breed => "English Bulldog", :age => 2))
       @dog = Dog.find(1)
     end
 
