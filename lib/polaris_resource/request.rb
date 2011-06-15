@@ -4,7 +4,7 @@ module PolarisResource
     
     def initialize(path, options = {})
       @path      = path
-      @params    = options[:params]
+      @params    = options[:params] || {}
       @method    = options[:method]
       
       @request = Typhoeus::Request.new(Configuration.host + path, options)
