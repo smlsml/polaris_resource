@@ -3,7 +3,7 @@ module PolarisResource
     extend ActiveSupport::Concern
 
     module ClassMethods
-
+      
       def property(name, typecast_class = nil)
         typecast_attributes.store(name.to_sym, typecast_class)
         default_attributes.store(name.to_sym, nil)
@@ -53,7 +53,29 @@ module PolarisResource
       end
       
       def update_attribute(attribute, value)
-        attributes[attribute.to_sym] = typecast(attribute, value)
+        association = self.class.reflect_on_association(attribute)
+        if association
+          if association.macro==:has_many # need to construct each member of array one-by-one
+            association_object = send(attribute)
+            value.each { |a_value|
+              if a_value.instance_of? association.klass
+                target = a_value
+              else
+                target = association.build_association(a_value)
+              end
+              association_object << target
+            }
+          else 
+            if value.instance_of? association.klass
+              target = value
+            else
+              target = association.build_association(value)
+            end
+            send("#{attribute}=", target)
+          end
+        else
+          attributes[attribute.to_sym] = typecast(attribute, value)
+        end
       end
 
       def merge_attributes(new_attributes)
