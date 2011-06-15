@@ -34,7 +34,7 @@ module PolarisResource
     end
 
     def self.clear!
-      PolarisResource::Configuration.hydra.clear_stubs
+      Configuration.hydra.clear_stubs
     end
 
     private
@@ -44,12 +44,19 @@ module PolarisResource
     end
 
     def stub_find_one!
-      response = Typhoeus::Response.new(:code => status, :headers => "", :body => @attributes.merge({ :id => 1 }).to_json, :time => 0.3)
-      PolarisResource::Configuration.hydra.stub(:get, find_one_uri).and_return(response)
+      response = Typhoeus::Response.new(:code => status, :headers => "", :body => stub_find_one_body, :time => 0.3)
+      Configuration.hydra.stub(:get, find_one_uri).and_return(response)
+    end
+    
+    def stub_find_one_body
+      {
+        :status  => status,
+        :content => @attributes.merge({ :id => 1 })
+      }.to_json
     end
 
     def find_one_uri
-      "#{PolarisResource::Configuration.host}/#{@mock_class.underscore.pluralize}/#{id}"
+      "#{Configuration.host}/#{@mock_class.underscore.pluralize}/#{id}"
     end
 
   end

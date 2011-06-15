@@ -49,7 +49,7 @@ module PolarisResource
       end
       
       def find_one(id)
-        get(find_one_uri(id), {})
+        get(find_one_uri(id))
       end
       private :find_one
 

@@ -8,19 +8,19 @@ module PolarisResource
         @request_queue ||= RequestQueue.new
       end
 
-      def get(path, params = {}, metadata = {})
+      def get(path, params = nil, metadata = {})
         request = build_request(:get, path, params)
         quick_request(request)
         response_from_request(request, metadata)
       end
 
-      def post(path, params = {}, metadata = {})
+      def post(path, params = nil, metadata = {})
         request = build_request(:post, path, params)
         quick_request(request)
         response_from_request(request, metadata)
       end
 
-      def put(path, params = {}, metadata = {})
+      def put(path, params = nil, metadata = {})
         request = build_request(:put, path, params)
         quick_request(request)
         response_from_request(request, metadata)
@@ -32,7 +32,9 @@ module PolarisResource
       end
 
       def build_request(method, path, params)
-        Request.new(path, :method => method, :params => params)
+        options = { :method => method }
+        options.merge!(:params => params) if params
+        Request.new(path, options)
       end
 
     end
