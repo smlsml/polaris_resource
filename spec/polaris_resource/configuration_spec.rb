@@ -96,52 +96,6 @@ describe PolarisResource::Configuration, "#logger" do
   
 end
 
-describe PolarisResource::Configuration, "#enable_stubbing!" do
-  
-  it "enables stubbing of resources" do
-    PolarisResource::Configuration.enable_stubbing!
-    PolarisResource::Configuration.should be_stubbing_enabled
-  end
-  
-end
-
-describe PolarisResource::Configuration, "#disable_stubbing!" do
-  
-  it "enables stubbing of resources" do
-    PolarisResource::Configuration.disable_stubbing!
-    PolarisResource::Configuration.should_not be_stubbing_enabled
-  end
-  
-end
-
-describe PolarisResource::Configuration, "#stubbing_enabled?" do
-  
-  context "when stubbing is enabled" do
-    
-    before(:each) do
-      PolarisResource::Configuration.enable_stubbing!
-    end
-    
-    it "returns true" do
-      PolarisResource::Configuration.should be_stubbing_enabled
-    end
-    
-  end
-  
-  context "when stubbing is disabled" do
-    
-    before(:each) do
-      PolarisResource::Configuration.disable_stubbing!
-    end
-  
-    it "returns false" do
-      PolarisResource::Configuration.should_not be_stubbing_enabled
-    end
-    
-  end
-  
-end
-
 describe PolarisResource::Configuration, "#allow_net_connect" do
   
   it "disables all net connections through Typhoeus" do

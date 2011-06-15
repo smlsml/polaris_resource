@@ -12,15 +12,18 @@ module PolarisResource
       private :_uri
       
       def where(query_attributes)
+        return @mock if @mock
         transform_association_to_relation.where(query_attributes)
       end
       
       def limit(amount)
-         transform_association_to_relation.limit(amount)
+        return @mock if @mock
+        transform_association_to_relation.limit(amount)
       end
       
       def page(page_number)
-         transform_association_to_relation.page(page_number)
+        return @mock if @mock
+        transform_association_to_relation.page(page_number)
       end
       
       def transform_association_to_relation

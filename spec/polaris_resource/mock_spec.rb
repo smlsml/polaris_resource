@@ -40,7 +40,10 @@ describe PolarisResource::Mock, ".initialize" do
   end
 
   it "stubs the find method by stubbing the find url at '/:mock_class/:id'" do
-    body = Fake.attributes.merge({ :id => 1 }).to_json
+    body = {
+      :status  => 200,
+      :content => Fake.attributes.merge({ :id => 1 })
+    }.to_json
     response = Typhoeus::Response.new(:code => 200, :headers => "", :body => body, :time => 0.3)
     @test_stub = Typhoeus::HydraMock.new("#{PolarisResource::Configuration.host}/fakes/1", :get)
     @test_stub.and_return(response)

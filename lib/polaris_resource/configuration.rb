@@ -24,18 +24,6 @@ module PolarisResource
         @logger = logger
       end
 
-      def enable_stubbing!
-        @stubbing_enabled = true
-      end
-
-      def disable_stubbing!
-        @stubbing_enabled = false
-      end
-
-      def stubbing_enabled?
-        !!@stubbing_enabled
-      end
-
       def allow_net_connect=(allowed)
         Typhoeus::Hydra.allow_net_connect = allowed
       end

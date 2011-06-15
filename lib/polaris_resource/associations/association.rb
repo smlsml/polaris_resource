@@ -24,7 +24,12 @@ module PolarisResource
       end
       
       def loaded_target
+        return @mock if @mock
         @target ||= load_target!
+      end
+      
+      def stub(mock)
+        @mock = mock
       end
       
       def method_missing(m, *args, &block)
