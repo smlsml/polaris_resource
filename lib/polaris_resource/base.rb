@@ -1,3 +1,5 @@
+# Serving as the superclass to all resources, PolarisResource::Base
+# should be subclassed and extended from within your application.
 module PolarisResource
   class Base
     extend  ActiveModel::Naming
@@ -13,6 +15,7 @@ module PolarisResource
     include RequestHandling
     include ResponseParsing
 
+    # Defines a default 'id' property on all instances of PolarisResource::Base and subclasses
     property :id, :integer
 
     def initialize(new_attributes = {})
@@ -36,6 +39,7 @@ module PolarisResource
     
     def method_missing(m, *args, &block)
       if attributes.keys.include?(m.to_s.delete('='))
+        # Defines attribute accessors when the missing method can be found in the attributes hash
         define_attribute_accessor(m)
         send(m, *args, &block)
       else

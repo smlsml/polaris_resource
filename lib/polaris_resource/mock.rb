@@ -1,3 +1,5 @@
+# The Mock class is used to mock out single instances of a remote resource.
+# It will stub any requests to /:class_name/:id.
 module PolarisResource
   class Mock
 

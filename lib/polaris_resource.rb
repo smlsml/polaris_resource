@@ -7,7 +7,8 @@ require 'typhoeus'
 # ActiveModel provides validations, errors, naming...
 require 'active_model'
 
-# The bulk of the library consists of the Base class and its modules, the request/response wrappers, mocking, configuration, and errors.
+# The bulk of the library consists of the Base class and its mix-in modules, the request/response wrappers,
+# mocking, configuration, errors, and classes managing associations, reflections, relations, and typecasting.
 module PolarisResource
   autoload :Base,          'polaris_resource/base'
   autoload :Configuration, 'polaris_resource/configuration'
@@ -36,7 +37,6 @@ module PolarisResource
   autoload :NetConnectNotAllowedError,   'polaris_resource/errors'
   autoload :RemoteHostConnectionFailure, 'polaris_resource/errors'
   autoload :ResourceNotFound,            'polaris_resource/errors'
-  autoload :UnrecognizedProperty,        'polaris_resource/errors'
   autoload :UnrecognizedTypeCastClass,   'polaris_resource/errors'
 end
 
