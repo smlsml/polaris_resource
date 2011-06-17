@@ -13,14 +13,23 @@ module PolarisResource
         attribute_id_sym  = "#{association}_id".to_sym
 
         property attribute_id_sym
+        
+        create_reflection(:belongs_to, association)
 
         define_method association do
           instance_variable_get("@#{association}") ||
             instance_variable_set("@#{association}", BelongsToAssociation.new(self, association, nil, options))
         end
+
+        define_method "#{association}=" do |target|
+          instance_variable_set("@#{association}", BelongsToAssociation.new(self, association, target, options))
+          send("#{association}_id=", target.id)
+        end
       end
 
       def has_many(association, options = {})
+        create_reflection(:has_many, association)
+
         define_method association do
           instance_variable_get("@#{association}") ||
             instance_variable_set("@#{association}", HasManyAssociation.new(self, association, nil, options))
@@ -28,9 +37,15 @@ module PolarisResource
       end
 
       def has_one(association, options = {})
+        create_reflection(:has_one, association)
+
         define_method association do
           instance_variable_get("@#{association}") ||
             instance_variable_set("@#{association}", HasOneAssociation.new(self, association, nil, options))
+        end
+
+        define_method "#{association}=" do |target|
+          instance_variable_set("@#{association}", HasOneAssociation.new(self, association, target, options))
         end
       end
 
