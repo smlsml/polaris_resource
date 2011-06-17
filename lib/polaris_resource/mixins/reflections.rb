@@ -1,5 +1,5 @@
 module PolarisResource
-  module Reflection
+  module Reflections
     extend ActiveSupport::Concern
 
     module ClassMethods

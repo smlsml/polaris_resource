@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe PolarisResource::Reflection, "ClassMethods" do
+describe PolarisResource::Reflections, "ClassMethods" do
   context "when the resource has a belongs_to association" do
     before(:each) do
       @meeting = Meeting.new(:id => 1, :conference_id=>2, :conference => {:id=>2, :name=>'A conference', :notes=>'There be notes'})

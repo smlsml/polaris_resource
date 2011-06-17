@@ -9,7 +9,7 @@ module PolarisResource
     include Finders
     include Introspection
     include Persistence
-    include Reflection
+    include Reflections
     include RequestHandling
     include ResponseParsing
 

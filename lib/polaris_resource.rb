@@ -26,7 +26,7 @@ module PolarisResource
   autoload :Finders,         'polaris_resource/mixins/finders'
   autoload :Introspection,   'polaris_resource/mixins/introspection'
   autoload :Persistence,     'polaris_resource/mixins/persistence'
-  autoload :Reflection,      'polaris_resource/mixins/reflection'
+  autoload :Reflections,     'polaris_resource/mixins/reflections'
   autoload :RequestHandling, 'polaris_resource/mixins/request_handling'
   autoload :ResponseParsing, 'polaris_resource/mixins/response_parsing'
   
