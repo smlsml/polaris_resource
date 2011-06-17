@@ -3,11 +3,12 @@ module PolarisResource
     class HasOneAssociation < Association
       
       def load_target!
-        @association.to_s.classify.constantize.get(_uri) if @owner.id
+        @options[:class_name].constantize.get(_uri) if @owner.id
       end
       
       def _uri
-        "/#{@owner.class.model_name.underscore.pluralize}/#{@owner.id}/#{@association}"
+        owner_id = @owner.respond_to?(:polaris_id) ? @owner.polaris_id : @owner.id
+        "/#{@owner.class.model_name.underscore.pluralize}/#{owner_id}/#{@association}"
       end
       private :_uri
       

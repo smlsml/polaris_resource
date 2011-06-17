@@ -16,7 +16,7 @@ module PolarisResource
         false
       end
 
-      def respond_to?(method)
+      def respond_to?(method, include_private = false)
         attributes.include?(method) ? true : super
       end
       

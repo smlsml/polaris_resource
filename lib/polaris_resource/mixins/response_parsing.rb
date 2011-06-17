@@ -30,6 +30,8 @@ module PolarisResource
           build_from_response(response)
         when 404
           raise_not_found(request)
+        when 0
+          raise RemoteHostConnectionFailure
         end
       end
       private :handle_response

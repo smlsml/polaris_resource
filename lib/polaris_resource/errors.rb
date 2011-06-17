@@ -4,6 +4,9 @@ module PolarisResource
 
   class NetConnectNotAllowedError < ::StandardError
   end
+  
+  class RemoteHostConnectionFailure < ::StandardError
+  end
 
   class ResourceNotFound < ::StandardError
   end

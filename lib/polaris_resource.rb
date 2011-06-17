@@ -30,17 +30,18 @@ module PolarisResource
   autoload :ResponseParsing, 'polaris_resource/mixins/response_parsing'
   
   # ERROR CLASSES
-  autoload :ConfigurationError,        'polaris_resource/errors'
-  autoload :NetConnectNotAllowedError, 'polaris_resource/errors'
-  autoload :ResourceNotFound,          'polaris_resource/errors'
-  autoload :UnrecognizedProperty,      'polaris_resource/errors'
-  autoload :UnrecognizedTypeCastClass, 'polaris_resource/errors'
+  autoload :ConfigurationError,          'polaris_resource/errors'
+  autoload :NetConnectNotAllowedError,   'polaris_resource/errors'
+  autoload :RemoteHostConnectionFailure, 'polaris_resource/errors'
+  autoload :ResourceNotFound,            'polaris_resource/errors'
+  autoload :UnrecognizedProperty,        'polaris_resource/errors'
+  autoload :UnrecognizedTypeCastClass,   'polaris_resource/errors'
 end
 
 # Associations for application objects, typically ActiveRecord, to resource
 module PolarisClient
-  autoload :Associations,  'polaris_client/associations'
-  autoload :LogSubscriber, 'polaris_client/log_subscriber'
+  autoload :Associations,             'polaris_client/associations'
+  autoload :LogSubscriber,            'polaris_client/log_subscriber'
 end
 
 # Railtie

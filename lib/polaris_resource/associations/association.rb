@@ -9,6 +9,8 @@ module PolarisResource
         @options     = {}
         
         @options[:polymorphic] = options[:polymorphic] || false
+        @options[:class_name]  = options[:class_name]  || @association.to_s.classify
+        @options[:foreign_key] = options[:foreign_key] || "#{@association}_id".to_sym
       end
       
       def id
@@ -17,6 +19,10 @@ module PolarisResource
       
       def nil?
         loaded_target.nil?
+      end
+      
+      def to_param
+        loaded_target.to_param
       end
       
       def load_target!

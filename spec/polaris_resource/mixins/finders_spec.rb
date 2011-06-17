@@ -36,8 +36,7 @@ describe PolarisResource::Finders, "#find" do
         response = PolarisResource::Response.new(:code => 404, :headers => "", :body => body.to_json, :time => 0.3)
         request  = PolarisResource::Request.new("/dogs", :method => :get, :params => { :id => 1 })
         request.stub(:response).and_return(response)
-        Dog.stub(:build_request).and_return(request)
-        Dog.stub(:quick_request)
+        PolarisResource::Request.stub(:quick).and_return(request)
       end
       
       it "raises a ResourceNotFound error" do
@@ -87,8 +86,7 @@ describe PolarisResource::Finders, "#find" do
         response = PolarisResource::Response.new(:code => 404, :headers => "", :body => body.to_json, :time => 0.3)
         request  = PolarisResource::Request.new("/dogs", :method => :get, :params => { :ids => [1,2,3] })
         request.stub(:response).and_return(response)
-        Dog.stub(:build_request).and_return(request)
-        Dog.stub(:quick_request)
+        PolarisResource::Request.stub(:quick).and_return(request)
       end
       
       it "raises a ResourceNotFound error" do
@@ -138,8 +136,7 @@ describe PolarisResource::Finders, "#find" do
         response = PolarisResource::Response.new(:code => 404, :headers => "", :body => body.to_json, :time => 0.3)
         request  = PolarisResource::Request.new("/dogs", :method => :get, :params => { :ids => [1,2,3] })
         request.stub(:response).and_return(response)
-        Dog.stub(:build_request).and_return(request)
-        Dog.stub(:quick_request)
+        PolarisResource::Request.stub(:quick).and_return(request)
       end
       
       it "raises a ResourceNotFound error" do

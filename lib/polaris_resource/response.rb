@@ -14,7 +14,7 @@ module PolarisResource
       !!@cached
     end
 
-    def respond_to?(method)
+    def respond_to?(method, include_private = false)
       methods.include?(method) || @response.respond_to?(method.to_sym)
     end
 

@@ -3,11 +3,12 @@ module PolarisResource
     class HasManyAssociation < Association
       
       def load_target!
-        @owner.id ? @association.to_s.classify.constantize.get(_uri) : []
+        @owner.id ? @options[:class_name].constantize.get(_uri) : []
       end
       
       def _uri
-        "/#{@owner.class.model_name.underscore.pluralize}/#{@owner.id}/#{@association.to_s.pluralize}"
+        owner_id = @owner.respond_to?(:polaris_id) ? @owner.polaris_id : @owner.id
+        "/#{@owner.class.model_name.underscore.pluralize}/#{owner_id}/#{@association.to_s.pluralize}"
       end
       private :_uri
       
