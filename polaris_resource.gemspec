@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{polaris_resource}
-  s.version = "0.2.1"
+  s.version = "0.2.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ryan Moran"]
-  s.date = %q{2011-06-16}
+  s.date = %q{2011-06-17}
   s.description = %q{RESTful API Client}
   s.email = %q{ryan.moran@gmail.com}
   s.extra_rdoc_files = [
@@ -43,9 +43,11 @@ Gem::Specification.new do |s|
     "lib/polaris_resource/mixins/finders.rb",
     "lib/polaris_resource/mixins/introspection.rb",
     "lib/polaris_resource/mixins/persistence.rb",
+    "lib/polaris_resource/mixins/reflections.rb",
     "lib/polaris_resource/mixins/request_handling.rb",
     "lib/polaris_resource/mixins/response_parsing.rb",
     "lib/polaris_resource/mock.rb",
+    "lib/polaris_resource/reflection.rb",
     "lib/polaris_resource/relation.rb",
     "lib/polaris_resource/request.rb",
     "lib/polaris_resource/request_cache.rb",
@@ -111,6 +113,7 @@ Gem::Specification.new do |s|
     "spec/polaris_resource/mixins/finders_spec.rb",
     "spec/polaris_resource/mixins/introspection_spec.rb",
     "spec/polaris_resource/mixins/persistence_spec.rb",
+    "spec/polaris_resource/mixins/reflection_spec.rb",
     "spec/polaris_resource/mixins/response_parsing_spec.rb",
     "spec/polaris_resource/mock_spec.rb",
     "spec/polaris_resource/relation_spec.rb",
