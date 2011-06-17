@@ -12,6 +12,7 @@ module PolarisResource
   autoload :Base,          'polaris_resource/base'
   autoload :Configuration, 'polaris_resource/configuration'
   autoload :Mock,          'polaris_resource/mock'
+  autoload :Reflection,    'polaris_resource/reflection'
   autoload :Relation,      'polaris_resource/relation'
   autoload :Request,       'polaris_resource/request'
   autoload :RequestQueue,  'polaris_resource/request_queue'

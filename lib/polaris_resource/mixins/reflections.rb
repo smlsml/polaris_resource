@@ -4,7 +4,7 @@ module PolarisResource
 
     module ClassMethods
       def create_reflection(macro, name)
-        reflection = AssociationReflection.new(macro, name)
+        reflection = Reflection.new(macro, name)
         reflections.merge!(name => reflection)
         reflection
       end
@@ -14,30 +14,11 @@ module PolarisResource
       end
 
       def reflect_on_association(association)
-        reflections[association.to_sym].is_a?(AssociationReflection) ? reflections[association.to_sym] : nil
+        reflections[association.to_sym].is_a?(Reflection) ? reflections[association.to_sym] : nil
       end
 
     end
     
-    class AssociationReflection
-      attr_reader :macro, :name
-
-      def initialize(macro, name)
-        @macro, @name = macro, name
-      end
-
-      def klass
-        @klass ||= class_name.constantize
-      end
-
-      def class_name
-        name.to_s.singularize.camelize
-      end
-
-      def build_association(*options)
-        klass.new(*options)
-      end
-    end
   end
 end
   
