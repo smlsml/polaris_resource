@@ -30,6 +30,10 @@ module PolarisResource
       loaded_target
     end
     
+    def to_json
+      to_a.to_json
+    end
+    
     private
     
     def _page_params(page_number)
