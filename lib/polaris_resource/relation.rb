@@ -30,8 +30,8 @@ module PolarisResource
       loaded_target
     end
     
-    def to_json
-      to_a.to_json
+    def to_json(*args)
+      to_a.to_json(*args)
     end
     
     private
