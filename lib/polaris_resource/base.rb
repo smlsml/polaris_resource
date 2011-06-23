@@ -1,10 +1,20 @@
 # Serving as the superclass to all resources, PolarisResource::Base
 # should be subclassed and extended from within your application.
+# The Base class consists of the main components one would need to
+# use the PolarisResource API. The behavior of the class is contained
+# in several module 'mix-ins'. Each of these modules will be explained
+# within itself. Just know that the Base class includes these modules
+# for you.
 module PolarisResource
   class Base
     extend  ActiveModel::Naming
     include ActiveModel::Validations
     include ActiveModel::Dirty
+    
+    # These modules wrap distinct behavior that is used within the Base class.
+    # In many cases they rely upon other classes in the library to complete
+    # their functionality. The helper classes can be used stand-alone, but
+    # are most effective when used as collaborators to the mix-in behaviors.
     include Associations
     include Attributes
     include Conversion
