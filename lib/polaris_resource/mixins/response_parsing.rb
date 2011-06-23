@@ -43,7 +43,7 @@ module PolarisResource
         when request.params[:id]
           raise ResourceNotFound, "Couldn't find #{model_name} with ID=#{request.params[:id]}"
         else
-          raise ResourceNotFound
+          raise ResourceNotFound, "No resource was found at #{request.url}"
         end
       end
       private :raise_not_found

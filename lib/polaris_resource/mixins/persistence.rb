@@ -6,9 +6,9 @@ module PolarisResource
 
       def save
         if new_record?
-          response = PolarisResource::Request.post(save_uri, attributes_without_id)
+          response = self.class.post(save_uri, attributes_without_id)
         else
-          response = PolarisResource::Request.put(save_uri, attributes_without_id)
+          response = self.class.put(save_uri, attributes_without_id)
         end
         build_from_response(response)
       end
@@ -25,6 +25,15 @@ module PolarisResource
         save
       end
 
+    end
+    
+    module ClassMethods
+      
+      def create(new_attributes = {})
+        new(new_attributes).tap { |new_instance| new_instance.save }
+      end
+      alias :create! :create
+      
     end
 
   end
