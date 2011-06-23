@@ -44,10 +44,10 @@ For Example:
 = Architecture
 
 == Base
-
-  The Base class consists of the main components one would need to use the PolarisResource API.  The behavior of the class is contained in several module 'mix-ins'. These modules include Associations, Attributes, Conversion, Finders, Introspection, Persistence, Reflections, RequestHandling, and ResponseParsing.  Each of these modules will be explained below.  Just know that the Base class includes these modules for you.
+The Base class consists of the main components one would need to use the PolarisResource API.  The behavior of the class is contained in several module 'mix-ins'. These modules include Associations, Attributes, Conversion, Finders, Introspection, Persistence, Reflections, RequestHandling, and ResponseParsing.  Each of these modules will be explained below.  Just know that the Base class includes these modules for you.
   
 == Mixins
+These modules wrap distinct behavior that is used within the Base class.  In many cases they rely upon other classes in the library to complete their functionality.  These helper classes follow this section, and can be used stand-alone, but are most effective when used as collaborators to the mix-in behaviors.
 
 === Associations
 
