@@ -44,5 +44,5 @@ YARD::Rake::YardocTask.new
 
 desc "Builds the documentation using Rocco"
 task :doc do
-  system 'rocco -o doc lib/*.rb lib/**/*.rb lib/**/**/*.rb'
+  system 'rocco -o doc -t ~/Desktop/layout.mustache lib/*.rb lib/**/*.rb lib/**/**/*.rb'
 end
