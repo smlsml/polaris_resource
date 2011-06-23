@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html;charset=utf-8">
-  <title>polaris_resource.rb</title>
+  <title>PolarisResource</title>
   <link rel="stylesheet" href="http://jashkenas.github.com/docco/resources/docco.css">
 </head>
 <body>
@@ -12,6 +12,7 @@
     Jump To &hellip;
     <div id="jump_wrapper">
       <div id="jump_page">
+          <a class="source" href="index.html">Index</a>
           <a class="source" href="ext/typhoeus.html">typhoeus.rb</a>
           <a class="source" href="polaris_client/associations.html">associations.rb</a>
           <a class="source" href="polaris_client/log_subscriber.html">log_subscriber.rb</a>
@@ -47,138 +48,211 @@
   <table cellspacing=0 cellpadding=0>
   <thead>
     <tr>
-      <th class=docs><h1>polaris_resource.rb</h1></th>
+      <th class=docs><h1>PolarisResource</h1></th>
       <th class=code></th>
     </tr>
   </thead>
   <tbody>
     <tr id='section-1'>
       <td class=docs>
-        <div class="pilwrap">
-          <a class="pilcrow" href="#section-1">&#182;</a>
-        </div>
-        <p>We are using Yalj::Ruby for its JSON parsing hotness.</p>
+        <a class="source" href="ext/typhoeus.html">ext/typhoeus.rb</a>
       </td>
       <td class=code>
-        <div class='highlight'><pre><span class="nb">require</span> <span class="s1">&#39;yajl/json_gem&#39;</span></pre></div>
       </td>
     </tr>
     <tr id='section-2'>
       <td class=docs>
-        <div class="pilwrap">
-          <a class="pilcrow" href="#section-2">&#182;</a>
-        </div>
-        <p>Typhoeus is used for HTTP requests in parallel.</p>
+        <a class="source" href="polaris_client/associations.html">polaris_client/associations.rb</a>
       </td>
       <td class=code>
-        <div class='highlight'><pre><span class="nb">require</span> <span class="s1">&#39;typhoeus&#39;</span></pre></div>
       </td>
     </tr>
     <tr id='section-3'>
       <td class=docs>
-        <div class="pilwrap">
-          <a class="pilcrow" href="#section-3">&#182;</a>
-        </div>
-        <p>ActiveModel provides validations, errors, naming&hellip;</p>
+        <a class="source" href="polaris_client/log_subscriber.html">polaris_client/log_subscriber.rb</a>
       </td>
       <td class=code>
-        <div class='highlight'><pre><span class="nb">require</span> <span class="s1">&#39;active_model&#39;</span></pre></div>
       </td>
     </tr>
     <tr id='section-4'>
       <td class=docs>
-        <div class="pilwrap">
-          <a class="pilcrow" href="#section-4">&#182;</a>
-        </div>
-        <p>The bulk of the library consists of the Base class and its mix-in modules, the request/response wrappers,
-mocking, configuration, errors, and classes managing associations, reflections, relations, and typecasting.</p>
+        <a class="source" href="polaris_client/railtie.html">polaris_client/railtie.rb</a>
       </td>
       <td class=code>
-        <div class='highlight'><pre><span class="k">module</span> <span class="nn">PolarisResource</span>
-  <span class="nb">autoload</span> <span class="ss">:Base</span><span class="p">,</span>          <span class="s1">&#39;polaris_resource/base&#39;</span>
-  <span class="nb">autoload</span> <span class="ss">:Configuration</span><span class="p">,</span> <span class="s1">&#39;polaris_resource/configuration&#39;</span>
-  <span class="nb">autoload</span> <span class="ss">:Mock</span><span class="p">,</span>          <span class="s1">&#39;polaris_resource/mock&#39;</span>
-  <span class="nb">autoload</span> <span class="ss">:Reflection</span><span class="p">,</span>    <span class="s1">&#39;polaris_resource/reflection&#39;</span>
-  <span class="nb">autoload</span> <span class="ss">:Relation</span><span class="p">,</span>      <span class="s1">&#39;polaris_resource/relation&#39;</span>
-  <span class="nb">autoload</span> <span class="ss">:Request</span><span class="p">,</span>       <span class="s1">&#39;polaris_resource/request&#39;</span>
-  <span class="nb">autoload</span> <span class="ss">:RequestQueue</span><span class="p">,</span>  <span class="s1">&#39;polaris_resource/request_queue&#39;</span>
-  <span class="nb">autoload</span> <span class="ss">:RequestCache</span><span class="p">,</span>  <span class="s1">&#39;polaris_resource/request_cache&#39;</span>
-  <span class="nb">autoload</span> <span class="ss">:Response</span><span class="p">,</span>      <span class="s1">&#39;polaris_resource/response&#39;</span>
-  <span class="nb">autoload</span> <span class="ss">:TypeCaster</span><span class="p">,</span>    <span class="s1">&#39;polaris_resource/type_caster&#39;</span>
-  </pre></div>
       </td>
     </tr>
     <tr id='section-5'>
       <td class=docs>
-        <div class="pilwrap">
-          <a class="pilcrow" href="#section-5">&#182;</a>
-        </div>
-        <p>MIXINS</p>
+        <a class="source" href="polaris_resource.html">polaris_resource.rb</a>
       </td>
       <td class=code>
-        <div class='highlight'><pre>  <span class="nb">autoload</span> <span class="ss">:Associations</span><span class="p">,</span>    <span class="s1">&#39;polaris_resource/mixins/associations&#39;</span>
-  <span class="nb">autoload</span> <span class="ss">:Attributes</span><span class="p">,</span>      <span class="s1">&#39;polaris_resource/mixins/attributes&#39;</span>
-  <span class="nb">autoload</span> <span class="ss">:Conversion</span><span class="p">,</span>      <span class="s1">&#39;polaris_resource/mixins/conversion&#39;</span>
-  <span class="nb">autoload</span> <span class="ss">:Finders</span><span class="p">,</span>         <span class="s1">&#39;polaris_resource/mixins/finders&#39;</span>
-  <span class="nb">autoload</span> <span class="ss">:Introspection</span><span class="p">,</span>   <span class="s1">&#39;polaris_resource/mixins/introspection&#39;</span>
-  <span class="nb">autoload</span> <span class="ss">:Persistence</span><span class="p">,</span>     <span class="s1">&#39;polaris_resource/mixins/persistence&#39;</span>
-  <span class="nb">autoload</span> <span class="ss">:Reflections</span><span class="p">,</span>     <span class="s1">&#39;polaris_resource/mixins/reflections&#39;</span>
-  <span class="nb">autoload</span> <span class="ss">:RequestHandling</span><span class="p">,</span> <span class="s1">&#39;polaris_resource/mixins/request_handling&#39;</span>
-  <span class="nb">autoload</span> <span class="ss">:ResponseParsing</span><span class="p">,</span> <span class="s1">&#39;polaris_resource/mixins/response_parsing&#39;</span>
-  </pre></div>
       </td>
     </tr>
     <tr id='section-6'>
       <td class=docs>
-        <div class="pilwrap">
-          <a class="pilcrow" href="#section-6">&#182;</a>
-        </div>
-        <p>ERROR CLASSES</p>
+        <a class="source" href="polaris_resource/associations/association.html">polaris_resource/association.rb</a>
       </td>
       <td class=code>
-        <div class='highlight'><pre>  <span class="nb">autoload</span> <span class="ss">:ConfigurationError</span><span class="p">,</span>          <span class="s1">&#39;polaris_resource/errors&#39;</span>
-  <span class="nb">autoload</span> <span class="ss">:NetConnectNotAllowedError</span><span class="p">,</span>   <span class="s1">&#39;polaris_resource/errors&#39;</span>
-  <span class="nb">autoload</span> <span class="ss">:RemoteHostConnectionFailure</span><span class="p">,</span> <span class="s1">&#39;polaris_resource/errors&#39;</span>
-  <span class="nb">autoload</span> <span class="ss">:ResourceNotFound</span><span class="p">,</span>            <span class="s1">&#39;polaris_resource/errors&#39;</span>
-  <span class="nb">autoload</span> <span class="ss">:UnrecognizedTypeCastClass</span><span class="p">,</span>   <span class="s1">&#39;polaris_resource/errors&#39;</span>
-<span class="k">end</span></pre></div>
       </td>
     </tr>
     <tr id='section-7'>
       <td class=docs>
-        <div class="pilwrap">
-          <a class="pilcrow" href="#section-7">&#182;</a>
-        </div>
-        <p>Associations for application objects, typically ActiveRecord, to resource</p>
+        <a class="source" href="polaris_resource/associations/belongs_to_association.html">polaris_resource/belongs_to_association.rb</a>
       </td>
       <td class=code>
-        <div class='highlight'><pre><span class="k">module</span> <span class="nn">PolarisClient</span>
-  <span class="nb">autoload</span> <span class="ss">:Associations</span><span class="p">,</span>             <span class="s1">&#39;polaris_client/associations&#39;</span>
-  <span class="nb">autoload</span> <span class="ss">:LogSubscriber</span><span class="p">,</span>            <span class="s1">&#39;polaris_client/log_subscriber&#39;</span>
-<span class="k">end</span></pre></div>
       </td>
     </tr>
     <tr id='section-8'>
       <td class=docs>
-        <div class="pilwrap">
-          <a class="pilcrow" href="#section-8">&#182;</a>
-        </div>
-        <p>Railtie</p>
+        <a class="source" href="polaris_resource/associations/has_many_association.html">polaris_resource/has_many_association.rb</a>
       </td>
       <td class=code>
-        <div class='highlight'><pre><span class="nb">require</span> <span class="s1">&#39;polaris_client/railtie&#39;</span> <span class="k">if</span> <span class="n">defined?</span><span class="p">(</span><span class="no">Rails</span><span class="p">)</span></pre></div>
       </td>
     </tr>
     <tr id='section-9'>
       <td class=docs>
-        <div class="pilwrap">
-          <a class="pilcrow" href="#section-9">&#182;</a>
-        </div>
-        <p>There are some Typhoeus patches contained here.</p>
-
+        <a class="source" href="polaris_resource/associations/has_one_association.html">polaris_resource/has_one_association.rb</a>
       </td>
       <td class=code>
-        <div class='highlight'><pre><span class="nb">require</span> <span class="s1">&#39;ext/typhoeus&#39;</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-10'>
+      <td class=docs>
+        <a class="source" href="polaris_resource/base.html">polaris_resource/base.rb</a>
+      </td>
+      <td class=code>
+      </td>
+    </tr>
+    <tr id='section-11'>
+      <td class=docs>
+        <a class="source" href="polaris_resource/configuration.html">polaris_resource/configuration.rb</a>
+      </td>
+      <td class=code>
+      </td>
+    </tr>
+    <tr id='section-12'>
+      <td class=docs>
+        <a class="source" href="polaris_resource/errors.html">polaris_resource/errors.rb</a>
+      </td>
+      <td class=code>
+      </td>
+    </tr>
+    <tr id='section-13'>
+      <td class=docs>
+        <a class="source" href="polaris_resource/mixins/associations.html">polaris_resource/mixins/associations.rb</a>
+      </td>
+      <td class=code>
+      </td>
+    </tr>
+    <tr id='section-14'>
+      <td class=docs>
+        <a class="source" href="polaris_resource/mixins/attributes.html">polaris_resource/mixins/attributes.rb</a>
+      </td>
+      <td class=code>
+      </td>
+    </tr>
+    <tr id='section-15'>
+      <td class=docs>
+        <a class="source" href="polaris_resource/mixins/conversion.html">polaris_resource/mixins/conversion.rb</a>
+      </td>
+      <td class=code>
+      </td>
+    </tr>
+    <tr id='section-16'>
+      <td class=docs>
+        <a class="source" href="polaris_resource/mixins/finders.html">polaris_resource/mixins/finders.rb</a>
+      </td>
+      <td class=code>
+      </td>
+    </tr>
+    <tr id='section-17'>
+      <td class=docs>
+        <a class="source" href="polaris_resource/mixins/introspection.html">polaris_resource/mixins/introspection.rb</a>
+      </td>
+      <td class=code>
+      </td>
+    </tr>
+    <tr id='section-18'>
+      <td class=docs>
+        <a class="source" href="polaris_resource/mixins/persistence.html">polaris_resource/mixins/persistence.rb</a>
+      </td>
+      <td class=code>
+      </td>
+    </tr>
+    <tr id='section-19'>
+      <td class=docs>
+        <a class="source" href="polaris_resource/mixins/reflections.html">polaris_resource/mixins/reflections.rb</a>
+      </td>
+      <td class=code>
+      </td>
+    </tr>
+    <tr id='section-20'>
+      <td class=docs>
+        <a class="source" href="polaris_resource/mixins/request_handling.html">polaris_resource/mixins/request_handling.rb</a>
+      </td>
+      <td class=code>
+      </td>
+    </tr>
+    <tr id='section-21'>
+      <td class=docs>
+        <a class="source" href="polaris_resource/mixins/response_parsing.html">polaris_resource/mixins/response_parsing.rb</a>
+      </td>
+      <td class=code>
+      </td>
+    </tr>
+    <tr id='section-22'>
+      <td class=docs>
+        <a class="source" href="polaris_resource/mock.html">polaris_resource/mock.rb</a>
+      </td>
+      <td class=code>
+      </td>
+    </tr>
+    <tr id='section-23'>
+      <td class=docs>
+        <a class="source" href="polaris_resource/reflection.html">polaris_resource/reflection.rb</a>
+      </td>
+      <td class=code>
+      </td>
+    </tr>
+    <tr id='section-24'>
+      <td class=docs>
+        <a class="source" href="polaris_resource/relation.html">polaris_resource/relation.rb</a>
+      </td>
+      <td class=code>
+      </td>
+    </tr>
+    <tr id='section-25'>
+      <td class=docs>
+        <a class="source" href="polaris_resource/request.html">polaris_resource/request.rb</a>
+      <td class=code>
+      </td>
+    </tr>
+    <tr id='section-26'>
+      <td class=docs>
+        <a class="source" href="polaris_resource/request_cache.html">polaris_resource/request_cache.rb</a>
+      </td>
+      <td class=code>
+      </td>
+    </tr>
+    <tr id='section-27'>
+      <td class=docs>
+        <a class="source" href="polaris_resource/request_queue.html">polaris_resource/request_queue.rb</a>
+      </td>
+      <td class=code>
+      </td>
+    </tr>
+    <tr id='section-28'>
+      <td class=docs>
+        <a class="source" href="polaris_resource/response.html">polaris_resource/response.rb</a>
+      </td>
+      <td class=code>
+      </td>
+    </tr>
+    <tr id='section-29'>
+      <td class=docs>
+        <a class="source" href="polaris_resource/type_caster.html">polaris_resource/type_caster.rb</a>
+      </td>
+      <td class=code>
       </td>
     </tr>
   </table>
