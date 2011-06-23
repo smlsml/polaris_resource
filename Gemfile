@@ -7,7 +7,6 @@ gem 'activesupport', '~>3.0.0'
 gem 'i18n',          '~>0.5.0'
 
 group :development, :test do
-  gem 'rake',          '0.8.7'
   gem 'rails',         '3.0.7'
   gem 'sqlite3',       '1.3.3'
   gem 'rspec-rails',   '2.6.0'
