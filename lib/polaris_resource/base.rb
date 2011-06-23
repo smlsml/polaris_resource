@@ -10,6 +10,7 @@ module PolarisResource
     extend  ActiveModel::Naming
     include ActiveModel::Validations
     include ActiveModel::Dirty
+    include ActiveModel::Serializers::JSON
     
     # These modules wrap distinct behavior that is used within the Base class.
     # In many cases they rely upon other classes in the library to complete
