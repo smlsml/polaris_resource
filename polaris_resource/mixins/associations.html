@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>associations.rb</title>
+  <link rel="stylesheet" href="http://jashkenas.github.com/docco/resources/docco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div id="jump_to">
+    Jump To &hellip;
+    <div id="jump_wrapper">
+      <div id="jump_page">
+          <a class="source" href="../../ext/typhoeus.html">typhoeus.rb</a>
+          <a class="source" href="../../polaris_client/associations.html">associations.rb</a>
+          <a class="source" href="../../polaris_client/log_subscriber.html">log_subscriber.rb</a>
+          <a class="source" href="../../polaris_client/railtie.html">railtie.rb</a>
+          <a class="source" href="../../polaris_resource.html">polaris_resource.rb</a>
+          <a class="source" href="../associations/association.html">association.rb</a>
+          <a class="source" href="../associations/belongs_to_association.html">belongs_to_association.rb</a>
+          <a class="source" href="../associations/has_many_association.html">has_many_association.rb</a>
+          <a class="source" href="../associations/has_one_association.html">has_one_association.rb</a>
+          <a class="source" href="../base.html">base.rb</a>
+          <a class="source" href="../configuration.html">configuration.rb</a>
+          <a class="source" href="../errors.html">errors.rb</a>
+          <a class="source" href="associations.html">associations.rb</a>
+          <a class="source" href="attributes.html">attributes.rb</a>
+          <a class="source" href="conversion.html">conversion.rb</a>
+          <a class="source" href="finders.html">finders.rb</a>
+          <a class="source" href="introspection.html">introspection.rb</a>
+          <a class="source" href="persistence.html">persistence.rb</a>
+          <a class="source" href="reflections.html">reflections.rb</a>
+          <a class="source" href="request_handling.html">request_handling.rb</a>
+          <a class="source" href="response_parsing.html">response_parsing.rb</a>
+          <a class="source" href="../mock.html">mock.rb</a>
+          <a class="source" href="../reflection.html">reflection.rb</a>
+          <a class="source" href="../relation.html">relation.rb</a>
+          <a class="source" href="../request.html">request.rb</a>
+          <a class="source" href="../request_cache.html">request_cache.rb</a>
+          <a class="source" href="../request_queue.html">request_queue.rb</a>
+          <a class="source" href="../response.html">response.rb</a>
+          <a class="source" href="../type_caster.html">type_caster.rb</a>
+      </div>
+    </div>
+  </div>
+  <table cellspacing=0 cellpadding=0>
+  <thead>
+    <tr>
+      <th class=docs><h1>associations.rb</h1></th>
+      <th class=code></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr id='section-1'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-1">&#182;</a>
+        </div>
+        
+
+      </td>
+      <td class=code>
+        <div class='highlight'><pre><span class="k">module</span> <span class="nn">PolarisResource</span>
+  <span class="k">module</span> <span class="nn">Associations</span>
+    <span class="nb">autoload</span> <span class="ss">:Association</span><span class="p">,</span>          <span class="s1">&#39;polaris_resource/associations/association&#39;</span>
+    <span class="nb">autoload</span> <span class="ss">:BelongsToAssociation</span><span class="p">,</span> <span class="s1">&#39;polaris_resource/associations/belongs_to_association&#39;</span>
+    <span class="nb">autoload</span> <span class="ss">:HasManyAssociation</span><span class="p">,</span>   <span class="s1">&#39;polaris_resource/associations/has_many_association&#39;</span>
+    <span class="nb">autoload</span> <span class="ss">:HasOneAssociation</span><span class="p">,</span>    <span class="s1">&#39;polaris_resource/associations/has_one_association&#39;</span>
+
+    <span class="kp">extend</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Concern</span>
+
+    <span class="k">module</span> <span class="nn">ClassMethods</span>
+
+      <span class="k">def</span> <span class="nf">belongs_to</span><span class="p">(</span><span class="n">association</span><span class="p">,</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{})</span>
+        <span class="n">attribute_id_sym</span>  <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">association</span><span class="si">}</span><span class="s2">_id&quot;</span><span class="o">.</span><span class="n">to_sym</span>
+
+        <span class="n">property</span> <span class="n">attribute_id_sym</span>
+        
+        <span class="n">create_reflection</span><span class="p">(</span><span class="ss">:belongs_to</span><span class="p">,</span> <span class="n">association</span><span class="p">)</span>
+
+        <span class="n">define_method</span> <span class="n">association</span> <span class="k">do</span>
+          <span class="nb">instance_variable_get</span><span class="p">(</span><span class="s2">&quot;@</span><span class="si">#{</span><span class="n">association</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">||</span>
+            <span class="nb">instance_variable_set</span><span class="p">(</span><span class="s2">&quot;@</span><span class="si">#{</span><span class="n">association</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="no">BelongsToAssociation</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">association</span><span class="p">,</span> <span class="kp">nil</span><span class="p">,</span> <span class="n">options</span><span class="p">))</span>
+        <span class="k">end</span>
+
+        <span class="n">define_method</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">association</span><span class="si">}</span><span class="s2">=&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">target</span><span class="o">|</span>
+          <span class="nb">instance_variable_set</span><span class="p">(</span><span class="s2">&quot;@</span><span class="si">#{</span><span class="n">association</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="no">BelongsToAssociation</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">association</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">options</span><span class="p">))</span>
+          <span class="nb">send</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">association</span><span class="si">}</span><span class="s2">_id=&quot;</span><span class="p">,</span> <span class="n">target</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+
+      <span class="k">def</span> <span class="nf">has_many</span><span class="p">(</span><span class="n">association</span><span class="p">,</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{})</span>
+        <span class="n">create_reflection</span><span class="p">(</span><span class="ss">:has_many</span><span class="p">,</span> <span class="n">association</span><span class="p">)</span>
+
+        <span class="n">define_method</span> <span class="n">association</span> <span class="k">do</span>
+          <span class="nb">instance_variable_get</span><span class="p">(</span><span class="s2">&quot;@</span><span class="si">#{</span><span class="n">association</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">||</span>
+            <span class="nb">instance_variable_set</span><span class="p">(</span><span class="s2">&quot;@</span><span class="si">#{</span><span class="n">association</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="no">HasManyAssociation</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">association</span><span class="p">,</span> <span class="kp">nil</span><span class="p">,</span> <span class="n">options</span><span class="p">))</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+
+      <span class="k">def</span> <span class="nf">has_one</span><span class="p">(</span><span class="n">association</span><span class="p">,</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{})</span>
+        <span class="n">create_reflection</span><span class="p">(</span><span class="ss">:has_one</span><span class="p">,</span> <span class="n">association</span><span class="p">)</span>
+
+        <span class="n">define_method</span> <span class="n">association</span> <span class="k">do</span>
+          <span class="nb">instance_variable_get</span><span class="p">(</span><span class="s2">&quot;@</span><span class="si">#{</span><span class="n">association</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">||</span>
+            <span class="nb">instance_variable_set</span><span class="p">(</span><span class="s2">&quot;@</span><span class="si">#{</span><span class="n">association</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="no">HasOneAssociation</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">association</span><span class="p">,</span> <span class="kp">nil</span><span class="p">,</span> <span class="n">options</span><span class="p">))</span>
+        <span class="k">end</span>
+
+        <span class="n">define_method</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">association</span><span class="si">}</span><span class="s2">=&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">target</span><span class="o">|</span>
+          <span class="nb">instance_variable_set</span><span class="p">(</span><span class="s2">&quot;@</span><span class="si">#{</span><span class="n">association</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="no">HasOneAssociation</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">association</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">options</span><span class="p">))</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+
+    <span class="k">end</span>
+
+  <span class="k">end</span>
+<span class="k">end</span></pre></div>
+      </td>
+    </tr>
+  </table>
+</div>
+</body>

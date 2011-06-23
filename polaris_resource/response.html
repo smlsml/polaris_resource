@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>response.rb</title>
+  <link rel="stylesheet" href="http://jashkenas.github.com/docco/resources/docco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div id="jump_to">
+    Jump To &hellip;
+    <div id="jump_wrapper">
+      <div id="jump_page">
+          <a class="source" href="../ext/typhoeus.html">typhoeus.rb</a>
+          <a class="source" href="../polaris_client/associations.html">associations.rb</a>
+          <a class="source" href="../polaris_client/log_subscriber.html">log_subscriber.rb</a>
+          <a class="source" href="../polaris_client/railtie.html">railtie.rb</a>
+          <a class="source" href="../polaris_resource.html">polaris_resource.rb</a>
+          <a class="source" href="associations/association.html">association.rb</a>
+          <a class="source" href="associations/belongs_to_association.html">belongs_to_association.rb</a>
+          <a class="source" href="associations/has_many_association.html">has_many_association.rb</a>
+          <a class="source" href="associations/has_one_association.html">has_one_association.rb</a>
+          <a class="source" href="base.html">base.rb</a>
+          <a class="source" href="configuration.html">configuration.rb</a>
+          <a class="source" href="errors.html">errors.rb</a>
+          <a class="source" href="mixins/associations.html">associations.rb</a>
+          <a class="source" href="mixins/attributes.html">attributes.rb</a>
+          <a class="source" href="mixins/conversion.html">conversion.rb</a>
+          <a class="source" href="mixins/finders.html">finders.rb</a>
+          <a class="source" href="mixins/introspection.html">introspection.rb</a>
+          <a class="source" href="mixins/persistence.html">persistence.rb</a>
+          <a class="source" href="mixins/reflections.html">reflections.rb</a>
+          <a class="source" href="mixins/request_handling.html">request_handling.rb</a>
+          <a class="source" href="mixins/response_parsing.html">response_parsing.rb</a>
+          <a class="source" href="mock.html">mock.rb</a>
+          <a class="source" href="reflection.html">reflection.rb</a>
+          <a class="source" href="relation.html">relation.rb</a>
+          <a class="source" href="request.html">request.rb</a>
+          <a class="source" href="request_cache.html">request_cache.rb</a>
+          <a class="source" href="request_queue.html">request_queue.rb</a>
+          <a class="source" href="response.html">response.rb</a>
+          <a class="source" href="type_caster.html">type_caster.rb</a>
+      </div>
+    </div>
+  </div>
+  <table cellspacing=0 cellpadding=0>
+  <thead>
+    <tr>
+      <th class=docs><h1>response.rb</h1></th>
+      <th class=code></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr id='section-1'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-1">&#182;</a>
+        </div>
+        
+
+      </td>
+      <td class=code>
+        <div class='highlight'><pre><span class="k">module</span> <span class="nn">PolarisResource</span>
+  <span class="k">class</span> <span class="nc">Response</span>
+
+    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">response_or_attributes</span> <span class="o">=</span> <span class="p">{},</span> <span class="n">cached</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
+      <span class="vi">@cached</span> <span class="o">=</span> <span class="n">cached</span>
+      <span class="k">if</span> <span class="no">Typhoeus</span><span class="o">::</span><span class="no">Response</span> <span class="o">===</span> <span class="n">response_or_attributes</span>
+        <span class="vi">@response</span> <span class="o">=</span> <span class="n">response_or_attributes</span>
+      <span class="k">else</span>
+        <span class="vi">@response</span> <span class="o">=</span> <span class="no">Typhoeus</span><span class="o">::</span><span class="no">Response</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">response_or_attributes</span><span class="p">)</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">cached?</span>
+      <span class="o">!!</span><span class="vi">@cached</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">respond_to?</span><span class="p">(</span><span class="nb">method</span><span class="p">,</span> <span class="n">include_private</span> <span class="o">=</span> <span class="kp">false</span><span class="p">)</span>
+      <span class="nb">methods</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="nb">method</span><span class="p">)</span> <span class="o">||</span> <span class="vi">@response</span><span class="o">.</span><span class="n">respond_to?</span><span class="p">(</span><span class="nb">method</span><span class="o">.</span><span class="n">to_sym</span><span class="p">)</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">method_missing</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+      <span class="vi">@response</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">to_sym</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span> <span class="k">if</span> <span class="vi">@response</span><span class="o">.</span><span class="n">respond_to?</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">to_sym</span><span class="p">)</span>
+    <span class="k">end</span>
+
+  <span class="k">end</span>
+<span class="k">end</span></pre></div>
+      </td>
+    </tr>
+  </table>
+</div>
+</body>

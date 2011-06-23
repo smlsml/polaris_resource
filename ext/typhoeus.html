@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>typhoeus.rb</title>
+  <link rel="stylesheet" href="http://jashkenas.github.com/docco/resources/docco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div id="jump_to">
+    Jump To &hellip;
+    <div id="jump_wrapper">
+      <div id="jump_page">
+          <a class="source" href="typhoeus.html">typhoeus.rb</a>
+          <a class="source" href="../polaris_client/associations.html">associations.rb</a>
+          <a class="source" href="../polaris_client/log_subscriber.html">log_subscriber.rb</a>
+          <a class="source" href="../polaris_client/railtie.html">railtie.rb</a>
+          <a class="source" href="../polaris_resource.html">polaris_resource.rb</a>
+          <a class="source" href="../polaris_resource/associations/association.html">association.rb</a>
+          <a class="source" href="../polaris_resource/associations/belongs_to_association.html">belongs_to_association.rb</a>
+          <a class="source" href="../polaris_resource/associations/has_many_association.html">has_many_association.rb</a>
+          <a class="source" href="../polaris_resource/associations/has_one_association.html">has_one_association.rb</a>
+          <a class="source" href="../polaris_resource/base.html">base.rb</a>
+          <a class="source" href="../polaris_resource/configuration.html">configuration.rb</a>
+          <a class="source" href="../polaris_resource/errors.html">errors.rb</a>
+          <a class="source" href="../polaris_resource/mixins/associations.html">associations.rb</a>
+          <a class="source" href="../polaris_resource/mixins/attributes.html">attributes.rb</a>
+          <a class="source" href="../polaris_resource/mixins/conversion.html">conversion.rb</a>
+          <a class="source" href="../polaris_resource/mixins/finders.html">finders.rb</a>
+          <a class="source" href="../polaris_resource/mixins/introspection.html">introspection.rb</a>
+          <a class="source" href="../polaris_resource/mixins/persistence.html">persistence.rb</a>
+          <a class="source" href="../polaris_resource/mixins/reflections.html">reflections.rb</a>
+          <a class="source" href="../polaris_resource/mixins/request_handling.html">request_handling.rb</a>
+          <a class="source" href="../polaris_resource/mixins/response_parsing.html">response_parsing.rb</a>
+          <a class="source" href="../polaris_resource/mock.html">mock.rb</a>
+          <a class="source" href="../polaris_resource/reflection.html">reflection.rb</a>
+          <a class="source" href="../polaris_resource/relation.html">relation.rb</a>
+          <a class="source" href="../polaris_resource/request.html">request.rb</a>
+          <a class="source" href="../polaris_resource/request_cache.html">request_cache.rb</a>
+          <a class="source" href="../polaris_resource/request_queue.html">request_queue.rb</a>
+          <a class="source" href="../polaris_resource/response.html">response.rb</a>
+          <a class="source" href="../polaris_resource/type_caster.html">type_caster.rb</a>
+      </div>
+    </div>
+  </div>
+  <table cellspacing=0 cellpadding=0>
+  <thead>
+    <tr>
+      <th class=docs><h1>typhoeus.rb</h1></th>
+      <th class=code></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr id='section-1'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-1">&#182;</a>
+        </div>
+        
+
+      </td>
+      <td class=code>
+        <div class='highlight'><pre><span class="k">module</span> <span class="nn">Typhoeus</span>
+  <span class="k">class</span> <span class="nc">Hydra</span>
+    <span class="k">module</span> <span class="nn">ConnectOptions</span>
+
+      <span class="k">def</span> <span class="nf">check_allow_net_connect_with_error_wrapping!</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+        <span class="n">check_allow_net_connect_without_error_wrapping!</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+      <span class="k">rescue</span> <span class="no">Typhoeus</span><span class="o">::</span><span class="no">Hydra</span><span class="o">::</span><span class="no">NetConnectNotAllowedError</span> <span class="o">=&gt;</span> <span class="n">ex</span>
+        <span class="k">raise</span> <span class="no">PolarisResource</span><span class="o">::</span><span class="no">NetConnectNotAllowedError</span><span class="p">,</span> <span class="n">ex</span><span class="o">.</span><span class="n">message</span>
+      <span class="k">end</span>
+      <span class="kp">private</span> <span class="ss">:check_allow_net_connect_with_error_wrapping!</span>
+
+      <span class="n">alias_method</span> <span class="ss">:check_allow_net_connect_without_error_wrapping!</span><span class="p">,</span> <span class="ss">:check_allow_net_connect!</span>
+      <span class="n">alias_method</span> <span class="ss">:check_allow_net_connect!</span><span class="p">,</span> <span class="ss">:check_allow_net_connect_with_error_wrapping!</span>
+
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span></pre></div>
+      </td>
+    </tr>
+  </table>
+</div>
+</body>
