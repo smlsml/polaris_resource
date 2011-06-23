@@ -12,6 +12,7 @@
     Jump To &hellip;
     <div id="jump_wrapper">
       <div id="jump_page">
+          <a class="source" href="/index.html">Index</a>
           <a class="source" href="../ext/typhoeus.html">typhoeus.rb</a>
           <a class="source" href="../polaris_client/associations.html">associations.rb</a>
           <a class="source" href="../polaris_client/log_subscriber.html">log_subscriber.rb</a>
@@ -93,8 +94,8 @@
       <span class="n">loaded_target</span>
     <span class="k">end</span>
     
-    <span class="k">def</span> <span class="nf">to_json</span>
-      <span class="nb">to_a</span><span class="o">.</span><span class="n">to_json</span>
+    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+      <span class="nb">to_a</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
     <span class="k">end</span>
     
     <span class="kp">private</span>
