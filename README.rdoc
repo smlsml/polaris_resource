@@ -1,9 +1,5 @@
-RESTful API Client
-
-This is alpha software.  It's a work in progress.
-
+= RESTful API Client
 Working toward a DSL that is very ActiveResource/ActiveRecord-like with some features stolen from other great libraries like DataMapper.
-
 
 For Example:
 
@@ -45,6 +41,46 @@ For Example:
     Dummy.result_per_page = 25                         # => 25
     Dummy.page(3)                                      # => GET http://localhost/dummies?limit=25&offset=50
 
-It uses Typhoeus for HTTP, and will eventually support lazy, parallel requests.
+= Architecture
 
-Design informed by Service-Oriented Design with Ruby and Rails by Paul Dix, @Amazon[http://www.amazon.com/Service-Oriented-Design-Rails-Addison-Wesley-Professional/dp/0321659368/ref=sr_1_1?ie=UTF8&qid=1306652697&sr=8-1]
+== Base
+
+  The Base class consists of the main components one would need to use the PolarisResource API.  The behavior of the class is contained in several module 'mix-ins'. These modules include Associations, Attributes, Conversion, Finders, Introspection, Persistence, Reflections, RequestHandling, and ResponseParsing.  Each of these modules will be explained below.  Just know that the Base class includes these modules for you.
+  
+== Mixins
+
+=== Associations
+
+=== Attributes
+
+=== Conversion
+
+=== Finders
+
+=== Introspection
+
+=== Persistence
+
+=== Reflections
+
+=== RequestHandling
+
+=== ResponseParsing
+
+== Configuration
+
+== Reflection
+
+== Relation
+
+== Request
+
+== RequestCache
+
+== RequestQueue
+
+== Response
+
+== TypeCaster
+
+Design informed by Service-Oriented Design with Ruby and Rails by Paul Dix, @Amazon[http://www.amazon.com/Service-Oriented-Design-Rails-Addison-Wesley-Professional/dp/0321659368]
