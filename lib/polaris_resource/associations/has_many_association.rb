@@ -6,12 +6,6 @@ module PolarisResource
         @owner.id ? @options[:class_name].constantize.get(_uri) : []
       end
       
-      def _uri
-        owner_id = @owner.respond_to?(:polaris_id) ? @owner.polaris_id : @owner.id
-        "/#{@owner.class.model_name.underscore.pluralize}/#{owner_id}/#{@association.to_s.pluralize}"
-      end
-      private :_uri
-      
       def where(query_attributes)
         return @mock if @mock
         transform_association_to_relation.where(query_attributes)
@@ -27,16 +21,21 @@ module PolarisResource
         transform_association_to_relation.page(page_number)
       end
       
-      def transform_association_to_relation
-        Relation.new(@association.to_s.classify.constantize).where("#{@owner.class.to_s.underscore}_id".to_sym => @owner.id)
-      end
-      
       def <<(one_of_many)
         @target ||= []
         @target << one_of_many
       end
-        
+      
+      def transform_association_to_relation
+        Relation.new(@association.to_s.classify.constantize).where("#{@owner.class.to_s.underscore}_id".to_sym => @owner.id)
+      end
       private :transform_association_to_relation
+      
+      def _uri
+        owner_id = @owner.respond_to?(:polaris_id) ? @owner.polaris_id : @owner.id
+        "/#{@owner.class.model_name.underscore.pluralize}/#{owner_id}/#{@association.to_s.pluralize}"
+      end
+      private :_uri
       
     end
   end
