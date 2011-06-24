@@ -12,7 +12,7 @@
     Jump To &hellip;
     <div id="jump_wrapper">
       <div id="jump_page">
-          <a class="source" href="/polaris_resource/index.html">Index</a>
+        <a class="source" href="/polaris_resource/index.html">INDEX</a>
           <a class="source" href="ext/typhoeus.html">typhoeus.rb</a>
           <a class="source" href="polaris_client/associations.html">associations.rb</a>
           <a class="source" href="polaris_client/log_subscriber.html">log_subscriber.rb</a>
@@ -69,7 +69,7 @@
         <div class="pilwrap">
           <a class="pilcrow" href="#section-2">&#182;</a>
         </div>
-        <p>Typhoeus is used for HTTP requests in parallel.</p>
+        <p>Typhoeus is used for HTTP requests. The libcurl library allows us to make multiple requests in parallel.</p>
       </td>
       <td class=code>
         <div class='highlight'><pre><span class="nb">require</span> <span class="s1">&#39;typhoeus&#39;</span></pre></div>
@@ -114,7 +114,7 @@ mocking, configuration, errors, and classes managing associations, reflections, 
         <div class="pilwrap">
           <a class="pilcrow" href="#section-5">&#182;</a>
         </div>
-        <p>MIXINS</p>
+        <p>Mixins provide behaviors to the Base class.</p>
       </td>
       <td class=code>
         <div class='highlight'><pre>  <span class="nb">autoload</span> <span class="ss">:Associations</span><span class="p">,</span>    <span class="s1">&#39;polaris_resource/mixins/associations&#39;</span>
@@ -134,7 +134,7 @@ mocking, configuration, errors, and classes managing associations, reflections, 
         <div class="pilwrap">
           <a class="pilcrow" href="#section-6">&#182;</a>
         </div>
-        <p>ERROR CLASSES</p>
+        <p>Error classes</p>
       </td>
       <td class=code>
         <div class='highlight'><pre>  <span class="nb">autoload</span> <span class="ss">:ConfigurationError</span><span class="p">,</span>          <span class="s1">&#39;polaris_resource/errors&#39;</span>
@@ -164,7 +164,8 @@ mocking, configuration, errors, and classes managing associations, reflections, 
         <div class="pilwrap">
           <a class="pilcrow" href="#section-8">&#182;</a>
         </div>
-        <p>Railtie</p>
+        <p>The Railtie loads the LogSubscriber for printing output to the Rails log, and
+Associations which plug-in to ActiveRecord to link associated resources.</p>
       </td>
       <td class=code>
         <div class='highlight'><pre><span class="nb">require</span> <span class="s1">&#39;polaris_client/railtie&#39;</span> <span class="k">if</span> <span class="n">defined?</span><span class="p">(</span><span class="no">Rails</span><span class="p">)</span></pre></div>

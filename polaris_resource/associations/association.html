@@ -12,7 +12,7 @@
     Jump To &hellip;
     <div id="jump_wrapper">
       <div id="jump_page">
-          <a class="source" href="/polaris_resource/index.html">Index</a>
+        <a class="source" href="/polaris_resource/index.html">INDEX</a>
           <a class="source" href="../../ext/typhoeus.html">typhoeus.rb</a>
           <a class="source" href="../../polaris_client/associations.html">associations.rb</a>
           <a class="source" href="../../polaris_client/log_subscriber.html">log_subscriber.rb</a>
@@ -58,25 +58,122 @@
         <div class="pilwrap">
           <a class="pilcrow" href="#section-1">&#182;</a>
         </div>
-        
+        <p>The Association class serves as the basis for associating resources.
+Resources have an association DSL that follows that of ActiveRecord:</p>
+
+<p>has_many :automobiles
+has_one :car
+belongs_to :car_club</p>
+
+<p>This class acts as a proxy that will allow for lazy evaluation of an
+association. The proxy waits to make the request for the object until
+a method on the association is called. When this happens, because the
+method does not exist on the proxy object, method_missing will be
+called, the target object will be loaded, and then the method will be
+called on the loaded target.</p>
       </td>
       <td class=code>
         <div class='highlight'><pre><span class="k">module</span> <span class="nn">PolarisResource</span>
   <span class="k">module</span> <span class="nn">Associations</span>
     <span class="k">class</span> <span class="nc">Association</span> <span class="o">&lt;</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">BasicObject</span>
       
-      <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">owner</span><span class="p">,</span> <span class="n">association</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">,</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{})</span>
-        <span class="vi">@owner</span>       <span class="o">=</span> <span class="n">owner</span>
-        <span class="vi">@association</span> <span class="o">=</span> <span class="n">association</span>
-        <span class="vi">@target</span>      <span class="o">=</span> <span class="n">target</span>
-        <span class="vi">@options</span>     <span class="o">=</span> <span class="p">{}</span>
-        
-        <span class="vi">@options</span><span class="o">[</span><span class="ss">:polymorphic</span><span class="o">]</span> <span class="o">=</span> <span class="n">options</span><span class="o">[</span><span class="ss">:polymorphic</span><span class="o">]</span> <span class="o">||</span> <span class="kp">false</span>
-        <span class="vi">@options</span><span class="o">[</span><span class="ss">:class_name</span><span class="o">]</span>  <span class="o">=</span> <span class="n">options</span><span class="o">[</span><span class="ss">:class_name</span><span class="o">]</span>  <span class="o">||</span> <span class="vi">@association</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">classify</span>
-        <span class="vi">@options</span><span class="o">[</span><span class="ss">:foreign_key</span><span class="o">]</span> <span class="o">=</span> <span class="n">options</span><span class="o">[</span><span class="ss">:foreign_key</span><span class="o">]</span> <span class="o">||</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="vi">@association</span><span class="si">}</span><span class="s2">_id&quot;</span><span class="o">.</span><span class="n">to_sym</span>
+      <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">owner</span><span class="p">,</span> <span class="n">association</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">,</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{})</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-2'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-2">&#182;</a>
+        </div>
+        <p>The class that the association exists on.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>        <span class="vi">@owner</span>       <span class="o">=</span> <span class="n">owner</span>
+        </pre></div>
+      </td>
+    </tr>
+    <tr id='section-3'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-3">&#182;</a>
+        </div>
+        <p>The associated class, as named in the association method (i.e. :automobile, :car, :car_club)</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>        <span class="vi">@association</span> <span class="o">=</span> <span class="n">association</span>
+        </pre></div>
+      </td>
+    </tr>
+    <tr id='section-4'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-4">&#182;</a>
+        </div>
+        <p>The loaded object.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>        <span class="vi">@target</span>      <span class="o">=</span> <span class="n">target</span>
+        </pre></div>
+      </td>
+    </tr>
+    <tr id='section-5'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-5">&#182;</a>
+        </div>
+        <p>Options for the association.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>        <span class="vi">@options</span>     <span class="o">=</span> <span class="p">{}</span>
+        </pre></div>
+      </td>
+    </tr>
+    <tr id='section-6'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-6">&#182;</a>
+        </div>
+        <p>Marks an association as polymorphic.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>        <span class="vi">@options</span><span class="o">[</span><span class="ss">:polymorphic</span><span class="o">]</span> <span class="o">=</span> <span class="n">options</span><span class="o">[</span><span class="ss">:polymorphic</span><span class="o">]</span> <span class="o">||</span> <span class="kp">false</span>
+        </pre></div>
+      </td>
+    </tr>
+    <tr id='section-7'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-7">&#182;</a>
+        </div>
+        <p>Specifies that this association uses a specified class as its target.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>        <span class="vi">@options</span><span class="o">[</span><span class="ss">:class_name</span><span class="o">]</span>  <span class="o">=</span> <span class="n">options</span><span class="o">[</span><span class="ss">:class_name</span><span class="o">]</span>  <span class="o">||</span> <span class="vi">@association</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">classify</span>
+        </pre></div>
+      </td>
+    </tr>
+    <tr id='section-8'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-8">&#182;</a>
+        </div>
+        <p>Specifies the key used to make a request across a join.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>        <span class="vi">@options</span><span class="o">[</span><span class="ss">:foreign_key</span><span class="o">]</span> <span class="o">=</span> <span class="n">options</span><span class="o">[</span><span class="ss">:foreign_key</span><span class="o">]</span> <span class="o">||</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="vi">@association</span><span class="si">}</span><span class="s2">_id&quot;</span><span class="o">.</span><span class="n">to_sym</span>
       <span class="k">end</span>
-      
-      <span class="k">def</span> <span class="nf">id</span>
+      </pre></div>
+      </td>
+    </tr>
+    <tr id='section-9'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-9">&#182;</a>
+        </div>
+        <p>The proxy implements a few methods that need to be overridden so that they will work as expected.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>      <span class="k">def</span> <span class="nf">id</span>
         <span class="n">loaded_target</span><span class="o">.</span><span class="n">id</span>
       <span class="k">end</span>
       
@@ -87,31 +184,63 @@
       <span class="k">def</span> <span class="nf">to_param</span>
         <span class="n">loaded_target</span><span class="o">.</span><span class="n">to_param</span>
       <span class="k">end</span>
-      
-      <span class="k">def</span> <span class="nf">load_target!</span></pre></div>
+      </pre></div>
       </td>
     </tr>
-    <tr id='section-2'>
+    <tr id='section-10'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-2">&#182;</a>
+          <a class="pilcrow" href="#section-10">&#182;</a>
         </div>
-        <p>Left to be implemented by the subclasses</p>
-
+        <p>The stub can be used to mock out an association without having to really load the target.</p>
       </td>
       <td class=code>
-        <div class='highlight'><pre>      <span class="k">end</span>
-      
-      <span class="k">def</span> <span class="nf">loaded_target</span>
-        <span class="k">return</span> <span class="vi">@mock</span> <span class="k">if</span> <span class="vi">@mock</span>
-        <span class="vi">@target</span> <span class="o">||=</span> <span class="n">load_target!</span>
-      <span class="k">end</span>
-      
-      <span class="k">def</span> <span class="nf">stub</span><span class="p">(</span><span class="n">mock</span><span class="p">)</span>
+        <div class='highlight'><pre>      <span class="k">def</span> <span class="nf">stub</span><span class="p">(</span><span class="n">mock</span><span class="p">)</span>
         <span class="vi">@mock</span> <span class="o">=</span> <span class="n">mock</span>
       <span class="k">end</span>
       
-      <span class="k">def</span> <span class="nf">method_missing</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+      <span class="kp">private</span>
+      </pre></div>
+      </td>
+    </tr>
+    <tr id='section-11'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-11">&#182;</a>
+        </div>
+        <p>This is left to be implemented by the subclasses as it will operate differently in each case.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>      <span class="k">def</span> <span class="nf">load_target!</span>
+      <span class="k">end</span>
+      </pre></div>
+      </td>
+    </tr>
+    <tr id='section-12'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-12">&#182;</a>
+        </div>
+        <p>Cached version of the loaded target.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>      <span class="k">def</span> <span class="nf">loaded_target</span>
+        <span class="k">return</span> <span class="vi">@mock</span> <span class="k">if</span> <span class="vi">@mock</span>
+        <span class="vi">@target</span> <span class="o">||=</span> <span class="n">load_target!</span>
+      <span class="k">end</span>
+      </pre></div>
+      </td>
+    </tr>
+    <tr id='section-13'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-13">&#182;</a>
+        </div>
+        <p>Called when methods that do not exist on the proxy object are invoked.</p>
+
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>      <span class="k">def</span> <span class="nf">method_missing</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">loaded_target</span><span class="o">.</span><span class="n">respond_to?</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
           <span class="n">loaded_target</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
         <span class="k">else</span>
