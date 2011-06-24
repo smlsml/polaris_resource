@@ -124,7 +124,6 @@ DEPENDENCIES
   jeweler (= 1.6.0)
   pry (= 0.8.3)
   rails (= 3.0.7)
-  rake (= 0.8.7)
   rcov (= 0.9.9)
   rocco (= 0.7.0)
   rspec-rails (= 2.6.0)
