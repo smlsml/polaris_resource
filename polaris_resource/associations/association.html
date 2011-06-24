@@ -78,14 +78,24 @@ called on the loaded target.</p>
         <div class='highlight'><pre><span class="k">module</span> <span class="nn">PolarisResource</span>
   <span class="k">module</span> <span class="nn">Associations</span>
     <span class="k">class</span> <span class="nc">Association</span> <span class="o">&lt;</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">BasicObject</span>
-      
-      <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">owner</span><span class="p">,</span> <span class="n">association</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">,</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{})</span></pre></div>
+      </pre></div>
       </td>
     </tr>
     <tr id='section-2'>
       <td class=docs>
         <div class="pilwrap">
           <a class="pilcrow" href="#section-2">&#182;</a>
+        </div>
+        <p>Associations can be loaded with several options.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>      <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">owner</span><span class="p">,</span> <span class="n">association</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">,</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{})</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-3'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-3">&#182;</a>
         </div>
         <p>@owner stores the class that the association exists on.</p>
       </td>
@@ -94,10 +104,10 @@ called on the loaded target.</p>
         </pre></div>
       </td>
     </tr>
-    <tr id='section-3'>
+    <tr id='section-4'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-3">&#182;</a>
+          <a class="pilcrow" href="#section-4">&#182;</a>
         </div>
         <p>@association stores the associated class, as named in the association
 method (i.e. :automobile, :car, :car_club)</p>
@@ -107,10 +117,10 @@ method (i.e. :automobile, :car, :car_club)</p>
         </pre></div>
       </td>
     </tr>
-    <tr id='section-4'>
+    <tr id='section-5'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-4">&#182;</a>
+          <a class="pilcrow" href="#section-5">&#182;</a>
         </div>
         <p>@target stores the loaded object. It is not typically accessed directly,
 but instead should be accessed through the loaded_target method.</p>
@@ -120,10 +130,10 @@ but instead should be accessed through the loaded_target method.</p>
         </pre></div>
       </td>
     </tr>
-    <tr id='section-5'>
+    <tr id='section-6'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-5">&#182;</a>
+          <a class="pilcrow" href="#section-6">&#182;</a>
         </div>
         <p>@options holds the chosen options for the association.</p>
       </td>
@@ -132,10 +142,10 @@ but instead should be accessed through the loaded_target method.</p>
         </pre></div>
       </td>
     </tr>
-    <tr id='section-6'>
+    <tr id='section-7'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-6">&#182;</a>
+          <a class="pilcrow" href="#section-7">&#182;</a>
         </div>
         <p>Associations can be marked as polymorphic. These associations will use
 the returned found type to instantiate the associated object.</p>
@@ -145,10 +155,10 @@ the returned found type to instantiate the associated object.</p>
         </pre></div>
       </td>
     </tr>
-    <tr id='section-7'>
+    <tr id='section-8'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-7">&#182;</a>
+          <a class="pilcrow" href="#section-8">&#182;</a>
         </div>
         <p>In some cases, the association name will not match that of the class
 that should be instantiated when it is invoked. Here, we can specify
@@ -162,10 +172,10 @@ instantiate this object or collection.</p>
       </pre></div>
       </td>
     </tr>
-    <tr id='section-8'>
+    <tr id='section-9'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-8">&#182;</a>
+          <a class="pilcrow" href="#section-9">&#182;</a>
         </div>
         <p>The proxy implements a few methods that need to be overridden
 so that they will work as expected.</p>
@@ -185,10 +195,10 @@ so that they will work as expected.</p>
       </pre></div>
       </td>
     </tr>
-    <tr id='section-9'>
+    <tr id='section-10'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-9">&#182;</a>
+          <a class="pilcrow" href="#section-10">&#182;</a>
         </div>
         <p>The stub method can be used to mock out an association without
 having to really load the target.</p>
@@ -202,10 +212,10 @@ having to really load the target.</p>
       </pre></div>
       </td>
     </tr>
-    <tr id='section-10'>
+    <tr id='section-11'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-10">&#182;</a>
+          <a class="pilcrow" href="#section-11">&#182;</a>
         </div>
         <p>This is left to be implemented by the subclasses as it will operate
 differently in each case.</p>
@@ -216,10 +226,10 @@ differently in each case.</p>
       </pre></div>
       </td>
     </tr>
-    <tr id='section-11'>
+    <tr id='section-12'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-11">&#182;</a>
+          <a class="pilcrow" href="#section-12">&#182;</a>
         </div>
         <p>The loaded_target method holds a cached version of the loaded target.
 This method is used to access the proxied object. Since a request will
@@ -235,10 +245,10 @@ request will be made.</p>
       </pre></div>
       </td>
     </tr>
-    <tr id='section-12'>
+    <tr id='section-13'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-12">&#182;</a>
+          <a class="pilcrow" href="#section-13">&#182;</a>
         </div>
         <p>The method_missing hook will be called when methods that do not exist
 on the proxy object are invoked. This is the point at which the proxied
