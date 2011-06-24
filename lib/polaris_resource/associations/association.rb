@@ -17,6 +17,7 @@ module PolarisResource
   module Associations
     class Association < ActiveSupport::BasicObject
       
+      # Associations can be loaded with several options.
       def initialize(owner, association, target = nil, options = {})
         # @owner stores the class that the association exists on.
         @owner       = owner
