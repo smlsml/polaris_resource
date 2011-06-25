@@ -37,18 +37,12 @@ module PolarisResource
         # @options holds the chosen options for the association.
         @options = {}
         
-        # Associations can be marked as polymorphic. These associations will use
-        # the returned found type to instantiate the associated object.
-        @options[:polymorphic] = options[:polymorphic] || false
-        
         # In some cases, the association name will not match that of the class
         # that should be instantiated when it is invoked. Here, we can specify
         # that this association uses a specified class as its target. When the
         # request is made for the association, this class will be used to
         # instantiate this object or collection.
         @options[:class_name] = options[:class_name] || @association.to_s.classify
-        
-        @options[:foreign_key] = options[:foreign_key] || "#{@owner.class.to_s.underscore}_id".to_sym
       end
       
       # The proxy implements a few methods that need to be overridden

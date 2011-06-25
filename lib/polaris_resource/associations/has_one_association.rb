@@ -2,6 +2,11 @@ module PolarisResource
   module Associations
     class HasOneAssociation < Association
       
+      def initialize(owner, association, target = nil, options = {})
+        super
+        @options[:foreign_key] = options[:foreign_key] || "#{@owner.class.to_s.underscore}_id".to_sym
+      end
+      
       def load_target!
         @options[:class_name].constantize.get(_uri) if @owner.id
       end

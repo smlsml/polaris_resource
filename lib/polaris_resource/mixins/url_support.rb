@@ -5,7 +5,7 @@ module PolarisResource
     module ClassMethods
     
       def url_name
-        @url_name ||= model_name.underscore.singularize
+        @url_name ||= model_name.underscore
       end
       alias_method :singular_url_name, :url_name
       
