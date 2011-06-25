@@ -54,7 +54,7 @@ module PolarisResource
       private :find_one
 
       def find_one_uri(id)
-        "/#{url_name}/#{id}"
+        "/#{plural_url_name}/#{id}"
       end
       private :find_one_uri
 
@@ -69,7 +69,7 @@ module PolarisResource
       private :find_all
 
       def find_all_uri
-        "/#{url_name}"
+        "/#{plural_url_name}"
       end
 
     end

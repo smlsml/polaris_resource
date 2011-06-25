@@ -20,18 +20,22 @@ module PolarisResource
       # Associations can be loaded with several options.
       def initialize(owner, association, target = nil, options = {})
         # @owner stores the class that the association exists on.
-        @owner       = owner
+        @owner = owner
         
         # @association stores the associated class, as named in the association
         # method (i.e. :automobile, :car, :car_club)
         @association = association
         
+        # @association_class stores the class of the association, constantized
+        # from the named association (i.e. Automobile, Car, CarClub)
+        @association_class = association.to_s.classify.constantize
+        
         # @target stores the loaded object. It is not typically accessed directly,
         # but instead should be accessed through the loaded_target method.
-        @target      = target
+        @target = target
         
         # @options holds the chosen options for the association.
-        @options     = {}
+        @options = {}
         
         # Associations can be marked as polymorphic. These associations will use
         # the returned found type to instantiate the associated object.
@@ -42,7 +46,9 @@ module PolarisResource
         # that this association uses a specified class as its target. When the
         # request is made for the association, this class will be used to
         # instantiate this object or collection.
-        @options[:class_name]  = options[:class_name]  || @association.to_s.classify
+        @options[:class_name] = options[:class_name] || @association.to_s.classify
+        
+        @options[:foreign_key] = options[:foreign_key] || "#{@owner.class.to_s.underscore}_id".to_sym
       end
       
       # The proxy implements a few methods that need to be overridden

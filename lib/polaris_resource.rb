@@ -31,6 +31,7 @@ module PolarisResource
   autoload :Reflections,     'polaris_resource/mixins/reflections'
   autoload :RequestHandling, 'polaris_resource/mixins/request_handling'
   autoload :ResponseParsing, 'polaris_resource/mixins/response_parsing'
+  autoload :UrlSupport,      'polaris_resource/mixins/url_support'
   
   # Error classes
   autoload :ConfigurationError,          'polaris_resource/errors'
@@ -42,8 +43,8 @@ end
 
 # Associations for application objects, typically ActiveRecord, to resource
 module PolarisClient
-  autoload :Associations,             'polaris_client/associations'
-  autoload :LogSubscriber,            'polaris_client/log_subscriber'
+  autoload :Associations,  'polaris_client/associations'
+  autoload :LogSubscriber, 'polaris_client/log_subscriber'
 end
 
 # The Railtie loads the LogSubscriber for printing output to the Rails log, and

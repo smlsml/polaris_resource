@@ -27,13 +27,13 @@ module PolarisResource
       end
       
       def transform_association_to_relation
-        Relation.new(@association.to_s.classify.constantize).where("#{@owner.class.to_s.underscore}_id".to_sym => @owner.id)
+        Relation.new(@association.to_s.classify.constantize).where(@options[:foreign_key] => @owner.id)
       end
       private :transform_association_to_relation
       
       def _uri
         owner_id = @owner.respond_to?(:polaris_id) ? @owner.polaris_id : @owner.id
-        "/#{@owner.class.url_name}/#{owner_id}/#{@association.to_s.pluralize}"
+        "/#{@owner.class.plural_url_name}/#{owner_id}/#{@association_class.plural_url_name}"
       end
       private :_uri
       

@@ -26,6 +26,7 @@ module PolarisResource
     include Reflections
     include RequestHandling
     include ResponseParsing
+    include UrlSupport
 
     # Defines a default 'id' property on all instances of PolarisResource::Base and subclasses
     property :id, :integer
@@ -45,14 +46,6 @@ module PolarisResource
     
     def self.base_class
       self
-    end
-    
-    def self.url_name
-      @url_name ||= model_name.underscore.pluralize
-    end
-    
-    def self.set_base_url(url_name)
-      @url_name = url_name
     end
     
     private
