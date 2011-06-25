@@ -30,6 +30,10 @@ module PolarisResource
     def status
       @options[:status] || 200
     end
+    
+    def ==(other_object)
+      HashWithIndifferentAccess.new(other_object.attributes) == @attributes && other_object.class.to_s == @mock_class
+    end
 
     def self.mock(mock_class, id, attributes = {}, options = {})
       new(mock_class, id, attributes, options)
