@@ -5,6 +5,7 @@ module PolarisResource
       def initialize(owner, association, target = nil, options = {})
         super
         @options[:foreign_key] = options[:foreign_key] || "#{@owner.class.to_s.underscore}_id".to_sym
+        @options[:primary_key] = options[:primary_key] || :id
       end
       
       def load_target!
@@ -37,8 +38,8 @@ module PolarisResource
       private :transform_association_to_relation
       
       def _uri
-        owner_id = @owner.respond_to?(:polaris_id) ? @owner.polaris_id : @owner.id
-        "/#{@owner.class.plural_url_name}/#{owner_id}/#{@association_class.plural_url_name}"
+        primary_key = @owner.send(@options[:primary_key])
+        "/#{@owner.class.plural_url_name}/#{primary_key}/#{@association_class.plural_url_name}"
       end
       private :_uri
       
