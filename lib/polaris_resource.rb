@@ -1,7 +1,7 @@
 # We are using Yalj::Ruby for its JSON parsing hotness.
 require 'yajl/json_gem'
 
-# Typhoeus is used for HTTP requests in parallel.
+# Typhoeus is used for HTTP requests. The libcurl library allows us to make multiple requests in parallel.
 require 'typhoeus'
 
 # ActiveModel provides validations, errors, naming...
@@ -21,7 +21,7 @@ module PolarisResource
   autoload :Response,      'polaris_resource/response'
   autoload :TypeCaster,    'polaris_resource/type_caster'
   
-  # MIXINS
+  # Mixins provide behaviors to the Base class.
   autoload :Associations,    'polaris_resource/mixins/associations'
   autoload :Attributes,      'polaris_resource/mixins/attributes'
   autoload :Conversion,      'polaris_resource/mixins/conversion'
@@ -32,7 +32,7 @@ module PolarisResource
   autoload :RequestHandling, 'polaris_resource/mixins/request_handling'
   autoload :ResponseParsing, 'polaris_resource/mixins/response_parsing'
   
-  # ERROR CLASSES
+  # Error classes
   autoload :ConfigurationError,          'polaris_resource/errors'
   autoload :NetConnectNotAllowedError,   'polaris_resource/errors'
   autoload :RemoteHostConnectionFailure, 'polaris_resource/errors'
@@ -46,7 +46,8 @@ module PolarisClient
   autoload :LogSubscriber,            'polaris_client/log_subscriber'
 end
 
-# Railtie
+# The Railtie loads the LogSubscriber for printing output to the Rails log, and
+# Associations which plug-in to ActiveRecord to link associated resources.
 require 'polaris_client/railtie' if defined?(Rails)
 
 # There are some Typhoeus patches contained here.
