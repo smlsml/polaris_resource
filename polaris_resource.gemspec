@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{polaris_resource}
-  s.version = "0.2.2"
+  s.version = "0.2.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ryan Moran"]
-  s.date = %q{2011-06-17}
+  s.date = %q{2011-06-24}
   s.description = %q{RESTful API Client}
   s.email = %q{ryan.moran@gmail.com}
   s.extra_rdoc_files = [
@@ -140,7 +140,6 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<activemodel>, ["~> 3.0.0"])
       s.add_runtime_dependency(%q<activesupport>, ["~> 3.0.0"])
       s.add_runtime_dependency(%q<i18n>, ["~> 0.5.0"])
-      s.add_development_dependency(%q<rake>, ["= 0.8.7"])
       s.add_development_dependency(%q<rails>, ["= 3.0.7"])
       s.add_development_dependency(%q<sqlite3>, ["= 1.3.3"])
       s.add_development_dependency(%q<rspec-rails>, ["= 2.6.0"])
@@ -158,7 +157,6 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<activemodel>, ["~> 3.0.0"])
       s.add_dependency(%q<activesupport>, ["~> 3.0.0"])
       s.add_dependency(%q<i18n>, ["~> 0.5.0"])
-      s.add_dependency(%q<rake>, ["= 0.8.7"])
       s.add_dependency(%q<rails>, ["= 3.0.7"])
       s.add_dependency(%q<sqlite3>, ["= 1.3.3"])
       s.add_dependency(%q<rspec-rails>, ["= 2.6.0"])
@@ -177,7 +175,6 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<activemodel>, ["~> 3.0.0"])
     s.add_dependency(%q<activesupport>, ["~> 3.0.0"])
     s.add_dependency(%q<i18n>, ["~> 0.5.0"])
-    s.add_dependency(%q<rake>, ["= 0.8.7"])
     s.add_dependency(%q<rails>, ["= 3.0.7"])
     s.add_dependency(%q<sqlite3>, ["= 1.3.3"])
     s.add_dependency(%q<rspec-rails>, ["= 2.6.0"])
