@@ -47,6 +47,14 @@ module PolarisResource
       self
     end
     
+    def self.url_name
+      @url_name ||= model_name.underscore.pluralize
+    end
+    
+    def self.set_base_url(url_name)
+      @url_name = url_name
+    end
+    
     private
     
     def method_missing(m, *args, &block)

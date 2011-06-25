@@ -33,7 +33,7 @@ module PolarisResource
       
       def _uri
         owner_id = @owner.respond_to?(:polaris_id) ? @owner.polaris_id : @owner.id
-        "/#{@owner.class.model_name.underscore.pluralize}/#{owner_id}/#{@association.to_s.pluralize}"
+        "/#{@owner.class.url_name}/#{owner_id}/#{@association.to_s.pluralize}"
       end
       private :_uri
       

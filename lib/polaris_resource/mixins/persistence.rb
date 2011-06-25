@@ -14,7 +14,7 @@ module PolarisResource
       end
 
       def save_uri
-        uri = "/#{self.class.model_name.underscore.pluralize}"
+        uri = "/#{self.class.url_name}"
         uri << "/#{id}" unless new_record?
         uri
       end

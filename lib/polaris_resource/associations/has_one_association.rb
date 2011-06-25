@@ -8,7 +8,7 @@ module PolarisResource
       
       def _uri
         owner_id = @owner.respond_to?(:polaris_id) ? @owner.polaris_id : @owner.id
-        "/#{@owner.class.model_name.underscore.pluralize}/#{owner_id}/#{@association}"
+        "/#{@owner.class.url_name}/#{owner_id}/#{@association}"
       end
       private :_uri
       
