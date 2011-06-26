@@ -18,11 +18,11 @@ module PolarisResource
 
         define_method association do
           instance_variable_get("@#{association}") ||
-            instance_variable_set("@#{association}", BelongsToAssociation.new(self, association, nil, options))
+            instance_variable_set("@#{association}", BelongsToAssociation.new(self, association, :options => options))
         end
 
         define_method "#{association}=" do |target|
-          instance_variable_set("@#{association}", BelongsToAssociation.new(self, association, target, options))
+          instance_variable_set("@#{association}", BelongsToAssociation.new(self, association, :target => target, :options => options))
           send("#{association}_id=", target.id)
         end
       end
@@ -32,7 +32,7 @@ module PolarisResource
 
         define_method association do
           instance_variable_get("@#{association}") ||
-            instance_variable_set("@#{association}", HasManyAssociation.new(self, association, nil, options))
+            instance_variable_set("@#{association}", HasManyAssociation.new(self, association, :options => options))
         end
       end
 
@@ -41,11 +41,11 @@ module PolarisResource
 
         define_method association do
           instance_variable_get("@#{association}") ||
-            instance_variable_set("@#{association}", HasOneAssociation.new(self, association, nil, options))
+            instance_variable_set("@#{association}", HasOneAssociation.new(self, association, :options => options))
         end
 
         define_method "#{association}=" do |target|
-          instance_variable_set("@#{association}", HasOneAssociation.new(self, association, target, options))
+          instance_variable_set("@#{association}", HasOneAssociation.new(self, association, :target => target, :options => options))
         end
       end
 

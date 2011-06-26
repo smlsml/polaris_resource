@@ -20,6 +20,7 @@ module PolarisResource
     include Associations
     include Attributes
     include Conversion
+    include Filtering
     include Finders
     include Introspection
     include Persistence

@@ -4,18 +4,22 @@ module PolarisResource
       
       # The initializer calls out to the superclass' initializer and then
       # sets the options particular to itself.
-      def initialize(owner, association, target = nil, options = {})
+      def initialize(owner, association, settings = {})
         super
         
         # The foreign key is used to generate the url for the association
         # request when the association is transformed into a relation.
         # The default is to use the class of the owner object with an '_id'
         # suffix.
-        @options[:foreign_key] = options[:foreign_key] || "#{@owner.class.to_s.underscore}_id".to_sym
+        @options[:foreign_key] ||= "#{@owner.class.to_s.underscore}_id".to_sym
         
         # The primary key is used in the generated url for the target. It
         # defaults to :id.
-        @options[:primary_key] = options[:primary_key] || :id
+        @options[:primary_key] ||= :id
+      end
+      
+      def with_filter(filter)
+        HasManyAssociation.new(@owner, @association, :target => @target, :filters => @filters.push(filter), :options => @options)
       end
       
       # When loading the target, the primary key is first checked. If the

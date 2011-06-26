@@ -18,7 +18,7 @@ module PolarisResource
     class Association < ActiveSupport::BasicObject
       
       # Associations can be loaded with several options.
-      def initialize(owner, association, target = nil, options = {})
+      def initialize(owner, association, settings = {})
         # @owner stores the class that the association exists on.
         @owner = owner
         
@@ -32,18 +32,20 @@ module PolarisResource
         
         # @target stores the loaded object. It is not typically accessed directly,
         # but instead should be accessed through the loaded_target method.
-        @target = target
+        @target = settings[:target]
+        
+        @filters = settings[:filters] || []
         
         # @options holds the chosen options for the association. Several of these
         # options are set in the subclass' initializer.
-        @options = {}
+        @options = settings[:options] || {}
         
         # In some cases, the association name will not match that of the class
         # that should be instantiated when it is invoked. Here, we can specify
         # that this association uses a specified class as its target. When the
         # request is made for the association, this class will be used to
         # instantiate this object or collection.
-        @options[:class_name] = options[:class_name] || @association.to_s.classify
+        @options[:class_name] ||= @association.to_s.classify
       end
       
       # The proxy implements a few methods that need to be delegated to the target
@@ -81,13 +83,22 @@ module PolarisResource
       def loaded_target
         return @mock if @mock
         @target ||= load_target!
+        if Array === @target && !@filters.empty?
+          @filters.inject(@target) do |target, filter|
+            filter.call(target)
+          end
+        else
+          @target
+        end
       end
       
       # The method_missing hook will be called when methods that do not exist
       # on the proxy object are invoked. This is the point at which the proxied
       # object is loaded, if it has not been loaded already.
       def method_missing(m, *args, &block)
-        if loaded_target.respond_to?(m)
+        if filter = @association_class.find_filter(m)
+          with_filter(filter)
+        elsif loaded_target.respond_to?(m)
           loaded_target.send(m, *args, &block)
         else
           super
