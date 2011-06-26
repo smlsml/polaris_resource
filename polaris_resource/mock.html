@@ -34,6 +34,7 @@
           <a class="source" href="mixins/reflections.html">reflections.rb</a>
           <a class="source" href="mixins/request_handling.html">request_handling.rb</a>
           <a class="source" href="mixins/response_parsing.html">response_parsing.rb</a>
+          <a class="source" href="mixins/url_support.html">url_support.rb</a>
           <a class="source" href="mock.html">mock.rb</a>
           <a class="source" href="reflection.html">reflection.rb</a>
           <a class="source" href="relation.html">relation.rb</a>
@@ -92,6 +93,10 @@ It will stub any requests to /:class_name/:id.</p>
 
     <span class="k">def</span> <span class="nf">status</span>
       <span class="vi">@options</span><span class="o">[</span><span class="ss">:status</span><span class="o">]</span> <span class="o">||</span> <span class="mi">200</span>
+    <span class="k">end</span>
+    
+    <span class="k">def</span> <span class="nf">==</span><span class="p">(</span><span class="n">other_object</span><span class="p">)</span>
+      <span class="no">HashWithIndifferentAccess</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">other_object</span><span class="o">.</span><span class="n">attributes</span><span class="p">)</span> <span class="o">==</span> <span class="vi">@attributes</span> <span class="o">&amp;&amp;</span> <span class="n">other_object</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">to_s</span> <span class="o">==</span> <span class="vi">@mock_class</span>
     <span class="k">end</span>
 
     <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">mock</span><span class="p">(</span><span class="n">mock_class</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">attributes</span> <span class="o">=</span> <span class="p">{},</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{})</span>

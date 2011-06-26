@@ -34,6 +34,7 @@
           <a class="source" href="../mixins/reflections.html">reflections.rb</a>
           <a class="source" href="../mixins/request_handling.html">request_handling.rb</a>
           <a class="source" href="../mixins/response_parsing.html">response_parsing.rb</a>
+          <a class="source" href="../mixins/url_support.html">url_support.rb</a>
           <a class="source" href="../mock.html">mock.rb</a>
           <a class="source" href="../reflection.html">reflection.rb</a>
           <a class="source" href="../relation.html">relation.rb</a>
@@ -59,15 +60,84 @@
           <a class="pilcrow" href="#section-1">&#182;</a>
         </div>
         
-
       </td>
       <td class=code>
         <div class='highlight'><pre><span class="k">module</span> <span class="nn">PolarisResource</span>
   <span class="k">module</span> <span class="nn">Associations</span>
     <span class="k">class</span> <span class="nc">BelongsToAssociation</span> <span class="o">&lt;</span> <span class="no">Association</span>
-      
-      <span class="k">def</span> <span class="nf">load_target!</span>
-        <span class="k">if</span> <span class="n">association_id</span> <span class="o">=</span> <span class="vi">@owner</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="vi">@association</span><span class="si">}</span><span class="s2">_id&quot;</span><span class="o">.</span><span class="n">to_sym</span><span class="p">)</span>
+      </pre></div>
+      </td>
+    </tr>
+    <tr id='section-2'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-2">&#182;</a>
+        </div>
+        <p>The initializer calls out to the superclass' initializer, then will set the
+options particular to itself.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>      <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">owner</span><span class="p">,</span> <span class="n">association</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">,</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{})</span>
+        <span class="k">super</span>
+        </pre></div>
+      </td>
+    </tr>
+    <tr id='section-3'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-3">&#182;</a>
+        </div>
+        <p>The foreign key is used to generate the url for a request. The default uses
+the association name with an &lsquo;_id&rsquo; suffix as the generated key. For example,
+belongs_to :school, will have the foreign key :school_id.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>        <span class="vi">@options</span><span class="o">[</span><span class="ss">:foreign_key</span><span class="o">]</span> <span class="o">=</span> <span class="n">options</span><span class="o">[</span><span class="ss">:foreign_key</span><span class="o">]</span> <span class="o">||</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="vi">@association</span><span class="o">.</span><span class="n">to_s</span><span class="si">}</span><span class="s2">_id&quot;</span><span class="o">.</span><span class="n">to_sym</span>
+        </pre></div>
+      </td>
+    </tr>
+    <tr id='section-4'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-4">&#182;</a>
+        </div>
+        <p>The primary key defaults to :id.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>        <span class="vi">@options</span><span class="o">[</span><span class="ss">:primary_key</span><span class="o">]</span> <span class="o">=</span> <span class="n">options</span><span class="o">[</span><span class="ss">:primary_key</span><span class="o">]</span> <span class="o">||</span> <span class="ss">:id</span>
+        </pre></div>
+      </td>
+    </tr>
+    <tr id='section-5'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-5">&#182;</a>
+        </div>
+        <p>Associations can be marked as polymorphic. These associations will use
+the returned type to instantiate the associated object.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>        <span class="vi">@options</span><span class="o">[</span><span class="ss">:polymorphic</span><span class="o">]</span> <span class="o">=</span> <span class="n">options</span><span class="o">[</span><span class="ss">:polymorphic</span><span class="o">]</span> <span class="o">||</span> <span class="kp">false</span>
+      <span class="k">end</span>
+      </pre></div>
+      </td>
+    </tr>
+    <tr id='section-6'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-6">&#182;</a>
+        </div>
+        <p>When loading the target, the association will only be loaded if the foreign_key
+has been set. Additionally, the class used to find the record will be inferred
+by calling the method which is the name of the association with a &lsquo;_type&rsquo; suffix.
+Alternatively, the class name can be set by using the :class_name option.
+Finally, the target is loaded by calling the &lsquo;find&rsquo; method on the association
+class.</p>
+
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>      <span class="k">def</span> <span class="nf">load_target!</span>
+        <span class="k">if</span> <span class="n">association_id</span> <span class="o">=</span> <span class="vi">@owner</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="vi">@options</span><span class="o">[</span><span class="ss">:foreign_key</span><span class="o">]</span><span class="p">)</span>
           <span class="n">polymorphic_class</span> <span class="o">=</span> <span class="vi">@options</span><span class="o">[</span><span class="ss">:polymorphic</span><span class="o">]</span> <span class="p">?</span> <span class="vi">@owner</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="vi">@association</span><span class="si">}</span><span class="s2">_type&quot;</span><span class="o">.</span><span class="n">to_sym</span><span class="p">)</span><span class="o">.</span><span class="n">constantize</span> <span class="p">:</span> <span class="vi">@options</span><span class="o">[</span><span class="ss">:class_name</span><span class="o">].</span><span class="n">constantize</span>
           <span class="n">polymorphic_class</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:find</span><span class="p">,</span> <span class="n">association_id</span><span class="p">)</span>
         <span class="k">end</span>

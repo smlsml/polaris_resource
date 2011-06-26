@@ -34,6 +34,7 @@
           <a class="source" href="../mixins/reflections.html">reflections.rb</a>
           <a class="source" href="../mixins/request_handling.html">request_handling.rb</a>
           <a class="source" href="../mixins/response_parsing.html">response_parsing.rb</a>
+          <a class="source" href="../mixins/url_support.html">url_support.rb</a>
           <a class="source" href="../mock.html">mock.rb</a>
           <a class="source" href="../reflection.html">reflection.rb</a>
           <a class="source" href="../relation.html">relation.rb</a>
@@ -100,7 +101,7 @@ called on the loaded target.</p>
         <p>@owner stores the class that the association exists on.</p>
       </td>
       <td class=code>
-        <div class='highlight'><pre>        <span class="vi">@owner</span>       <span class="o">=</span> <span class="n">owner</span>
+        <div class='highlight'><pre>        <span class="vi">@owner</span> <span class="o">=</span> <span class="n">owner</span>
         </pre></div>
       </td>
     </tr>
@@ -122,11 +123,11 @@ method (i.e. :automobile, :car, :car_club)</p>
         <div class="pilwrap">
           <a class="pilcrow" href="#section-5">&#182;</a>
         </div>
-        <p>@target stores the loaded object. It is not typically accessed directly,
-but instead should be accessed through the loaded_target method.</p>
+        <p>@association_class stores the class of the association, constantized
+from the named association (i.e. Automobile, Car, CarClub)</p>
       </td>
       <td class=code>
-        <div class='highlight'><pre>        <span class="vi">@target</span>      <span class="o">=</span> <span class="n">target</span>
+        <div class='highlight'><pre>        <span class="vi">@association_class</span> <span class="o">=</span> <span class="n">association</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">classify</span><span class="o">.</span><span class="n">constantize</span>
         </pre></div>
       </td>
     </tr>
@@ -135,10 +136,11 @@ but instead should be accessed through the loaded_target method.</p>
         <div class="pilwrap">
           <a class="pilcrow" href="#section-6">&#182;</a>
         </div>
-        <p>@options holds the chosen options for the association.</p>
+        <p>@target stores the loaded object. It is not typically accessed directly,
+but instead should be accessed through the loaded_target method.</p>
       </td>
       <td class=code>
-        <div class='highlight'><pre>        <span class="vi">@options</span>     <span class="o">=</span> <span class="p">{}</span>
+        <div class='highlight'><pre>        <span class="vi">@target</span> <span class="o">=</span> <span class="n">target</span>
         </pre></div>
       </td>
     </tr>
@@ -147,11 +149,11 @@ but instead should be accessed through the loaded_target method.</p>
         <div class="pilwrap">
           <a class="pilcrow" href="#section-7">&#182;</a>
         </div>
-        <p>Associations can be marked as polymorphic. These associations will use
-the returned found type to instantiate the associated object.</p>
+        <p>@options holds the chosen options for the association. Several of these
+options are set in the subclass' initializer.</p>
       </td>
       <td class=code>
-        <div class='highlight'><pre>        <span class="vi">@options</span><span class="o">[</span><span class="ss">:polymorphic</span><span class="o">]</span> <span class="o">=</span> <span class="n">options</span><span class="o">[</span><span class="ss">:polymorphic</span><span class="o">]</span> <span class="o">||</span> <span class="kp">false</span>
+        <div class='highlight'><pre>        <span class="vi">@options</span> <span class="o">=</span> <span class="p">{}</span>
         </pre></div>
       </td>
     </tr>
@@ -167,7 +169,7 @@ request is made for the association, this class will be used to
 instantiate this object or collection.</p>
       </td>
       <td class=code>
-        <div class='highlight'><pre>        <span class="vi">@options</span><span class="o">[</span><span class="ss">:class_name</span><span class="o">]</span>  <span class="o">=</span> <span class="n">options</span><span class="o">[</span><span class="ss">:class_name</span><span class="o">]</span>  <span class="o">||</span> <span class="vi">@association</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">classify</span>
+        <div class='highlight'><pre>        <span class="vi">@options</span><span class="o">[</span><span class="ss">:class_name</span><span class="o">]</span> <span class="o">=</span> <span class="n">options</span><span class="o">[</span><span class="ss">:class_name</span><span class="o">]</span> <span class="o">||</span> <span class="vi">@association</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">classify</span>
       <span class="k">end</span>
       </pre></div>
       </td>
@@ -177,7 +179,7 @@ instantiate this object or collection.</p>
         <div class="pilwrap">
           <a class="pilcrow" href="#section-9">&#182;</a>
         </div>
-        <p>The proxy implements a few methods that need to be overridden
+        <p>The proxy implements a few methods that need to be delegated to the target
 so that they will work as expected.</p>
       </td>
       <td class=code>

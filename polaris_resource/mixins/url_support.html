@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html;charset=utf-8">
-  <title>persistence.rb</title>
+  <title>url_support.rb</title>
   <link rel="stylesheet" href="http://jashkenas.github.com/docco/resources/docco.css">
 </head>
 <body>
@@ -49,7 +49,7 @@
   <table cellspacing=0 cellpadding=0>
   <thead>
     <tr>
-      <th class=docs><h1>persistence.rb</h1></th>
+      <th class=docs><h1>url_support.rb</h1></th>
       <th class=code></th>
     </tr>
   </thead>
@@ -64,43 +64,26 @@
       </td>
       <td class=code>
         <div class='highlight'><pre><span class="k">module</span> <span class="nn">PolarisResource</span>
-  <span class="k">module</span> <span class="nn">Persistence</span>
+  <span class="k">module</span> <span class="nn">UrlSupport</span>
     <span class="kp">extend</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Concern</span>
-
-    <span class="k">module</span> <span class="nn">InstanceMethods</span>
-
-      <span class="k">def</span> <span class="nf">save</span>
-        <span class="k">if</span> <span class="n">new_record?</span>
-          <span class="n">response</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">save_uri</span><span class="p">,</span> <span class="n">attributes_without_id</span><span class="p">)</span>
-        <span class="k">else</span>
-          <span class="n">response</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">save_uri</span><span class="p">,</span> <span class="n">attributes_without_id</span><span class="p">)</span>
-        <span class="k">end</span>
-        <span class="n">build_from_response</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+  
+    <span class="k">module</span> <span class="nn">ClassMethods</span>
+    
+      <span class="k">def</span> <span class="nf">url_name</span>
+        <span class="vi">@url_name</span> <span class="o">||=</span> <span class="n">model_name</span><span class="o">.</span><span class="n">underscore</span>
       <span class="k">end</span>
-
-      <span class="k">def</span> <span class="nf">save_uri</span>
-        <span class="n">uri</span> <span class="o">=</span> <span class="s2">&quot;/</span><span class="si">#{</span><span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">plural_url_name</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="n">uri</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;/</span><span class="si">#{</span><span class="nb">id</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">unless</span> <span class="n">new_record?</span>
-        <span class="n">uri</span>
+      <span class="n">alias_method</span> <span class="ss">:singular_url_name</span><span class="p">,</span> <span class="ss">:url_name</span>
+      
+      <span class="k">def</span> <span class="nf">plural_url_name</span>
+        <span class="n">url_name</span><span class="o">.</span><span class="n">pluralize</span>
       <span class="k">end</span>
-      <span class="kp">private</span> <span class="ss">:save_uri</span>
-
-      <span class="k">def</span> <span class="nf">update_attributes</span><span class="p">(</span><span class="n">new_attributes</span><span class="p">)</span>
-        <span class="n">merge_attributes</span><span class="p">(</span><span class="n">new_attributes</span><span class="p">)</span>
-        <span class="n">save</span>
+    
+      <span class="k">def</span> <span class="nf">set_base_url</span><span class="p">(</span><span class="n">url_name</span><span class="p">)</span>
+        <span class="vi">@url_name</span> <span class="o">=</span> <span class="n">url_name</span>
       <span class="k">end</span>
-
+    
     <span class="k">end</span>
     
-    <span class="k">module</span> <span class="nn">ClassMethods</span>
-      
-      <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="n">new_attributes</span> <span class="o">=</span> <span class="p">{})</span>
-        <span class="kp">new</span><span class="p">(</span><span class="n">new_attributes</span><span class="p">)</span><span class="o">.</span><span class="n">tap</span> <span class="p">{</span> <span class="o">|</span><span class="n">new_instance</span><span class="o">|</span> <span class="n">new_instance</span><span class="o">.</span><span class="n">save</span> <span class="p">}</span>
-      <span class="k">end</span>
-      <span class="k">alias</span> <span class="ss">:create!</span> <span class="ss">:create</span>
-      
-    <span class="k">end</span>
-
   <span class="k">end</span>
 <span class="k">end</span></pre></div>
       </td>

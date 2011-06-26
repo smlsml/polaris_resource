@@ -34,6 +34,7 @@
           <a class="source" href="reflections.html">reflections.rb</a>
           <a class="source" href="request_handling.html">request_handling.rb</a>
           <a class="source" href="response_parsing.html">response_parsing.rb</a>
+          <a class="source" href="url_support.html">url_support.rb</a>
           <a class="source" href="../mock.html">mock.rb</a>
           <a class="source" href="../reflection.html">reflection.rb</a>
           <a class="source" href="../relation.html">relation.rb</a>
@@ -67,14 +68,15 @@
     <span class="kp">extend</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Concern</span>
 
     <span class="k">module</span> <span class="nn">ClassMethods</span>
+
       <span class="k">def</span> <span class="nf">create_reflection</span><span class="p">(</span><span class="n">macro</span><span class="p">,</span> <span class="nb">name</span><span class="p">)</span>
-        <span class="n">reflection</span> <span class="o">=</span> <span class="no">Reflection</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">macro</span><span class="p">,</span> <span class="nb">name</span><span class="p">)</span>
-        <span class="n">reflections</span><span class="o">.</span><span class="n">merge!</span><span class="p">(</span><span class="nb">name</span> <span class="o">=&gt;</span> <span class="n">reflection</span><span class="p">)</span>
-        <span class="n">reflection</span>
+        <span class="no">Reflection</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">macro</span><span class="p">,</span> <span class="nb">name</span><span class="p">)</span><span class="o">.</span><span class="n">tap</span> <span class="k">do</span> <span class="o">|</span><span class="n">reflection</span><span class="o">|</span>
+          <span class="n">reflections</span><span class="o">.</span><span class="n">merge!</span><span class="p">(</span><span class="nb">name</span> <span class="o">=&gt;</span> <span class="n">reflection</span><span class="p">)</span>
+        <span class="k">end</span>
       <span class="k">end</span>
 
       <span class="k">def</span> <span class="nf">reflections</span>
-        <span class="n">class_variable_defined?</span><span class="p">(:</span><span class="vc">@@reflections</span><span class="p">)</span> <span class="p">?</span> <span class="n">class_variable_get</span><span class="p">(:</span><span class="vc">@@reflections</span><span class="p">)</span> <span class="p">:</span> <span class="p">(</span><span class="n">class_variable_set</span><span class="p">(:</span><span class="vc">@@reflections</span><span class="p">,</span> <span class="p">{}))</span>
+        <span class="vi">@reflections</span> <span class="o">||=</span> <span class="p">{}</span>
       <span class="k">end</span>
 
       <span class="k">def</span> <span class="nf">reflect_on_association</span><span class="p">(</span><span class="n">association</span><span class="p">)</span>
@@ -82,10 +84,9 @@
       <span class="k">end</span>
 
     <span class="k">end</span>
-    
+
   <span class="k">end</span>
-<span class="k">end</span>
-  </pre></div>
+<span class="k">end</span></pre></div>
       </td>
     </tr>
   </table>

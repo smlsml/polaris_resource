@@ -34,6 +34,7 @@
           <a class="source" href="polaris_resource/mixins/reflections.html">reflections.rb</a>
           <a class="source" href="polaris_resource/mixins/request_handling.html">request_handling.rb</a>
           <a class="source" href="polaris_resource/mixins/response_parsing.html">response_parsing.rb</a>
+          <a class="source" href="polaris_resource/mixins/url_support.html">url_support.rb</a>
           <a class="source" href="polaris_resource/mock.html">mock.rb</a>
           <a class="source" href="polaris_resource/reflection.html">reflection.rb</a>
           <a class="source" href="polaris_resource/relation.html">relation.rb</a>
@@ -126,6 +127,7 @@ mocking, configuration, errors, and classes managing associations, reflections, 
   <span class="nb">autoload</span> <span class="ss">:Reflections</span><span class="p">,</span>     <span class="s1">&#39;polaris_resource/mixins/reflections&#39;</span>
   <span class="nb">autoload</span> <span class="ss">:RequestHandling</span><span class="p">,</span> <span class="s1">&#39;polaris_resource/mixins/request_handling&#39;</span>
   <span class="nb">autoload</span> <span class="ss">:ResponseParsing</span><span class="p">,</span> <span class="s1">&#39;polaris_resource/mixins/response_parsing&#39;</span>
+  <span class="nb">autoload</span> <span class="ss">:UrlSupport</span><span class="p">,</span>      <span class="s1">&#39;polaris_resource/mixins/url_support&#39;</span>
   </pre></div>
       </td>
     </tr>
@@ -154,8 +156,8 @@ mocking, configuration, errors, and classes managing associations, reflections, 
       </td>
       <td class=code>
         <div class='highlight'><pre><span class="k">module</span> <span class="nn">PolarisClient</span>
-  <span class="nb">autoload</span> <span class="ss">:Associations</span><span class="p">,</span>             <span class="s1">&#39;polaris_client/associations&#39;</span>
-  <span class="nb">autoload</span> <span class="ss">:LogSubscriber</span><span class="p">,</span>            <span class="s1">&#39;polaris_client/log_subscriber&#39;</span>
+  <span class="nb">autoload</span> <span class="ss">:Associations</span><span class="p">,</span>  <span class="s1">&#39;polaris_client/associations&#39;</span>
+  <span class="nb">autoload</span> <span class="ss">:LogSubscriber</span><span class="p">,</span> <span class="s1">&#39;polaris_client/log_subscriber&#39;</span>
 <span class="k">end</span></pre></div>
       </td>
     </tr>

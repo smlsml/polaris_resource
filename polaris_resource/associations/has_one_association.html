@@ -34,6 +34,7 @@
           <a class="source" href="../mixins/reflections.html">reflections.rb</a>
           <a class="source" href="../mixins/request_handling.html">request_handling.rb</a>
           <a class="source" href="../mixins/response_parsing.html">response_parsing.rb</a>
+          <a class="source" href="../mixins/url_support.html">url_support.rb</a>
           <a class="source" href="../mock.html">mock.rb</a>
           <a class="source" href="../reflection.html">reflection.rb</a>
           <a class="source" href="../relation.html">relation.rb</a>
@@ -59,22 +60,61 @@
           <a class="pilcrow" href="#section-1">&#182;</a>
         </div>
         
-
       </td>
       <td class=code>
         <div class='highlight'><pre><span class="k">module</span> <span class="nn">PolarisResource</span>
   <span class="k">module</span> <span class="nn">Associations</span>
     <span class="k">class</span> <span class="nc">HasOneAssociation</span> <span class="o">&lt;</span> <span class="no">Association</span>
-      
-      <span class="k">def</span> <span class="nf">load_target!</span>
-        <span class="vi">@options</span><span class="o">[</span><span class="ss">:class_name</span><span class="o">].</span><span class="n">constantize</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_uri</span><span class="p">)</span> <span class="k">if</span> <span class="vi">@owner</span><span class="o">.</span><span class="n">id</span>
+      </pre></div>
+      </td>
+    </tr>
+    <tr id='section-2'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-2">&#182;</a>
+        </div>
+        <p>The initializer calls out to the superclass' initializer and then
+sets the options particular to itself.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>      <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">owner</span><span class="p">,</span> <span class="n">association</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">,</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{})</span>
+        <span class="k">super</span>
+        </pre></div>
+      </td>
+    </tr>
+    <tr id='section-3'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-3">&#182;</a>
+        </div>
+        <p>The primary key is used in the generated url for the target. It
+defaults to :id.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>        <span class="vi">@options</span><span class="o">[</span><span class="ss">:primary_key</span><span class="o">]</span> <span class="o">=</span> <span class="n">options</span><span class="o">[</span><span class="ss">:primary_key</span><span class="o">]</span> <span class="o">||</span> <span class="ss">:id</span>
       <span class="k">end</span>
-      
-      <span class="k">def</span> <span class="nf">_uri</span>
-        <span class="n">owner_id</span> <span class="o">=</span> <span class="vi">@owner</span><span class="o">.</span><span class="n">respond_to?</span><span class="p">(</span><span class="ss">:polaris_id</span><span class="p">)</span> <span class="p">?</span> <span class="vi">@owner</span><span class="o">.</span><span class="n">polaris_id</span> <span class="p">:</span> <span class="vi">@owner</span><span class="o">.</span><span class="n">id</span>
-        <span class="s2">&quot;/</span><span class="si">#{</span><span class="vi">@owner</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">model_name</span><span class="o">.</span><span class="n">underscore</span><span class="o">.</span><span class="n">pluralize</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="n">owner_id</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="vi">@association</span><span class="si">}</span><span class="s2">&quot;</span>
+      </pre></div>
+      </td>
+    </tr>
+    <tr id='section-4'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-4">&#182;</a>
+        </div>
+        <p>When loading the target, the primary key is first checked. If the
+key is nil, then an nil is returned. Otherwise, the target
+is requested at the generated url. For a has_one :meeting
+association on a class called Course, the generated url might look
+like this: /courses/1/meeting, where the 1 is the primary key.</p>
+
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>      <span class="k">def</span> <span class="nf">load_target!</span>
+        <span class="k">if</span> <span class="n">primary_key</span> <span class="o">=</span> <span class="vi">@owner</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="vi">@options</span><span class="o">[</span><span class="ss">:primary_key</span><span class="o">]</span><span class="p">)</span>
+          <span class="n">uri</span> <span class="o">=</span> <span class="s2">&quot;/</span><span class="si">#{</span><span class="vi">@owner</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">plural_url_name</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="n">primary_key</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="vi">@association_class</span><span class="o">.</span><span class="n">singular_url_name</span><span class="si">}</span><span class="s2">&quot;</span>
+          <span class="vi">@options</span><span class="o">[</span><span class="ss">:class_name</span><span class="o">].</span><span class="n">constantize</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
+        <span class="k">end</span>
       <span class="k">end</span>
-      <span class="kp">private</span> <span class="ss">:_uri</span>
       
     <span class="k">end</span>
   <span class="k">end</span>
