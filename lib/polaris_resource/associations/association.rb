@@ -34,7 +34,8 @@ module PolarisResource
         # but instead should be accessed through the loaded_target method.
         @target = target
         
-        # @options holds the chosen options for the association.
+        # @options holds the chosen options for the association. Several of these
+        # options are set in the subclass' initializer.
         @options = {}
         
         # In some cases, the association name will not match that of the class
@@ -45,7 +46,7 @@ module PolarisResource
         @options[:class_name] = options[:class_name] || @association.to_s.classify
       end
       
-      # The proxy implements a few methods that need to be overridden
+      # The proxy implements a few methods that need to be delegated to the target
       # so that they will work as expected.
       def id
         loaded_target.id
