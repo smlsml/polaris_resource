@@ -53,23 +53,23 @@ module PolarisResource
       end
       
       def update_attribute(attribute, value)
-        association = self.class.reflect_on_association(attribute)
-        if association
-          if association.macro==:has_many # need to construct each member of array one-by-one
+        reflection = self.class.reflect_on_association(attribute)
+        if reflection
+          if reflection.macro == :has_many # need to construct each member of array one-by-one
             association_object = send(attribute)
-            value.each { |a_value|
-              if a_value.instance_of? association.klass
+            value.each do |a_value|
+              if a_value.instance_of? reflection.klass
                 target = a_value
               else
-                target = association.build_association(a_value)
+                target = reflection.build_association(a_value)
               end
               association_object << target
-            }
+            end
           else 
-            if value.instance_of? association.klass
+            if value.instance_of? reflection.klass
               target = value
             else
-              target = association.build_association(value)
+              target = reflection.build_association(value)
             end
             send("#{attribute}=", target)
           end

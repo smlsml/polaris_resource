@@ -3,14 +3,15 @@ module PolarisResource
     extend ActiveSupport::Concern
 
     module ClassMethods
+
       def create_reflection(macro, name)
-        reflection = Reflection.new(macro, name)
-        reflections.merge!(name => reflection)
-        reflection
+        Reflection.new(macro, name).tap do |reflection|
+          reflections.merge!(name => reflection)
+        end
       end
 
       def reflections
-        class_variable_defined?(:@@reflections) ? class_variable_get(:@@reflections) : (class_variable_set(:@@reflections, {}))
+        @reflections ||= {}
       end
 
       def reflect_on_association(association)
@@ -18,7 +19,6 @@ module PolarisResource
       end
 
     end
-    
+
   end
 end
-  

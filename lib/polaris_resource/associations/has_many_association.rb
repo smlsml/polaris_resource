@@ -19,17 +19,17 @@ module PolarisResource
       
       def where(query_attributes)
         return @mock if @mock
-        transform_association_to_relation.where(query_attributes)
+        transform_association_into_relation.where(query_attributes)
       end
       
       def limit(amount)
         return @mock if @mock
-        transform_association_to_relation.limit(amount)
+        transform_association_into_relation.limit(amount)
       end
       
       def page(page_number)
         return @mock if @mock
-        transform_association_to_relation.page(page_number)
+        transform_association_into_relation.page(page_number)
       end
       
       def <<(one_of_many)
@@ -37,10 +37,10 @@ module PolarisResource
         @target << one_of_many
       end
       
-      def transform_association_to_relation
+      def transform_association_into_relation
         Relation.new(@association.to_s.classify.constantize).where(@options[:foreign_key] => @owner.send(@options[:primary_key]))
       end
-      private :transform_association_to_relation
+      private :transform_association_into_relation
       
     end
   end
