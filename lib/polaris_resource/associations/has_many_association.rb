@@ -9,7 +9,12 @@ module PolarisResource
       end
       
       def load_target!
-        @owner.id ? @options[:class_name].constantize.get(_uri) : []
+        if primary_key = @owner.send(@options[:primary_key])
+          uri = "/#{@owner.class.plural_url_name}/#{primary_key}/#{@association_class.plural_url_name}"
+          @options[:class_name].constantize.get(uri)
+        else
+          []
+        end
       end
       
       def where(query_attributes)
@@ -33,15 +38,9 @@ module PolarisResource
       end
       
       def transform_association_to_relation
-        Relation.new(@association.to_s.classify.constantize).where(@options[:foreign_key] => @owner.id)
+        Relation.new(@association.to_s.classify.constantize).where(@options[:foreign_key] => @owner.send(@options[:primary_key]))
       end
       private :transform_association_to_relation
-      
-      def _uri
-        primary_key = @owner.send(@options[:primary_key])
-        "/#{@owner.class.plural_url_name}/#{primary_key}/#{@association_class.plural_url_name}"
-      end
-      private :_uri
       
     end
   end

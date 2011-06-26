@@ -9,14 +9,11 @@ module PolarisResource
       end
       
       def load_target!
-        @options[:class_name].constantize.get(_uri) if @owner.id
+        if primary_key = @owner.send(@options[:primary_key])
+          uri = "/#{@owner.class.plural_url_name}/#{primary_key}/#{@association_class.singular_url_name}"
+          @options[:class_name].constantize.get(uri)
+        end
       end
-      
-      def _uri
-        primary_key = @owner.send(@options[:primary_key])
-        "/#{@owner.class.plural_url_name}/#{primary_key}/#{@association_class.singular_url_name}"
-      end
-      private :_uri
       
     end
   end

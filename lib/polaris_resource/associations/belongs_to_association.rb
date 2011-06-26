@@ -8,7 +8,7 @@ module PolarisResource
         @options[:primary_key] = options[:primary_key] || :id
         
         # Associations can be marked as polymorphic. These associations will use
-        # the returned found type to instantiate the associated object.
+        # the returned type to instantiate the associated object.
         @options[:polymorphic] = options[:polymorphic] || false
       end
       
