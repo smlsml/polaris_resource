@@ -13,7 +13,7 @@ module PolarisResource
         attribute_id_sym  = "#{association}_id".to_sym
 
         property attribute_id_sym
-        
+
         create_reflection(:belongs_to, association)
 
         define_method association do

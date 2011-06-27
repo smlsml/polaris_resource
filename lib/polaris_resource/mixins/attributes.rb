@@ -3,7 +3,7 @@ module PolarisResource
     extend ActiveSupport::Concern
 
     module ClassMethods
-      
+
       def property(name, typecast_class = nil)
         typecast_attributes.store(name.to_sym, typecast_class)
         default_attributes.store(name.to_sym, nil)
@@ -33,7 +33,7 @@ module PolarisResource
       end
 
     end
-    
+
     module InstanceMethods
 
       def attributes
@@ -51,7 +51,8 @@ module PolarisResource
       def attributes_without_id
         attributes.reject { |k,v| k == 'id' }
       end
-      
+
+      # TODO: This method needs some refactoring...
       def update_attribute(attribute, value)
         reflection = self.class.reflect_on_association(attribute)
         if reflection
@@ -93,7 +94,7 @@ module PolarisResource
         self
       end
       private :merge_attributes
-      
+
       def define_attribute_accessor(method)
         if method.to_s.include?('=')
           self.class.send(:define_method, method) do |value|
@@ -106,7 +107,7 @@ module PolarisResource
         end
       end
       private :define_attribute_accessor
-      
+
     end
 
   end
