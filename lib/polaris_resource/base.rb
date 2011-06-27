@@ -12,7 +12,7 @@ module PolarisResource
     include ActiveModel::Dirty
     include ActiveModel::Serializers::JSON
     include ActiveModel::Serializers::Xml
-    
+
     # These modules wrap distinct behavior that is used within the Base class.
     # In many cases they rely upon other classes in the library to complete
     # their functionality. The helper classes can be used stand-alone, but
@@ -44,13 +44,13 @@ module PolarisResource
       comparison_object.equal?(self) ||
         (comparison_object.instance_of?(self.class) && comparison_object.id == id && !comparison_object.new_record?)
     end
-    
+
     def self.base_class
       self
     end
-    
+
     private
-    
+
     def method_missing(m, *args, &block)
       if attributes.keys.include?(m.to_s.delete('='))
         # Defines attribute accessors when the missing method can be found in the attributes hash

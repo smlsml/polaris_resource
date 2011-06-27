@@ -30,7 +30,7 @@ module PolarisResource
     def status
       @options[:status] || 200
     end
-    
+
     def ==(other_object)
       HashWithIndifferentAccess.new(other_object.attributes) == @attributes && other_object.class.to_s == @mock_class
     end
@@ -53,12 +53,9 @@ module PolarisResource
       response = Typhoeus::Response.new(:code => status, :headers => "", :body => stub_find_one_body, :time => 0.3)
       Configuration.hydra.stub(:get, find_one_uri).and_return(response)
     end
-    
+
     def stub_find_one_body
-      {
-        :status  => status,
-        :content => @attributes.merge({ :id => 1 })
-      }.to_json
+      { :status  => status, :content => @attributes.merge({ :id => 1 }) }.to_json
     end
 
     def find_one_uri

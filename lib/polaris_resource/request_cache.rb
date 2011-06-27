@@ -9,7 +9,7 @@ module PolarisResource
       self.class.cache.clear
       @app.call(env)
     end
-    
+
     def self.cache
       @cache ||= {}
     end

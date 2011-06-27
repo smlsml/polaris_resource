@@ -22,7 +22,7 @@ module PolarisResource
   autoload :Response,       'polaris_resource/response'
   autoload :ResponseParser, 'polaris_resource/response_parser'
   autoload :TypeCaster,     'polaris_resource/type_caster'
-  
+
   # Mixins provide behaviors to the Base class.
   autoload :Associations,    'polaris_resource/mixins/associations'
   autoload :Attributes,      'polaris_resource/mixins/attributes'
@@ -35,7 +35,7 @@ module PolarisResource
   autoload :RequestHandling, 'polaris_resource/mixins/request_handling'
   autoload :ResponseParsing, 'polaris_resource/mixins/response_parsing'
   autoload :UrlSupport,      'polaris_resource/mixins/url_support'
-  
+
   # Error classes
   autoload :ConfigurationError,          'polaris_resource/errors'
   autoload :NetConnectNotAllowedError,   'polaris_resource/errors'

@@ -1,29 +1,29 @@
 module PolarisResource
   module Associations
     class BelongsToAssociation < Association
-      
+
       # The initializer calls out to the superclass' initializer, then will set the
       # options particular to itself.
       def initialize(owner, association, settings = {})
         super
-        
+
         # The foreign key is used to generate the url for a request. The default uses
         # the association name with an '_id' suffix as the generated key. For example,
         # belongs_to :school, will have the foreign key :school_id.
         @options[:foreign_key] ||= "#{@association.to_s}_id".to_sym
-        
+
         # The primary key defaults to :id.
         @options[:primary_key] ||= :id
-        
+
         # Associations can be marked as polymorphic. These associations will use
         # the returned type to instantiate the associated object.
         @options[:polymorphic] ||= false
       end
-      
+
       def with_filter(filter)
         BelongsToAssociation.new(@owner, @association, :target => @target, :filters => @filters.push(filter), :options => @options)
       end
-      
+
       # When loading the target, the association will only be loaded if the foreign_key
       # has been set. Additionally, the class used to find the record will be inferred
       # by calling the method which is the name of the association with a '_type' suffix.
@@ -36,7 +36,7 @@ module PolarisResource
           polymorphic_class.send(:find, association_id)
         end
       end
-      
+
     end
   end
 end

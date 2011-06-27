@@ -1,9 +1,9 @@
 module PolarisResource
   module Conversion
     extend ActiveSupport::Concern
-    
+
     module InstanceMethods
-      
+
       def to_model
         self
       end
@@ -15,7 +15,7 @@ module PolarisResource
       def to_key
         attributes.keys if persisted?
       end
-      
+
     end
   end
 end

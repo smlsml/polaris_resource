@@ -23,13 +23,13 @@ module PolarisResource
           raise UnrecognizedTypeCastClass, "Can't typecast to #{typecast_class}!"
         end
       end
-      
+
       private
-      
+
       def parse_string(value)
         value.to_s
       end
-      
+
       def parse_integer(value)
         if value.respond_to?(:to_i)
           value.to_i
@@ -41,7 +41,7 @@ module PolarisResource
           end
         end
       end
-      
+
       def parse_datetime(value)
         if value.respond_to?(:to_datetime)
           value.to_datetime
@@ -51,7 +51,7 @@ module PolarisResource
       rescue ArgumentError
         nil
       end
-      
+
       def parse_date(value)
         if value.respond_to?(:to_time)
           parse_time(value).try(:to_date)

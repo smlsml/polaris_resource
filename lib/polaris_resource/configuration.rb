@@ -2,7 +2,7 @@ module PolarisResource
   class Configuration
 
     class << self
-      
+
       # Sets and gets the remote host service domain.
       # The domain must be set before any requests can be made.
       attr_writer :host
@@ -19,12 +19,12 @@ module PolarisResource
       def hydra=(hydra)
         Typhoeus::Hydra.hydra = hydra
       end
-      
+
       # Handles the default logger that is used by the LogSubscriber
       def logger
         @logger ||= ::Logger.new(STDOUT)
       end
-      
+
       def logger=(logger)
         @logger = logger
       end

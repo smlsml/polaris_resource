@@ -26,14 +26,14 @@ module PolarisResource
       end
 
     end
-    
+
     module ClassMethods
-      
+
       def create(new_attributes = {})
         new(new_attributes).tap { |new_instance| new_instance.save }
       end
       alias :create! :create
-      
+
     end
 
   end

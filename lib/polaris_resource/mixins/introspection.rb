@@ -1,17 +1,17 @@
 module PolarisResource
   module Introspection
     extend ActiveSupport::Concern
-    
+
     module InstanceMethods
-      
+
       def persisted?
         !id.nil?
       end
-      
+
       def new_record?
         !persisted?
       end
-      
+
       def destroyed?
         false
       end
@@ -19,7 +19,7 @@ module PolarisResource
       def respond_to?(method, include_private = false)
         attributes.include?(method) ? true : super
       end
-      
+
     end
   end
 end

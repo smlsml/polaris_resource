@@ -19,11 +19,11 @@ module PolarisResource
           find_some(args)
         end
       end
-      
+
       def all
         find_all
       end
-      
+
       def first
         limit(1).first
       end
@@ -39,7 +39,7 @@ module PolarisResource
       def page(page_number)
         Relation.new(self).page(page_number)
       end
-      
+
       def results_per_page
         @results_per_page || 10
       end
@@ -47,7 +47,7 @@ module PolarisResource
       def results_per_page=(_results_per_page)
         @results_per_page = _results_per_page
       end
-      
+
       def find_one(id)
         get(find_one_uri(id))
       end
