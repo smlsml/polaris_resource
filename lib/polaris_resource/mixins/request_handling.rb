@@ -19,6 +19,11 @@ module PolarisResource
         response_from_request(request, metadata)
       end
 
+      def delete(path, params = nil, metadata = {})
+        request = Request.quick(:delete, path, params)
+        response_from_request(request, metadata)
+      end
+
     end
 
   end

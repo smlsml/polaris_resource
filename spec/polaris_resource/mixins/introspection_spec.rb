@@ -42,8 +42,7 @@ describe PolarisResource::Introspection, ".persisted?" do
   context "when the record is persisted" do
     
     before(:each) do
-      response = PolarisResource::Response.new(:code => 201, :headers => "", :body => { :status => 201, :content => { :id => 1 } }.to_json, :time => 0.3)
-      PolarisResource::Request.stub(:post).and_return(response)
+      stub_web!
       @attendee.save
     end
     
@@ -51,6 +50,17 @@ describe PolarisResource::Introspection, ".persisted?" do
       @attendee.should be_persisted
     end
     
+  end
+  
+  def stub_web!
+    PolarisResource::Configuration.hydra.stub(:post, "#{PolarisResource::Configuration.host}/attendees").and_return(build_polaris_response(
+      201,
+      {
+        :id      => 1,
+        :valid   => true,
+        :errors  => {}
+      }
+    ))
   end
 
 end
@@ -72,8 +82,7 @@ describe PolarisResource::Introspection, ".new_record?" do
   context "when the record is not new" do
     
     before(:each) do
-      response = PolarisResource::Response.new(:code => 201, :headers => "", :body => { :status => 201, :content => { :id => 1 } }.to_json, :time => 0.3)
-      PolarisResource::Request.stub(:post).and_return(response)
+      stub_web!
       @attendee.save
     end
     
@@ -81,6 +90,17 @@ describe PolarisResource::Introspection, ".new_record?" do
       @attendee.should_not be_new_record
     end
     
+  end
+  
+  def stub_web!
+    PolarisResource::Configuration.hydra.stub(:post, "#{PolarisResource::Configuration.host}/attendees").and_return(build_polaris_response(
+      201,
+      {
+        :id      => 1,
+        :valid   => true,
+        :errors  => {}
+      }
+    ))
   end
   
 end

@@ -9,14 +9,14 @@ module PolarisResource
         if args.length == 1
           case args.first
           when Integer, String
-            get(UrlBuilder.find_one(self, args.first.to_i))
+            get(*UrlBuilder.find_one(self, args.first.to_i))
           when Array
-            get(UrlBuilder.find_some(self, args.first))
+            get(*UrlBuilder.find_some(self, args.first))
           else
             raise ArgumentError, "Unrecognized argument (#{args.first.inspect})."
           end
         else
-          get(UrlBuilder.find_some(self, args))
+          get(*UrlBuilder.find_some(self, args))
         end
       end
 

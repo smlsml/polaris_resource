@@ -48,8 +48,10 @@ module PolarisResource
         TypeCaster.cast(value, self.class.typecast_attributes[attribute.to_sym])
       end
 
-      def attributes_without_id
-        attributes.reject { |k,v| k == 'id' }
+      def attributes_without_basic_attributes
+        attributes.reject do |key, value|
+          %w( id errors valid ).include?(key)
+        end
       end
 
       # TODO: This method needs some refactoring...

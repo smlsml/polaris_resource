@@ -6,6 +6,11 @@ module PolarisResource
       @path      = path
       @params    = options[:params] || {}
       @method    = options[:method]
+      
+      if @method == :put
+        @method = options[:method] = :post
+        options[:params] = @params.merge(:_method => :put)
+      end
 
       @request = Typhoeus::Request.new(Configuration.host + path, options)
     end

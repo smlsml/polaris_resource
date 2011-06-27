@@ -6,19 +6,12 @@ module PolarisResource
 
       def save
         if new_record?
-          response = self.class.post(save_uri, attributes_without_id)
+          built_object = self.class.post(*UrlBuilder.save(self.class, nil, attributes_without_basic_attributes))
         else
-          response = self.class.put(save_uri, attributes_without_id)
+          built_object = self.class.put(*UrlBuilder.save(self.class, id, attributes_without_basic_attributes))
         end
-        build_from_response(response)
+        merge_attributes(built_object.attributes)
       end
-
-      def save_uri
-        uri = "/#{self.class.plural_url_name}"
-        uri << "/#{id}" unless new_record?
-        uri
-      end
-      private :save_uri
 
       def update_attributes(new_attributes)
         merge_attributes(new_attributes)

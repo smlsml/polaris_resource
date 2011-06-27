@@ -5,28 +5,12 @@ describe PolarisResource::Persistence, "#save" do
   context "when the instance is a new record" do
     
     before(:each) do
-      @attributes = HashWithIndifferentAccess.new({
-        :name    => "California",
-        :capital => "Sacramento",
-        :motto   => "Eureka!"
-      })
-      @california = State.new(@attributes)
-      body = {
-        :status  => 200,
-        :content => @attributes.merge(:id => 1)
-      }
-      @response = PolarisResource::Response.new(:code => 201, :headers => "", :body => body.to_json, :time => 0.3)
-      PolarisResource::Request.stub(:post).and_return(@response)
-    end
-    
-    it "makes a POST request to the external service" do
-      PolarisResource::Request.should_receive(:post).with("/states", @california.attributes_without_id).and_return(@response)
-      @california.save
-    end
-    
-    it "receives a response with the attributes for this instance" do
-      @california.should_receive(:merge_attributes).with(@attributes.merge(:id => 1))
-      @california.save
+      stub_web!
+      @california = State.new(
+        :name    => 'California',
+        :capital => 'Sacramento',
+        :motto   => 'Eureka!'
+      )
     end
     
     it "updates the attributes to match those returned in the response" do
@@ -56,53 +40,66 @@ describe PolarisResource::Persistence, "#save" do
   context "when the instance is not a new record" do
     
     before(:each) do
-      @attributes = HashWithIndifferentAccess.new({
-        :name    => "California",
-        :capital => "Sacramento",
-        :motto   => "Eureka!"
-      })
-      body = {
-        :status  => 200,
-        :content => @attributes.merge(:id => 1)
-      }
-      @state = State.new(@attributes)
-      response = PolarisResource::Response.new(:code => 201, :headers => "", :body => body.to_json, :time => 0.3)
-      PolarisResource::Request.stub(:post).and_return(response)
+      stub_web!
+      @state = State.new(
+        :name    => 'California',
+        :capital => 'Sacramento',
+        :motto   => 'Eureka!'
+      )
       @state.save
       
-      @state.name    = "Oregon"
-      @state.capital = "Salem"
-      @state.motto   = "She flies with her own wings"
-      
-      body = {
-        :status  => 200,
-        :content => @state.attributes
-      }
-      @response = PolarisResource::Response.new(:code => 200, :headers => "", :body => body.to_json, :time => 0.3)
-      PolarisResource::Request.stub(:put).and_return(@response)
-    end
-    
-    it "makes a PUT request to the external service" do
-      PolarisResource::Request.should_receive(:put).with("/states/1", @state.attributes_without_id).and_return(@response)
+      @state.name    = 'Oregon'
+      @state.capital = 'Salem'
+      @state.motto   = 'She flies with her own wings'
       @state.save
     end
     
-    it "receives a response with the attributes for this instance" do
-      attributes = { :id => 1, :name => "Oregon", :capital => "Salem", :motto => "She flies with her own wings" }
-      @state.should_receive(:merge_attributes).with(HashWithIndifferentAccess.new(attributes))
-      @state.save
+    it 'has a new name attribute' do
+      @state.name.should eql('Oregon')
     end
     
-    it "sets the errors hash based on the response" do
-      @state.save
-      @state.errors.should be_empty
+    it 'has a new capital attribute' do
+      @state.capital.should eql('Salem')
     end
     
-    it "sets the valid? flag based on the response" do
-      @state.save
+    it 'has a new motto attribute' do
+      @state.motto.should eql('She flies with her own wings')
+    end
+    
+    it 'is still valid' do
       @state.should be_valid
     end
     
+    it 'still has no errors' do
+      @state.errors.should be_empty
+    end
+    
+  end
+  
+  def stub_web!
+    PolarisResource::Configuration.hydra.stub(:post, "#{PolarisResource::Configuration.host}/states").and_return(build_polaris_response(
+      201,
+      {
+        :id      => 1,
+        :valid   => true,
+        :errors  => {},
+        :name    => 'California',
+        :capital => 'Sacramento',
+        :motto   => 'Eureka!'
+      }
+    ))
+    
+    PolarisResource::Configuration.hydra.stub(:post, "#{PolarisResource::Configuration.host}/states/1").and_return(build_polaris_response(
+      200,
+      {
+        :id      => 1,
+        :valid   => true,
+        :errors  => {},
+        :name    => 'Oregon',
+        :capital => 'Salem',
+        :motto   => 'She flies with her own wings'
+      }
+    ))
   end
   
 end
@@ -110,26 +107,13 @@ end
 describe PolarisResource::Persistence, "#update_attributes" do
   
   before(:each) do
-    @attributes = HashWithIndifferentAccess.new({
+    stub_web!
+    @state = State.new(
       :name    => "California",
       :capital => "Sacramento",
       :motto   => "Eureka!"
-    })
-    body = {
-      :status  => 200,
-      :content => @attributes.merge(:id => 1)
-    }
-    @state = State.new(@attributes)
-    response = PolarisResource::Response.new(:code => 201, :headers => "", :body => body.to_json, :time => 0.3)
-    PolarisResource::Request.stub(:post).and_return(response)
+    )
     @state.save
-    
-    body = {
-      :status  => 200,
-      :content => { :id => 1, :name => "Oregon", :capital => "Salem", :motto => "She flies with her own wings"}
-    }
-    @response = PolarisResource::Response.new(:code => 200, :headers => "", :body => body.to_json, :time => 0.3)
-    PolarisResource::Request.stub(:put).and_return(@response)
   end
   
   it "sets the attributes to their new values" do
@@ -141,7 +125,37 @@ describe PolarisResource::Persistence, "#update_attributes" do
   
   it "calls .save on the record" do
     @state.should_receive(:save)
-    @state.update_attributes(:name => "Oregon", :capital => "Salem", :motto => "She flies with her own wings")
+    @state.update_attributes(
+      :name    => 'Oregon',
+      :capital => 'Salem',
+      :motto   => 'She flies with her own wings'
+    )
+  end
+  
+  def stub_web!
+    PolarisResource::Configuration.hydra.stub(:post, "#{PolarisResource::Configuration.host}/states").and_return(build_polaris_response(
+      201,
+      {
+        :id      => 1,
+        :valid   => true,
+        :errors  => {},
+        :name    => 'California',
+        :capital => 'Sacramento',
+        :motto   => 'Eureka!'
+      }
+    ))
+    
+    PolarisResource::Configuration.hydra.stub(:post, "#{PolarisResource::Configuration.host}/states/1").and_return(build_polaris_response(
+      200,
+      {
+        :id      => 1,
+        :valid   => true,
+        :errors  => {},
+        :name    => 'Oregon',
+        :capital => 'Salem',
+        :motto   => 'She flies with her own wings'
+      }
+    ))
   end
   
 end
