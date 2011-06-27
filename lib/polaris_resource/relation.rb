@@ -8,17 +8,18 @@ module PolarisResource
     end
     
     def where(attributes)
-      _merge(attributes)
+      @params.merge!(attributes)
       self
     end
     
     def limit(amount)
-      _merge(:limit => amount)
+      @params.merge!(:limit => amount)
       self
     end
     
     def page(page_number)
-      _merge(_page_params(page_number))
+      offset = (page_number - 1) * @owner.results_per_page
+      @params.merge!(:limit => @owner.results_per_page, :offset => offset)
       self
     end
     
@@ -35,15 +36,6 @@ module PolarisResource
     end
     
     private
-    
-    def _page_params(page_number)
-      offset = (page_number - 1) * @owner.results_per_page
-      { :limit => @owner.results_per_page, :offset => offset }
-    end
-    
-    def _merge(attributes)
-      @params.merge!(attributes)
-    end
     
     def loaded_target
       @target ||= load_target!

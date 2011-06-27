@@ -33,7 +33,7 @@ module PolarisResource
       def load_target!
         if association_id = @owner.send(@options[:foreign_key])
           polymorphic_class = @options[:polymorphic] ? @owner.send("#{@association}_type".to_sym).constantize : @options[:class_name].constantize
-          polymorphic_class.send(:find, association_id).to_a
+          polymorphic_class.send(:find, association_id)
         end
       end
       

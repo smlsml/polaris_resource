@@ -5,48 +5,8 @@ module PolarisResource
     module ClassMethods
       
       def response_from_request(request, metadata)
-        ActiveSupport::Notifications.instrument('request.polaris_resource', :path => request.path, :params => request.params, :method => request.method, :class => self, :response => request.response) do
-          handle_response(request, metadata)
-        end
+        ResponseParser.parse(self, request, metadata)
       end
-      
-      def build_from_response(response)
-        content = Yajl::Parser.parse(response.body)['content']
-        if content
-          if Array === content
-            content.collect do |attributes|
-              obj = new(attributes)
-            end
-          else
-            obj = new(content)
-          end
-        end
-      end
-      
-      def handle_response(request, metadata)
-        response = request.response
-        case response.code
-        when 200..299
-          build_from_response(response)
-        when 404
-          raise_not_found(request)
-        when 0
-          raise RemoteHostConnectionFailure
-        end
-      end
-      private :handle_response
-
-      def raise_not_found(request)
-        case
-        when request.params[:ids]
-          raise ResourceNotFound, "Couldn't find all #{model_name.pluralize} with IDs (#{request.params[:ids].join(', ')})"
-        when request.params[:id]
-          raise ResourceNotFound, "Couldn't find #{model_name} with ID=#{request.params[:id]}"
-        else
-          raise ResourceNotFound, "No resource was found at #{request.url}"
-        end
-      end
-      private :raise_not_found
       
     end
     

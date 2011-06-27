@@ -36,8 +36,8 @@ module PolarisResource
     def self.quick(method, path, params)
       options = { :method => method }
       options.merge!(:params => params) if params
-      request_queue = RequestQueue.new
       request = new(path, options)
+      request_queue = RequestQueue.new
       request_queue << request
       request_queue.run!
       request
