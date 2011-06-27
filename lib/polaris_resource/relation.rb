@@ -42,7 +42,7 @@ module PolarisResource
     end
 
     def load_target!
-      @owner.get(@owner.find_all_uri, @params)
+      @owner.get(*UrlBuilder.relation(@owner, @params))
     end
 
     def method_missing(m, *args, &block)

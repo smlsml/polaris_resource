@@ -9,19 +9,19 @@ module PolarisResource
         if args.length == 1
           case args.first
           when Integer, String
-            get(find_one_uri(args.first.to_i))
+            get(UrlBuilder.find_one(self, args.first.to_i))
           when Array
-            get(find_all_uri, { :ids => args.first })
+            get(UrlBuilder.find_some(self, args.first))
           else
             raise ArgumentError, "Unrecognized argument (#{args.first.inspect})."
           end
         else
-          get(find_all_uri, { :ids => args })
+          get(UrlBuilder.find_some(self, args))
         end
       end
 
       def all
-        get(find_all_uri)
+        get(UrlBuilder.find_all(self))
       end
 
       def first
@@ -46,15 +46,6 @@ module PolarisResource
 
       def results_per_page=(_results_per_page)
         @results_per_page = _results_per_page
-      end
-
-      def find_one_uri(id)
-        "#{find_all_uri}/#{id}"
-      end
-      private :find_one_uri
-
-      def find_all_uri
-        "/#{plural_url_name}"
       end
 
     end

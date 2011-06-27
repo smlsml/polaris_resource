@@ -22,6 +22,7 @@ module PolarisResource
   autoload :Response,       'polaris_resource/response'
   autoload :ResponseParser, 'polaris_resource/response_parser'
   autoload :TypeCaster,     'polaris_resource/type_caster'
+  autoload :UrlBuilder,     'polaris_resource/url_builder'
 
   # Mixins provide behaviors to the Base class.
   autoload :Associations,    'polaris_resource/mixins/associations'

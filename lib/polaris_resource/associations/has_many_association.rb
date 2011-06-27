@@ -29,8 +29,7 @@ module PolarisResource
       # like this: /courses/1/meetings, where the 1 is the primary key.
       def load_target!
         if primary_key = @owner.send(@options[:primary_key])
-          uri = "/#{@owner.class.plural_url_name}/#{primary_key}/#{@association_class.plural_url_name}"
-          @options[:class_name].constantize.get(uri)
+          @options[:class_name].constantize.get(UrlBuilder.has_many(@owner.class, primary_key, @association_class))
         else
           []
         end
