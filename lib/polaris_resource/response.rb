@@ -3,10 +3,10 @@ module PolarisResource
 
     def initialize(response_or_attributes = {}, cached = nil)
       @cached = cached
-      if Typhoeus::Response === response_or_attributes
-        @response = response_or_attributes
+      @response = if Typhoeus::Response === response_or_attributes
+        response_or_attributes
       else
-        @response = Typhoeus::Response.new(response_or_attributes)
+        Typhoeus::Response.new(response_or_attributes)
       end
     end
 
