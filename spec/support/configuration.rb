@@ -10,7 +10,7 @@ module PolarisResourceHelper
       :content => content
     }
     body.merge!(errors) if errors
-    Typhoeus::Response.new(:code => status, :headers => "", :body => body.to_json, :time => 0.3)
+    PolarisResource::Response.new(:code => status, :headers => "", :body => body.to_json, :time => 0.3)
   end
   
 end
@@ -20,6 +20,7 @@ RSpec.configure do |config|
   
   config.before(:each) do
     PolarisResource::Configuration.hydra.clear_stubs
+    PolarisResource::RequestQueue.queue.clear
     PolarisResource::RequestCache.cache.clear
   end
 end

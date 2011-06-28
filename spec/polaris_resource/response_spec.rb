@@ -44,7 +44,7 @@ describe PolarisResource::Response, ".respond_to?" do
   
   before(:each) do
     @typhoeus_response = Typhoeus::Response.new(:code => 200, :headers => "", :body => "", :time => 0.3)
-    @response          = PolarisResource::Response.new(@typhoeus_response)
+    @response          = PolarisResource::Response.new(:code => 200, :headers => "", :body => "", :time => 0.3)
   end
   
   it "responds to all methods defined on itself" do

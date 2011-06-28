@@ -9,19 +9,23 @@ module PolarisResource
         if args.length == 1
           case args.first
           when Integer, String
-            get(*UrlBuilder.find_one(self, args.first.to_i))
+            attributes = [UrlBuilder.find_one(self, args.first.to_i), nil, { :id => args.first.to_i }]
+            get(*attributes)
           when Array
-            get(*UrlBuilder.find_some(self, args.first))
+            attributes = UrlBuilder.find_some(self, args.first).push({ :ids => args.first })
+            get(*attributes)
           else
             raise ArgumentError, "Unrecognized argument (#{args.first.inspect})."
           end
         else
-          get(*UrlBuilder.find_some(self, args))
+          attributes = UrlBuilder.find_some(self, args).push({ :ids => args })
+          get(*attributes)
         end
       end
 
       def all
-        get(UrlBuilder.find_all(self))
+        attributes = [UrlBuilder.find_all(self), nil, {}]
+        get(*attributes)
       end
 
       def first

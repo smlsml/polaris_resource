@@ -45,7 +45,7 @@ module PolarisClient
     end
 
     def payload(event)
-      payload  = "#{PolarisResource::Configuration.host}#{event.payload[:path]}"
+      payload  = "#{PolarisResource::Configuration.host}#{event.payload[:url]}"
       payload << " #{event.payload[:params].inspect}" unless event.payload[:params].blank?
       payload
     end

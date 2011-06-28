@@ -11,7 +11,7 @@ module PolarisResource
     def self.parse(owner, request, metadata)
       parser = new(owner, request, metadata)
 
-      ActiveSupport::Notifications.instrument('request.polaris_resource', :path => request.path, :params => request.params, :method => request.method, :class => self, :response => request.response) do
+      ActiveSupport::Notifications.instrument('request.polaris_resource', :url => request.url, :params => request.params, :method => request.method, :class => owner, :response => request.response) do
         parser.parse
       end
     end
@@ -30,7 +30,7 @@ module PolarisResource
     private
 
     def content
-      @content ||= Yajl::Parser.parse(@response.body)['content']
+      @content ||= Yajl::Parser.parse(@response.body).try(:[], 'content')
     end
 
     def build_from_response
@@ -47,10 +47,10 @@ module PolarisResource
 
     def raise_not_found
       case
-      when @request.params[:ids]
-        raise ResourceNotFound, "Couldn't find all #{@requesting_class.to_s.pluralize} with IDs (#{@request.params[:ids].join(', ')})"
-      when @request.params[:id]
-        raise ResourceNotFound, "Couldn't find #{@requesting_class} with ID=#{@request.params[:id]}"
+      when @metadata[:ids]
+        raise ResourceNotFound, "Couldn't find all #{@requesting_class.to_s.pluralize} with IDs (#{@metadata[:ids].join(', ')})"
+      when @metadata[:id]
+        raise ResourceNotFound, "Couldn't find #{@requesting_class} with ID=#{@metadata[:id]}"
       else
         raise ResourceNotFound, "No resource was found at #{@request.url}"
       end

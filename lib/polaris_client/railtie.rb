@@ -7,6 +7,7 @@ module PolarisClient
     end
 
     initializer "polaris_client.configure_request_cache" do |app|
+      app.middleware.use PolarisResource::RequestQueue
       app.middleware.use PolarisResource::RequestCache
     end
 

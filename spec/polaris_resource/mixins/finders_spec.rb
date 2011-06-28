@@ -12,7 +12,7 @@ describe PolarisResource::Finders, "#find" do
       end
       
       it "makes a request to /dogs/1 at the external service" do
-        Dog.should_receive(:get).with("/dogs/1").and_return(@dog)
+        Dog.should_receive(:get).with("/dogs/1", nil, { :id => 1 }).and_return(@dog)
         Dog.find(1)
       end
       
@@ -29,14 +29,7 @@ describe PolarisResource::Finders, "#find" do
     context "when this record does not exist on the external service" do
       
       before(:each) do
-        body = {
-          :status  => 404,
-          :content => nil
-        }
-        response = PolarisResource::Response.new(:code => 404, :headers => "", :body => body.to_json, :time => 0.3)
-        request  = PolarisResource::Request.new("/dogs", :method => :get, :params => { :id => 1 })
-        request.stub(:response).and_return(response)
-        PolarisResource::Request.stub(:quick).and_return(request)
+        PolarisResource::Configuration.hydra.stub(:get, "#{PolarisResource::Configuration.host}/dogs/1").and_return(build_polaris_response(404, nil))
       end
       
       it "raises a ResourceNotFound error" do
@@ -61,7 +54,7 @@ describe PolarisResource::Finders, "#find" do
       end
       
       it "makes a request to /dogs?ids=1,2,3 at the external service" do
-        Dog.should_receive(:get).with("/dogs", { :ids => [1,2,3] }).and_return(@dogs)
+        Dog.should_receive(:get).with("/dogs", { :ids => [1,2,3] }, { :ids => [1,2,3] }).and_return(@dogs)
         Dog.find([1,2,3])
       end
       
@@ -79,14 +72,7 @@ describe PolarisResource::Finders, "#find" do
     context "when there is a requested record that does not exist on the external service" do
       
       before(:each) do
-        body = {
-          :status  => 404,
-          :content => nil
-        }
-        response = PolarisResource::Response.new(:code => 404, :headers => "", :body => body.to_json, :time => 0.3)
-        request  = PolarisResource::Request.new("/dogs", :method => :get, :params => { :ids => [1,2,3] })
-        request.stub(:response).and_return(response)
-        PolarisResource::Request.stub(:quick).and_return(request)
+        PolarisResource::Configuration.hydra.stub(:get, "#{PolarisResource::Configuration.host}/dogs?ids%5B%5D=1&ids%5B%5D=2&ids%5B%5D=3").and_return(build_polaris_response(404, nil))
       end
       
       it "raises a ResourceNotFound error" do
@@ -111,7 +97,7 @@ describe PolarisResource::Finders, "#find" do
       end
       
       it "makes a request to /dogs?ids=1,2,3 at the external service" do
-        Dog.should_receive(:get).with("/dogs", { :ids => [1,2,3] }).and_return(@dogs)
+        Dog.should_receive(:get).with("/dogs", { :ids => [1,2,3] }, { :ids => [1,2,3] }).and_return(@dogs)
         Dog.find(1,2,3)
       end
       
@@ -129,14 +115,7 @@ describe PolarisResource::Finders, "#find" do
     context "when there is a requested record that does not exist on the external service" do
       
       before(:each) do
-        body = {
-          :status  => 404,
-          :content => nil
-        }
-        response = PolarisResource::Response.new(:code => 404, :headers => "", :body => body.to_json, :time => 0.3)
-        request  = PolarisResource::Request.new("/dogs", :method => :get, :params => { :ids => [1,2,3] })
-        request.stub(:response).and_return(response)
-        PolarisResource::Request.stub(:quick).and_return(request)
+        PolarisResource::Configuration.hydra.stub(:get, "#{PolarisResource::Configuration.host}/dogs?ids%5B%5D=1&ids%5B%5D=2&ids%5B%5D=3").and_return(build_polaris_response(404, nil))
       end
       
       it "raises a ResourceNotFound error" do

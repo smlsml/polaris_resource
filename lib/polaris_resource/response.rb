@@ -1,25 +1,23 @@
 module PolarisResource
-  class Response
+  class Response < Typhoeus::Response
 
-    def initialize(response_or_attributes = {}, cached = nil)
+    def initialize(params = {}, cached = nil)
+      super(params)
       @cached = cached
-      @response = if Typhoeus::Response === response_or_attributes
-        response_or_attributes
-      else
-        Typhoeus::Response.new(response_or_attributes)
-      end
     end
 
     def cached?
-      !!@cached
+      !!@cached.tap do
+        @cached = tagged_for_caching?
+      end
     end
-
-    def respond_to?(method, include_private = false)
-      methods.include?(method) || @response.respond_to?(method.to_sym)
+    
+    def tag_for_caching!
+      @tagged_for_caching = true
     end
-
-    def method_missing(m, *args, &block)
-      @response.send(m.to_sym, *args, &block) if @response.respond_to?(m.to_sym)
+    
+    def tagged_for_caching?
+      @tagged_for_caching ||= false
     end
 
   end

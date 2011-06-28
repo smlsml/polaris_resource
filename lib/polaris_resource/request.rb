@@ -1,51 +1,37 @@
 module PolarisResource
-  class Request
+  class Request < Typhoeus::Request
     attr_reader :path, :params, :method
 
     def initialize(path, options = {})
-      @path      = path
-      @params    = options[:params] || {}
-      @method    = options[:method]
-      
-      if @method == :put
-        @method = options[:method] = :post
-        options[:params] = @params.merge(:_method => :put)
+      if options[:method] == :put
+        options[:method] = :post
+        options[:params].merge!(:_method => :put)
       end
 
-      @request = Typhoeus::Request.new(Configuration.host + path, options)
+      super(Configuration.host + path, options)
     end
-
+    
     def cache_key
-      [path, params].hash
+      [method, url, params].hash
     end
-
+    
+    def response=(response)
+      RequestCache.cache[cache_key] = response
+      response.tag_for_caching!
+      super
+    end
+    
     def response
-      @response ||= begin
-        if cached_response = RequestCache.cache[cache_key]
-          Response.new(cached_response, true)
-        else
-          RequestCache.cache[cache_key] = @request.response
-          Response.new(RequestCache.cache[cache_key])
-        end
-      end
+      RequestQueue.run! if RequestQueue.has_request?(self)
+      RequestCache.cache[cache_key] || super
     end
-
-    def method_missing(m, *args, &block)
-      if @request.respond_to?(m)
-        @request.send(m, *args, &block)
-      else
-        super
-      end
-    end
-
-    def self.quick(method, path, params)
+    
+    def self.enqueue(method, path, params)
       options = { :method => method }
       options.merge!(:params => params) if params
-      request = new(path, options)
-      request_queue = RequestQueue.new
-      request_queue << request
-      request_queue.run!
-      request
+      new(path, options).tap do |request|
+        RequestQueue.enqueue(request)
+      end
     end
 
   end

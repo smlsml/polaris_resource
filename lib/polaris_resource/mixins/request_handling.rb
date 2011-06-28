@@ -5,22 +5,22 @@ module PolarisResource
     module ClassMethods
 
       def get(path, params = nil, metadata = {})
-        request = Request.quick(:get, path, params)
+        request = Request.enqueue(:get, path, params)
         response_from_request(request, metadata)
       end
 
       def post(path, params = nil, metadata = {})
-        request = Request.quick(:post, path, params)
+        request = Request.enqueue(:post, path, params)
         response_from_request(request, metadata)
       end
 
       def put(path, params = nil, metadata = {})
-        request = Request.quick(:put, path, params)
+        request = Request.enqueue(:put, path, params)
         response_from_request(request, metadata)
       end
 
       def delete(path, params = nil, metadata = {})
-        request = Request.quick(:delete, path, params)
+        request = Request.enqueue(:delete, path, params)
         response_from_request(request, metadata)
       end
 
