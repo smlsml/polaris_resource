@@ -34,7 +34,12 @@ module PolarisResource
         if association_id = @owner.send(@options[:foreign_key])
           polymorphic_class = @options[:polymorphic] ? @owner.send("#{@association}_type".to_sym).constantize : @options[:class_name].constantize
           attributes = [UrlBuilder.belongs_to(polymorphic_class, association_id), nil, { :id => association_id }]
-          polymorphic_class.get(*attributes)
+          polymorphic_class.get(*attributes) do
+            while !@includes.empty?
+              association = @includes.pop
+              loaded_target.send(association.to_sym).try(:load_target!)
+            end
+          end
         end
       end
 

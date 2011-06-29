@@ -30,7 +30,12 @@ module PolarisResource
       def load_target!
         if primary_key = @owner.send(@options[:primary_key])
           attributes = [UrlBuilder.has_many(@owner.class, primary_key, @association_class), nil, { :id => primary_key }]
-          @options[:class_name].constantize.get(*attributes)
+          @options[:class_name].constantize.get(*attributes) do
+            while !@includes.empty?
+              association = @includes.pop
+              loaded_target.each { |target| target.send(association.to_sym).try(:load_target!) }
+            end
+          end
         else
           []
         end

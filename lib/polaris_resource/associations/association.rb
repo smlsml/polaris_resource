@@ -35,6 +35,8 @@ module PolarisResource
         @target = settings[:target]
 
         @filters = settings[:filters] || []
+        
+        @includes = []
 
         # @options holds the chosen options for the association. Several of these
         # options are set in the subclass' initializer.
@@ -61,19 +63,26 @@ module PolarisResource
       def to_param
         loaded_target.to_param
       end
+      
+      def includes(*associations)
+        associations.each do |association|
+          @includes << association unless @includes.include?(association)
+        end
+        self
+      end
 
       # The stub method can be used to mock out an association without
       # having to really load the target.
       def stub(mock)
         @mock = mock
       end
-
-      private
-
+      
       # This is left to be implemented by the subclasses as it will operate
       # differently in each case.
       def load_target!
       end
+
+      private
 
       # The loaded_target method holds a cached version of the loaded target.
       # This method is used to access the proxied object. Since a request will
