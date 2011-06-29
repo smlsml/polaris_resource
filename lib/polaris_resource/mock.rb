@@ -50,7 +50,7 @@ module PolarisResource
     end
 
     def stub_find_one!
-      response = Typhoeus::Response.new(:code => status, :headers => "", :body => stub_find_one_body, :time => 0.3)
+      response = PolarisResource::Response.new(:code => status, :headers => "", :body => stub_find_one_body, :time => 0.3)
       Configuration.hydra.stub(:get, find_one_uri).and_return(response)
     end
 

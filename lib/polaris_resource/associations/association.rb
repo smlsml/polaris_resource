@@ -26,10 +26,6 @@ module PolarisResource
         # method (i.e. :automobile, :car, :car_club)
         @association = association
 
-        # @association_class stores the class of the association, constantized
-        # from the named association (i.e. Automobile, Car, CarClub)
-        @association_class = association.to_s.classify.constantize
-
         # @target stores the loaded object. It is not typically accessed directly,
         # but instead should be accessed through the loaded_target method.
         @target = settings[:target]
@@ -48,6 +44,10 @@ module PolarisResource
         # request is made for the association, this class will be used to
         # instantiate this object or collection.
         @options[:class_name] ||= @association.to_s.classify
+        
+        # @association_class stores the class of the association, constantized
+        # from the named association (i.e. Automobile, Car, CarClub)
+        @association_class = @options[:class_name].constantize
       end
 
       # The proxy implements a few methods that need to be delegated to the target
