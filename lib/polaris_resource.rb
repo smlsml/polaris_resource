@@ -54,6 +54,7 @@ end
 # The Railtie loads the LogSubscriber for printing output to the Rails log, and
 # Associations which plug-in to ActiveRecord to link associated resources.
 require 'polaris_client/railtie' if defined?(Rails)
+require 'polaris_client/inflections'
 
 # There are some Typhoeus patches contained here.
 require 'ext/typhoeus'
