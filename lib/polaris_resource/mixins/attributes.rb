@@ -49,8 +49,12 @@ module PolarisResource
       end
 
       def attributes_without_basic_attributes
+        attributes_to_reject = %w( id errors valid )
+        self.class.reflections.keys.each do |key|
+          attributes_to_reject.push(key.to_s)
+        end
         attributes.reject do |key, value|
-          %w( id errors valid ).include?(key)
+          attributes_to_reject.include?(key)
         end
       end
 
@@ -58,26 +62,31 @@ module PolarisResource
       def update_attribute(attribute, value)
         reflection = self.class.reflect_on_association(attribute)
         if reflection
-          if reflection.macro == :has_many # need to construct each member of array one-by-one
-            association_object = send(attribute)
-            value.each do |a_value|
-              if a_value.instance_of? reflection.klass
-                target = a_value
-              else
-                target = reflection.build_association(a_value)
-              end
-              association_object << target
-            end
-          else 
-            if value.instance_of? reflection.klass
-              target = value
-            else
-              target = reflection.build_association(value)
-            end
-            send("#{attribute}=", target)
-          end
+          update_reflection(reflection, attribute, value)
         else
           attributes[attribute.to_sym] = typecast(attribute, value)
+        end
+      end
+      
+      def update_reflection(reflection, attribute, value)
+        return unless value
+        if reflection.macro == :has_many # need to construct each member of array one-by-one
+          association_object = send(attribute)
+          value.each do |a_value|
+            if a_value.instance_of? reflection.klass
+              target = a_value
+            else
+              target = reflection.build_association(a_value)
+            end
+            association_object << target
+          end
+        else
+          if value.instance_of? reflection.klass
+            target = value
+          else
+            target = reflection.build_association(value)
+          end
+          send("#{attribute}=", target)
         end
       end
 
