@@ -15,6 +15,7 @@
         <a class="source" href="/polaris_resource/index.html">INDEX</a>
           <a class="source" href="typhoeus.html">typhoeus.rb</a>
           <a class="source" href="../polaris_client/associations.html">associations.rb</a>
+          <a class="source" href="../polaris_client/inflections.html">inflections.rb</a>
           <a class="source" href="../polaris_client/log_subscriber.html">log_subscriber.rb</a>
           <a class="source" href="../polaris_client/railtie.html">railtie.rb</a>
           <a class="source" href="../polaris_resource.html">polaris_resource.rb</a>
@@ -25,9 +26,11 @@
           <a class="source" href="../polaris_resource/base.html">base.rb</a>
           <a class="source" href="../polaris_resource/configuration.html">configuration.rb</a>
           <a class="source" href="../polaris_resource/errors.html">errors.rb</a>
+          <a class="source" href="../polaris_resource/filter.html">filter.rb</a>
           <a class="source" href="../polaris_resource/mixins/associations.html">associations.rb</a>
           <a class="source" href="../polaris_resource/mixins/attributes.html">attributes.rb</a>
           <a class="source" href="../polaris_resource/mixins/conversion.html">conversion.rb</a>
+          <a class="source" href="../polaris_resource/mixins/filtering.html">filtering.rb</a>
           <a class="source" href="../polaris_resource/mixins/finders.html">finders.rb</a>
           <a class="source" href="../polaris_resource/mixins/introspection.html">introspection.rb</a>
           <a class="source" href="../polaris_resource/mixins/persistence.html">persistence.rb</a>
@@ -42,7 +45,9 @@
           <a class="source" href="../polaris_resource/request_cache.html">request_cache.rb</a>
           <a class="source" href="../polaris_resource/request_queue.html">request_queue.rb</a>
           <a class="source" href="../polaris_resource/response.html">response.rb</a>
+          <a class="source" href="../polaris_resource/response_parser.html">response_parser.rb</a>
           <a class="source" href="../polaris_resource/type_caster.html">type_caster.rb</a>
+          <a class="source" href="../polaris_resource/url_builder.html">url_builder.rb</a>
       </div>
     </div>
   </div>
@@ -78,6 +83,26 @@
       <span class="n">alias_method</span> <span class="ss">:check_allow_net_connect!</span><span class="p">,</span> <span class="ss">:check_allow_net_connect_with_error_wrapping!</span>
 
     <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">response_from_easy</span><span class="p">(</span><span class="n">easy</span><span class="p">,</span> <span class="n">request</span><span class="p">)</span>
+      <span class="no">PolarisResource</span><span class="o">::</span><span class="no">Response</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
+        <span class="ss">:code</span>                <span class="o">=&gt;</span> <span class="n">easy</span><span class="o">.</span><span class="n">response_code</span><span class="p">,</span>
+        <span class="ss">:headers</span>             <span class="o">=&gt;</span> <span class="n">easy</span><span class="o">.</span><span class="n">response_header</span><span class="p">,</span>
+        <span class="ss">:body</span>                <span class="o">=&gt;</span> <span class="n">easy</span><span class="o">.</span><span class="n">response_body</span><span class="p">,</span>
+        <span class="ss">:time</span>                <span class="o">=&gt;</span> <span class="n">easy</span><span class="o">.</span><span class="n">total_time_taken</span><span class="p">,</span>
+        <span class="ss">:start_transfer_time</span> <span class="o">=&gt;</span> <span class="n">easy</span><span class="o">.</span><span class="n">start_transfer_time</span><span class="p">,</span>
+        <span class="ss">:app_connect_time</span>    <span class="o">=&gt;</span> <span class="n">easy</span><span class="o">.</span><span class="n">app_connect_time</span><span class="p">,</span>
+        <span class="ss">:pretransfer_time</span>    <span class="o">=&gt;</span> <span class="n">easy</span><span class="o">.</span><span class="n">pretransfer_time</span><span class="p">,</span>
+        <span class="ss">:connect_time</span>        <span class="o">=&gt;</span> <span class="n">easy</span><span class="o">.</span><span class="n">connect_time</span><span class="p">,</span>
+        <span class="ss">:name_lookup_time</span>    <span class="o">=&gt;</span> <span class="n">easy</span><span class="o">.</span><span class="n">name_lookup_time</span><span class="p">,</span>
+        <span class="ss">:effective_url</span>       <span class="o">=&gt;</span> <span class="n">easy</span><span class="o">.</span><span class="n">effective_url</span><span class="p">,</span>
+        <span class="ss">:curl_return_code</span>    <span class="o">=&gt;</span> <span class="n">easy</span><span class="o">.</span><span class="n">curl_return_code</span><span class="p">,</span>
+        <span class="ss">:curl_error_message</span>  <span class="o">=&gt;</span> <span class="n">easy</span><span class="o">.</span><span class="n">curl_error_message</span><span class="p">,</span>
+        <span class="ss">:request</span>             <span class="o">=&gt;</span> <span class="n">request</span>
+      <span class="p">)</span>
+    <span class="k">end</span>
+    <span class="kp">private</span> <span class="ss">:response_from_easy</span>
+
   <span class="k">end</span>
 <span class="k">end</span></pre></div>
       </td>

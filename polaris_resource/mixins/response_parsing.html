@@ -15,6 +15,7 @@
         <a class="source" href="/polaris_resource/index.html">INDEX</a>
           <a class="source" href="../../ext/typhoeus.html">typhoeus.rb</a>
           <a class="source" href="../../polaris_client/associations.html">associations.rb</a>
+          <a class="source" href="../../polaris_client/inflections.html">inflections.rb</a>
           <a class="source" href="../../polaris_client/log_subscriber.html">log_subscriber.rb</a>
           <a class="source" href="../../polaris_client/railtie.html">railtie.rb</a>
           <a class="source" href="../../polaris_resource.html">polaris_resource.rb</a>
@@ -25,9 +26,11 @@
           <a class="source" href="../base.html">base.rb</a>
           <a class="source" href="../configuration.html">configuration.rb</a>
           <a class="source" href="../errors.html">errors.rb</a>
+          <a class="source" href="../filter.html">filter.rb</a>
           <a class="source" href="associations.html">associations.rb</a>
           <a class="source" href="attributes.html">attributes.rb</a>
           <a class="source" href="conversion.html">conversion.rb</a>
+          <a class="source" href="filtering.html">filtering.rb</a>
           <a class="source" href="finders.html">finders.rb</a>
           <a class="source" href="introspection.html">introspection.rb</a>
           <a class="source" href="persistence.html">persistence.rb</a>
@@ -42,7 +45,9 @@
           <a class="source" href="../request_cache.html">request_cache.rb</a>
           <a class="source" href="../request_queue.html">request_queue.rb</a>
           <a class="source" href="../response.html">response.rb</a>
+          <a class="source" href="../response_parser.html">response_parser.rb</a>
           <a class="source" href="../type_caster.html">type_caster.rb</a>
+          <a class="source" href="../url_builder.html">url_builder.rb</a>
       </div>
     </div>
   </div>
@@ -66,63 +71,23 @@
         <div class='highlight'><pre><span class="k">module</span> <span class="nn">PolarisResource</span>
   <span class="k">module</span> <span class="nn">ResponseParsing</span>
     <span class="kp">extend</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Concern</span>
-    
-    <span class="k">module</span> <span class="nn">ClassMethods</span>
-      
-      <span class="k">def</span> <span class="nf">response_from_request</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span>
-        <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Notifications</span><span class="o">.</span><span class="n">instrument</span><span class="p">(</span><span class="s1">&#39;request.polaris_resource&#39;</span><span class="p">,</span> <span class="ss">:path</span> <span class="o">=&gt;</span> <span class="n">request</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="ss">:params</span> <span class="o">=&gt;</span> <span class="n">request</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="ss">:method</span> <span class="o">=&gt;</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span><span class="p">,</span> <span class="ss">:class</span> <span class="o">=&gt;</span> <span class="nb">self</span><span class="p">,</span> <span class="ss">:response</span> <span class="o">=&gt;</span> <span class="n">request</span><span class="o">.</span><span class="n">response</span><span class="p">)</span> <span class="k">do</span>
-          <span class="n">handle_response</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span>
-        <span class="k">end</span>
-      <span class="k">end</span>
-      
-      <span class="k">def</span> <span class="nf">build_from_response</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
-        <span class="n">content</span> <span class="o">=</span> <span class="no">Yajl</span><span class="o">::</span><span class="no">Parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="p">)</span><span class="o">[</span><span class="s1">&#39;content&#39;</span><span class="o">]</span>
-        <span class="k">if</span> <span class="n">content</span>
-          <span class="k">if</span> <span class="nb">Array</span> <span class="o">===</span> <span class="n">content</span>
-            <span class="n">content</span><span class="o">.</span><span class="n">collect</span> <span class="k">do</span> <span class="o">|</span><span class="n">attributes</span><span class="o">|</span>
-              <span class="n">obj</span> <span class="o">=</span> <span class="kp">new</span><span class="p">(</span><span class="n">attributes</span><span class="p">)</span>
-            <span class="k">end</span>
-          <span class="k">else</span>
-            <span class="n">obj</span> <span class="o">=</span> <span class="kp">new</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
-          <span class="k">end</span>
-        <span class="k">end</span>
-      <span class="k">end</span>
-      
-      <span class="k">def</span> <span class="nf">handle_response</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">response</span>
-        <span class="k">case</span> <span class="n">response</span><span class="o">.</span><span class="n">code</span>
-        <span class="k">when</span> <span class="mi">200</span><span class="o">.</span><span class="n">.</span><span class="mi">299</span>
-          <span class="n">build_from_response</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
-        <span class="k">when</span> <span class="mi">404</span>
-          <span class="n">raise_not_found</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
-        <span class="k">when</span> <span class="mi">0</span>
-          <span class="k">raise</span> <span class="no">RemoteHostConnectionFailure</span>
-        <span class="k">end</span>
-      <span class="k">end</span>
-      <span class="kp">private</span> <span class="ss">:handle_response</span>
 
-      <span class="k">def</span> <span class="nf">raise_not_found</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
-        <span class="k">case</span>
-        <span class="k">when</span> <span class="n">request</span><span class="o">.</span><span class="n">params</span><span class="o">[</span><span class="ss">:ids</span><span class="o">]</span>
-          <span class="k">raise</span> <span class="no">ResourceNotFound</span><span class="p">,</span> <span class="s2">&quot;Couldn&#39;t find all </span><span class="si">#{</span><span class="n">model_name</span><span class="o">.</span><span class="n">pluralize</span><span class="si">}</span><span class="s2"> with IDs (</span><span class="si">#{</span><span class="n">request</span><span class="o">.</span><span class="n">params</span><span class="o">[</span><span class="ss">:ids</span><span class="o">].</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
-        <span class="k">when</span> <span class="n">request</span><span class="o">.</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span>
-          <span class="k">raise</span> <span class="no">ResourceNotFound</span><span class="p">,</span> <span class="s2">&quot;Couldn&#39;t find </span><span class="si">#{</span><span class="n">model_name</span><span class="si">}</span><span class="s2"> with ID=</span><span class="si">#{</span><span class="n">request</span><span class="o">.</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="k">else</span>
-          <span class="k">raise</span> <span class="no">ResourceNotFound</span><span class="p">,</span> <span class="s2">&quot;No resource was found at </span><span class="si">#{</span><span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="k">end</span>
+    <span class="k">module</span> <span class="nn">ClassMethods</span>
+
+      <span class="k">def</span> <span class="nf">response_from_request</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span>
+        <span class="no">ResponseParser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span>
       <span class="k">end</span>
-      <span class="kp">private</span> <span class="ss">:raise_not_found</span>
-      
+
     <span class="k">end</span>
-    
+
     <span class="k">module</span> <span class="nn">InstanceMethods</span>
-      
+
       <span class="k">def</span> <span class="nf">build_from_response</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
         <span class="n">content</span> <span class="o">=</span> <span class="no">Yajl</span><span class="o">::</span><span class="no">Parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="p">)</span><span class="o">[</span><span class="s1">&#39;content&#39;</span><span class="o">]</span>
         <span class="n">merge_attributes</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
       <span class="k">end</span>
       <span class="kp">private</span> <span class="ss">:build_from_response</span>
-      
+
     <span class="k">end</span>
   <span class="k">end</span>
 <span class="k">end</span></pre></div>

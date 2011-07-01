@@ -15,6 +15,7 @@
         <a class="source" href="/polaris_resource/index.html">INDEX</a>
           <a class="source" href="../../ext/typhoeus.html">typhoeus.rb</a>
           <a class="source" href="../../polaris_client/associations.html">associations.rb</a>
+          <a class="source" href="../../polaris_client/inflections.html">inflections.rb</a>
           <a class="source" href="../../polaris_client/log_subscriber.html">log_subscriber.rb</a>
           <a class="source" href="../../polaris_client/railtie.html">railtie.rb</a>
           <a class="source" href="../../polaris_resource.html">polaris_resource.rb</a>
@@ -25,9 +26,11 @@
           <a class="source" href="../base.html">base.rb</a>
           <a class="source" href="../configuration.html">configuration.rb</a>
           <a class="source" href="../errors.html">errors.rb</a>
+          <a class="source" href="../filter.html">filter.rb</a>
           <a class="source" href="../mixins/associations.html">associations.rb</a>
           <a class="source" href="../mixins/attributes.html">attributes.rb</a>
           <a class="source" href="../mixins/conversion.html">conversion.rb</a>
+          <a class="source" href="../mixins/filtering.html">filtering.rb</a>
           <a class="source" href="../mixins/finders.html">finders.rb</a>
           <a class="source" href="../mixins/introspection.html">introspection.rb</a>
           <a class="source" href="../mixins/persistence.html">persistence.rb</a>
@@ -42,7 +45,9 @@
           <a class="source" href="../request_cache.html">request_cache.rb</a>
           <a class="source" href="../request_queue.html">request_queue.rb</a>
           <a class="source" href="../response.html">response.rb</a>
+          <a class="source" href="../response_parser.html">response_parser.rb</a>
           <a class="source" href="../type_caster.html">type_caster.rb</a>
+          <a class="source" href="../url_builder.html">url_builder.rb</a>
       </div>
     </div>
   </div>
@@ -64,8 +69,7 @@
       <td class=code>
         <div class='highlight'><pre><span class="k">module</span> <span class="nn">PolarisResource</span>
   <span class="k">module</span> <span class="nn">Associations</span>
-    <span class="k">class</span> <span class="nc">HasOneAssociation</span> <span class="o">&lt;</span> <span class="no">Association</span>
-      </pre></div>
+    <span class="k">class</span> <span class="nc">HasOneAssociation</span> <span class="o">&lt;</span> <span class="no">Association</span></pre></div>
       </td>
     </tr>
     <tr id='section-2'>
@@ -77,9 +81,8 @@
 sets the options particular to itself.</p>
       </td>
       <td class=code>
-        <div class='highlight'><pre>      <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">owner</span><span class="p">,</span> <span class="n">association</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">,</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{})</span>
-        <span class="k">super</span>
-        </pre></div>
+        <div class='highlight'><pre>      <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">owner</span><span class="p">,</span> <span class="n">association</span><span class="p">,</span> <span class="n">settings</span> <span class="o">=</span> <span class="p">{})</span>
+        <span class="k">super</span></pre></div>
       </td>
     </tr>
     <tr id='section-3'>
@@ -91,9 +94,12 @@ sets the options particular to itself.</p>
 defaults to :id.</p>
       </td>
       <td class=code>
-        <div class='highlight'><pre>        <span class="vi">@options</span><span class="o">[</span><span class="ss">:primary_key</span><span class="o">]</span> <span class="o">=</span> <span class="n">options</span><span class="o">[</span><span class="ss">:primary_key</span><span class="o">]</span> <span class="o">||</span> <span class="ss">:id</span>
+        <div class='highlight'><pre>        <span class="vi">@options</span><span class="o">[</span><span class="ss">:primary_key</span><span class="o">]</span> <span class="o">||=</span> <span class="ss">:id</span>
       <span class="k">end</span>
-      </pre></div>
+
+      <span class="k">def</span> <span class="nf">with_filter</span><span class="p">(</span><span class="n">filter</span><span class="p">)</span>
+        <span class="no">HasOneAssociation</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="vi">@owner</span><span class="p">,</span> <span class="vi">@association</span><span class="p">,</span> <span class="ss">:target</span> <span class="o">=&gt;</span> <span class="vi">@target</span><span class="p">,</span> <span class="ss">:filters</span> <span class="o">=&gt;</span> <span class="vi">@filters</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">filter</span><span class="p">),</span> <span class="ss">:options</span> <span class="o">=&gt;</span> <span class="vi">@options</span><span class="p">)</span>
+      <span class="k">end</span></pre></div>
       </td>
     </tr>
     <tr id='section-4'>
@@ -111,11 +117,16 @@ like this: /courses/1/meeting, where the 1 is the primary key.</p>
       <td class=code>
         <div class='highlight'><pre>      <span class="k">def</span> <span class="nf">load_target!</span>
         <span class="k">if</span> <span class="n">primary_key</span> <span class="o">=</span> <span class="vi">@owner</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="vi">@options</span><span class="o">[</span><span class="ss">:primary_key</span><span class="o">]</span><span class="p">)</span>
-          <span class="n">uri</span> <span class="o">=</span> <span class="s2">&quot;/</span><span class="si">#{</span><span class="vi">@owner</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">plural_url_name</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="n">primary_key</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="vi">@association_class</span><span class="o">.</span><span class="n">singular_url_name</span><span class="si">}</span><span class="s2">&quot;</span>
-          <span class="vi">@options</span><span class="o">[</span><span class="ss">:class_name</span><span class="o">].</span><span class="n">constantize</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
+          <span class="n">attributes</span> <span class="o">=</span> <span class="o">[</span><span class="no">UrlBuilder</span><span class="o">.</span><span class="n">has_one</span><span class="p">(</span><span class="vi">@owner</span><span class="o">.</span><span class="n">class</span><span class="p">,</span> <span class="n">primary_key</span><span class="p">,</span> <span class="vi">@association_class</span><span class="p">),</span> <span class="kp">nil</span><span class="p">,</span> <span class="p">{</span> <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="n">primary_key</span> <span class="p">}</span><span class="o">]</span>
+          <span class="vi">@options</span><span class="o">[</span><span class="ss">:class_name</span><span class="o">].</span><span class="n">constantize</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="o">*</span><span class="n">attributes</span><span class="p">)</span> <span class="k">do</span>
+            <span class="k">while</span> <span class="o">!</span><span class="vi">@includes</span><span class="o">.</span><span class="n">empty?</span>
+              <span class="n">association</span> <span class="o">=</span> <span class="vi">@includes</span><span class="o">.</span><span class="n">pop</span>
+              <span class="n">loaded_target</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">association</span><span class="o">.</span><span class="n">to_sym</span><span class="p">)</span><span class="o">.</span><span class="n">try</span><span class="p">(</span><span class="ss">:load_target!</span><span class="p">)</span>
+            <span class="k">end</span>
+          <span class="k">end</span>
         <span class="k">end</span>
       <span class="k">end</span>
-      
+
     <span class="k">end</span>
   <span class="k">end</span>
 <span class="k">end</span></pre></div>

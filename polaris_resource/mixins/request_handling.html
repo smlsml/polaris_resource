@@ -15,6 +15,7 @@
         <a class="source" href="/polaris_resource/index.html">INDEX</a>
           <a class="source" href="../../ext/typhoeus.html">typhoeus.rb</a>
           <a class="source" href="../../polaris_client/associations.html">associations.rb</a>
+          <a class="source" href="../../polaris_client/inflections.html">inflections.rb</a>
           <a class="source" href="../../polaris_client/log_subscriber.html">log_subscriber.rb</a>
           <a class="source" href="../../polaris_client/railtie.html">railtie.rb</a>
           <a class="source" href="../../polaris_resource.html">polaris_resource.rb</a>
@@ -25,9 +26,11 @@
           <a class="source" href="../base.html">base.rb</a>
           <a class="source" href="../configuration.html">configuration.rb</a>
           <a class="source" href="../errors.html">errors.rb</a>
+          <a class="source" href="../filter.html">filter.rb</a>
           <a class="source" href="associations.html">associations.rb</a>
           <a class="source" href="attributes.html">attributes.rb</a>
           <a class="source" href="conversion.html">conversion.rb</a>
+          <a class="source" href="filtering.html">filtering.rb</a>
           <a class="source" href="finders.html">finders.rb</a>
           <a class="source" href="introspection.html">introspection.rb</a>
           <a class="source" href="persistence.html">persistence.rb</a>
@@ -42,7 +45,9 @@
           <a class="source" href="../request_cache.html">request_cache.rb</a>
           <a class="source" href="../request_queue.html">request_queue.rb</a>
           <a class="source" href="../response.html">response.rb</a>
+          <a class="source" href="../response_parser.html">response_parser.rb</a>
           <a class="source" href="../type_caster.html">type_caster.rb</a>
+          <a class="source" href="../url_builder.html">url_builder.rb</a>
       </div>
     </div>
   </div>
@@ -69,18 +74,27 @@
 
     <span class="k">module</span> <span class="nn">ClassMethods</span>
 
-      <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">,</span> <span class="n">metadata</span> <span class="o">=</span> <span class="p">{})</span>
-        <span class="n">request</span> <span class="o">=</span> <span class="no">Request</span><span class="o">.</span><span class="n">quick</span><span class="p">(</span><span class="ss">:get</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+      <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">,</span> <span class="n">metadata</span> <span class="o">=</span> <span class="p">{},</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="no">Request</span><span class="o">.</span><span class="n">enqueue</span><span class="p">(</span><span class="ss">:get</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+        <span class="n">request</span><span class="o">.</span><span class="n">on_complete</span> <span class="o">=</span> <span class="n">block</span> <span class="k">if</span> <span class="nb">block_given?</span>
         <span class="n">response_from_request</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span>
       <span class="k">end</span>
 
-      <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">,</span> <span class="n">metadata</span> <span class="o">=</span> <span class="p">{})</span>
-        <span class="n">request</span> <span class="o">=</span> <span class="no">Request</span><span class="o">.</span><span class="n">quick</span><span class="p">(</span><span class="ss">:post</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+      <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">,</span> <span class="n">metadata</span> <span class="o">=</span> <span class="p">{},</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="no">Request</span><span class="o">.</span><span class="n">enqueue</span><span class="p">(</span><span class="ss">:post</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+        <span class="n">request</span><span class="o">.</span><span class="n">on_complete</span> <span class="o">=</span> <span class="n">block</span> <span class="k">if</span> <span class="nb">block_given?</span>
         <span class="n">response_from_request</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span>
       <span class="k">end</span>
 
-      <span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">,</span> <span class="n">metadata</span> <span class="o">=</span> <span class="p">{})</span>
-        <span class="n">request</span> <span class="o">=</span> <span class="no">Request</span><span class="o">.</span><span class="n">quick</span><span class="p">(</span><span class="ss">:put</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+      <span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">,</span> <span class="n">metadata</span> <span class="o">=</span> <span class="p">{},</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="no">Request</span><span class="o">.</span><span class="n">enqueue</span><span class="p">(</span><span class="ss">:put</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+        <span class="n">request</span><span class="o">.</span><span class="n">on_complete</span> <span class="o">=</span> <span class="n">block</span> <span class="k">if</span> <span class="nb">block_given?</span>
+        <span class="n">response_from_request</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span>
+      <span class="k">end</span>
+
+      <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">,</span> <span class="n">metadata</span> <span class="o">=</span> <span class="p">{},</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="no">Request</span><span class="o">.</span><span class="n">enqueue</span><span class="p">(</span><span class="ss">:delete</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+        <span class="n">request</span><span class="o">.</span><span class="n">on_complete</span> <span class="o">=</span> <span class="n">block</span> <span class="k">if</span> <span class="nb">block_given?</span>
         <span class="n">response_from_request</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span>
       <span class="k">end</span>
 

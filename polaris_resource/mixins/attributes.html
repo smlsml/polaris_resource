@@ -15,6 +15,7 @@
         <a class="source" href="/polaris_resource/index.html">INDEX</a>
           <a class="source" href="../../ext/typhoeus.html">typhoeus.rb</a>
           <a class="source" href="../../polaris_client/associations.html">associations.rb</a>
+          <a class="source" href="../../polaris_client/inflections.html">inflections.rb</a>
           <a class="source" href="../../polaris_client/log_subscriber.html">log_subscriber.rb</a>
           <a class="source" href="../../polaris_client/railtie.html">railtie.rb</a>
           <a class="source" href="../../polaris_resource.html">polaris_resource.rb</a>
@@ -25,9 +26,11 @@
           <a class="source" href="../base.html">base.rb</a>
           <a class="source" href="../configuration.html">configuration.rb</a>
           <a class="source" href="../errors.html">errors.rb</a>
+          <a class="source" href="../filter.html">filter.rb</a>
           <a class="source" href="associations.html">associations.rb</a>
           <a class="source" href="attributes.html">attributes.rb</a>
           <a class="source" href="conversion.html">conversion.rb</a>
+          <a class="source" href="filtering.html">filtering.rb</a>
           <a class="source" href="finders.html">finders.rb</a>
           <a class="source" href="introspection.html">introspection.rb</a>
           <a class="source" href="persistence.html">persistence.rb</a>
@@ -42,7 +45,9 @@
           <a class="source" href="../request_cache.html">request_cache.rb</a>
           <a class="source" href="../request_queue.html">request_queue.rb</a>
           <a class="source" href="../response.html">response.rb</a>
+          <a class="source" href="../response_parser.html">response_parser.rb</a>
           <a class="source" href="../type_caster.html">type_caster.rb</a>
+          <a class="source" href="../url_builder.html">url_builder.rb</a>
       </div>
     </div>
   </div>
@@ -60,7 +65,6 @@
           <a class="pilcrow" href="#section-1">&#182;</a>
         </div>
         
-
       </td>
       <td class=code>
         <div class='highlight'><pre><span class="k">module</span> <span class="nn">PolarisResource</span>
@@ -68,7 +72,7 @@
     <span class="kp">extend</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Concern</span>
 
     <span class="k">module</span> <span class="nn">ClassMethods</span>
-      
+
       <span class="k">def</span> <span class="nf">property</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">typecast_class</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
         <span class="n">typecast_attributes</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="nb">name</span><span class="o">.</span><span class="n">to_sym</span><span class="p">,</span> <span class="n">typecast_class</span><span class="p">)</span>
         <span class="n">default_attributes</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="nb">name</span><span class="o">.</span><span class="n">to_sym</span><span class="p">,</span> <span class="kp">nil</span><span class="p">)</span>
@@ -98,7 +102,7 @@
       <span class="k">end</span>
 
     <span class="k">end</span>
-    
+
     <span class="k">module</span> <span class="nn">InstanceMethods</span>
 
       <span class="k">def</span> <span class="nf">attributes</span>
@@ -113,33 +117,54 @@
         <span class="no">TypeCaster</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">typecast_attributes</span><span class="o">[</span><span class="n">attribute</span><span class="o">.</span><span class="n">to_sym</span><span class="o">]</span><span class="p">)</span>
       <span class="k">end</span>
 
-      <span class="k">def</span> <span class="nf">attributes_without_id</span>
-        <span class="n">attributes</span><span class="o">.</span><span class="n">reject</span> <span class="p">{</span> <span class="o">|</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="o">|</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;id&#39;</span> <span class="p">}</span>
-      <span class="k">end</span>
-      
-      <span class="k">def</span> <span class="nf">update_attribute</span><span class="p">(</span><span class="n">attribute</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+      <span class="k">def</span> <span class="nf">attributes_without_basic_attributes</span>
+        <span class="n">attributes_to_reject</span> <span class="o">=</span> <span class="sx">%w( id errors valid )</span>
+        <span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">keys</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">key</span><span class="o">|</span>
+          <span class="n">attributes_to_reject</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">to_s</span><span class="p">)</span>
+        <span class="k">end</span>
+        <span class="n">attributes</span><span class="o">.</span><span class="n">reject</span> <span class="k">do</span> <span class="o">|</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="o">|</span>
+          <span class="n">attributes_to_reject</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">end</span>
+      <span class="k">end</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-2'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-2">&#182;</a>
+        </div>
+        <p>TODO: This method needs some refactoring&hellip;</p>
+
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>      <span class="k">def</span> <span class="nf">update_attribute</span><span class="p">(</span><span class="n">attribute</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="n">reflection</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">reflect_on_association</span><span class="p">(</span><span class="n">attribute</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">reflection</span>
-          <span class="k">if</span> <span class="n">reflection</span><span class="o">.</span><span class="n">macro</span> <span class="o">==</span> <span class="ss">:has_many</span> <span class="c1"># need to construct each member of array one-by-one</span>
-            <span class="n">association_object</span> <span class="o">=</span> <span class="nb">send</span><span class="p">(</span><span class="n">attribute</span><span class="p">)</span>
-            <span class="n">value</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">a_value</span><span class="o">|</span>
-              <span class="k">if</span> <span class="n">a_value</span><span class="o">.</span><span class="n">instance_of?</span> <span class="n">reflection</span><span class="o">.</span><span class="n">klass</span>
-                <span class="n">target</span> <span class="o">=</span> <span class="n">a_value</span>
-              <span class="k">else</span>
-                <span class="n">target</span> <span class="o">=</span> <span class="n">reflection</span><span class="o">.</span><span class="n">build_association</span><span class="p">(</span><span class="n">a_value</span><span class="p">)</span>
-              <span class="k">end</span>
-              <span class="n">association_object</span> <span class="o">&lt;&lt;</span> <span class="n">target</span>
-            <span class="k">end</span>
-          <span class="k">else</span> 
-            <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">instance_of?</span> <span class="n">reflection</span><span class="o">.</span><span class="n">klass</span>
-              <span class="n">target</span> <span class="o">=</span> <span class="n">value</span>
-            <span class="k">else</span>
-              <span class="n">target</span> <span class="o">=</span> <span class="n">reflection</span><span class="o">.</span><span class="n">build_association</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-            <span class="k">end</span>
-            <span class="nb">send</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">attribute</span><span class="si">}</span><span class="s2">=&quot;</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
-          <span class="k">end</span>
+          <span class="n">update_reflection</span><span class="p">(</span><span class="n">reflection</span><span class="p">,</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="k">else</span>
           <span class="n">attributes</span><span class="o">[</span><span class="n">attribute</span><span class="o">.</span><span class="n">to_sym</span><span class="o">]</span> <span class="o">=</span> <span class="n">typecast</span><span class="p">(</span><span class="n">attribute</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+      
+      <span class="k">def</span> <span class="nf">update_reflection</span><span class="p">(</span><span class="n">reflection</span><span class="p">,</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">unless</span> <span class="n">value</span>
+        <span class="k">if</span> <span class="n">reflection</span><span class="o">.</span><span class="n">macro</span> <span class="o">==</span> <span class="ss">:has_many</span> <span class="c1"># need to construct each member of array one-by-one</span>
+          <span class="n">association_object</span> <span class="o">=</span> <span class="nb">send</span><span class="p">(</span><span class="n">attribute</span><span class="p">)</span>
+          <span class="n">value</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">a_value</span><span class="o">|</span>
+            <span class="k">if</span> <span class="n">a_value</span><span class="o">.</span><span class="n">instance_of?</span> <span class="n">reflection</span><span class="o">.</span><span class="n">klass</span>
+              <span class="n">target</span> <span class="o">=</span> <span class="n">a_value</span>
+            <span class="k">else</span>
+              <span class="n">target</span> <span class="o">=</span> <span class="n">reflection</span><span class="o">.</span><span class="n">build_association</span><span class="p">(</span><span class="n">a_value</span><span class="p">)</span>
+            <span class="k">end</span>
+            <span class="n">association_object</span> <span class="o">&lt;&lt;</span> <span class="n">target</span>
+          <span class="k">end</span>
+        <span class="k">else</span>
+          <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">instance_of?</span> <span class="n">reflection</span><span class="o">.</span><span class="n">klass</span>
+            <span class="n">target</span> <span class="o">=</span> <span class="n">value</span>
+          <span class="k">else</span>
+            <span class="n">target</span> <span class="o">=</span> <span class="n">reflection</span><span class="o">.</span><span class="n">build_association</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+          <span class="k">end</span>
+          <span class="nb">send</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">attribute</span><span class="si">}</span><span class="s2">=&quot;</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
         <span class="k">end</span>
       <span class="k">end</span>
 
@@ -158,7 +183,7 @@
         <span class="nb">self</span>
       <span class="k">end</span>
       <span class="kp">private</span> <span class="ss">:merge_attributes</span>
-      
+
       <span class="k">def</span> <span class="nf">define_attribute_accessor</span><span class="p">(</span><span class="nb">method</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">method</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">)</span>
           <span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:define_method</span><span class="p">,</span> <span class="nb">method</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">value</span><span class="o">|</span>
@@ -171,7 +196,7 @@
         <span class="k">end</span>
       <span class="k">end</span>
       <span class="kp">private</span> <span class="ss">:define_attribute_accessor</span>
-      
+
     <span class="k">end</span>
 
   <span class="k">end</span>

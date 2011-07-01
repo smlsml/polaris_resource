@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>response_parser.rb</title>
+  <link rel="stylesheet" href="http://jashkenas.github.com/docco/resources/docco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div id="jump_to">
+    Jump To &hellip;
+    <div id="jump_wrapper">
+      <div id="jump_page">
+        <a class="source" href="/polaris_resource/index.html">INDEX</a>
+          <a class="source" href="../ext/typhoeus.html">typhoeus.rb</a>
+          <a class="source" href="../polaris_client/associations.html">associations.rb</a>
+          <a class="source" href="../polaris_client/inflections.html">inflections.rb</a>
+          <a class="source" href="../polaris_client/log_subscriber.html">log_subscriber.rb</a>
+          <a class="source" href="../polaris_client/railtie.html">railtie.rb</a>
+          <a class="source" href="../polaris_resource.html">polaris_resource.rb</a>
+          <a class="source" href="associations/association.html">association.rb</a>
+          <a class="source" href="associations/belongs_to_association.html">belongs_to_association.rb</a>
+          <a class="source" href="associations/has_many_association.html">has_many_association.rb</a>
+          <a class="source" href="associations/has_one_association.html">has_one_association.rb</a>
+          <a class="source" href="base.html">base.rb</a>
+          <a class="source" href="configuration.html">configuration.rb</a>
+          <a class="source" href="errors.html">errors.rb</a>
+          <a class="source" href="filter.html">filter.rb</a>
+          <a class="source" href="mixins/associations.html">associations.rb</a>
+          <a class="source" href="mixins/attributes.html">attributes.rb</a>
+          <a class="source" href="mixins/conversion.html">conversion.rb</a>
+          <a class="source" href="mixins/filtering.html">filtering.rb</a>
+          <a class="source" href="mixins/finders.html">finders.rb</a>
+          <a class="source" href="mixins/introspection.html">introspection.rb</a>
+          <a class="source" href="mixins/persistence.html">persistence.rb</a>
+          <a class="source" href="mixins/reflections.html">reflections.rb</a>
+          <a class="source" href="mixins/request_handling.html">request_handling.rb</a>
+          <a class="source" href="mixins/response_parsing.html">response_parsing.rb</a>
+          <a class="source" href="mixins/url_support.html">url_support.rb</a>
+          <a class="source" href="mock.html">mock.rb</a>
+          <a class="source" href="reflection.html">reflection.rb</a>
+          <a class="source" href="relation.html">relation.rb</a>
+          <a class="source" href="request.html">request.rb</a>
+          <a class="source" href="request_cache.html">request_cache.rb</a>
+          <a class="source" href="request_queue.html">request_queue.rb</a>
+          <a class="source" href="response.html">response.rb</a>
+          <a class="source" href="response_parser.html">response_parser.rb</a>
+          <a class="source" href="type_caster.html">type_caster.rb</a>
+          <a class="source" href="url_builder.html">url_builder.rb</a>
+      </div>
+    </div>
+  </div>
+  <table cellspacing=0 cellpadding=0>
+  <thead>
+    <tr>
+      <th class=docs><h1>response_parser.rb</h1></th>
+      <th class=code></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr id='section-1'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-1">&#182;</a>
+        </div>
+        
+
+      </td>
+      <td class=code>
+        <div class='highlight'><pre><span class="k">module</span> <span class="nn">PolarisResource</span>
+  <span class="k">class</span> <span class="nc">ResponseParser</span>
+
+    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">owner</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span>
+      <span class="vi">@requesting_class</span> <span class="o">=</span> <span class="n">owner</span>
+      <span class="vi">@request</span>          <span class="o">=</span> <span class="n">request</span>
+      <span class="vi">@response</span>         <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">response</span>
+      <span class="vi">@metadata</span>         <span class="o">=</span> <span class="n">metadata</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">owner</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span>
+      <span class="n">parser</span> <span class="o">=</span> <span class="kp">new</span><span class="p">(</span><span class="n">owner</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span>
+
+      <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Notifications</span><span class="o">.</span><span class="n">instrument</span><span class="p">(</span><span class="s1">&#39;request.polaris_resource&#39;</span><span class="p">,</span> <span class="ss">:url</span> <span class="o">=&gt;</span> <span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="ss">:params</span> <span class="o">=&gt;</span> <span class="n">request</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="ss">:method</span> <span class="o">=&gt;</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span><span class="p">,</span> <span class="ss">:class</span> <span class="o">=&gt;</span> <span class="n">owner</span><span class="p">,</span> <span class="ss">:response</span> <span class="o">=&gt;</span> <span class="n">request</span><span class="o">.</span><span class="n">response</span><span class="p">)</span> <span class="k">do</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">parse</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">parse</span>
+      <span class="k">case</span> <span class="vi">@response</span><span class="o">.</span><span class="n">code</span>
+      <span class="k">when</span> <span class="mi">200</span><span class="o">.</span><span class="n">.</span><span class="mi">299</span>
+        <span class="n">build_from_response</span>
+      <span class="k">when</span> <span class="mi">404</span>
+        <span class="n">raise_not_found</span>
+      <span class="k">when</span> <span class="mi">0</span>
+        <span class="k">raise</span> <span class="no">RemoteHostConnectionFailure</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+
+    <span class="kp">private</span>
+
+    <span class="k">def</span> <span class="nf">content</span>
+      <span class="vi">@content</span> <span class="o">||=</span> <span class="no">Yajl</span><span class="o">::</span><span class="no">Parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="vi">@response</span><span class="o">.</span><span class="n">body</span><span class="p">)</span><span class="o">.</span><span class="n">try</span><span class="p">(</span><span class="ss">:[]</span><span class="p">,</span> <span class="s1">&#39;content&#39;</span><span class="p">)</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">build_from_response</span>
+      <span class="k">if</span> <span class="n">content</span>
+        <span class="k">if</span> <span class="nb">Array</span> <span class="o">===</span> <span class="n">content</span>
+          <span class="n">content</span><span class="o">.</span><span class="n">collect</span> <span class="k">do</span> <span class="o">|</span><span class="n">attributes</span><span class="o">|</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="vi">@requesting_class</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">attributes</span><span class="p">)</span>
+          <span class="k">end</span>
+        <span class="k">else</span>
+          <span class="n">obj</span> <span class="o">=</span> <span class="vi">@requesting_class</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">raise_not_found</span>
+      <span class="k">case</span>
+      <span class="k">when</span> <span class="vi">@metadata</span><span class="o">[</span><span class="ss">:ids</span><span class="o">]</span>
+        <span class="k">raise</span> <span class="no">ResourceNotFound</span><span class="p">,</span> <span class="s2">&quot;Couldn&#39;t find all </span><span class="si">#{</span><span class="vi">@requesting_class</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">pluralize</span><span class="si">}</span><span class="s2"> with IDs (</span><span class="si">#{</span><span class="vi">@metadata</span><span class="o">[</span><span class="ss">:ids</span><span class="o">].</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+      <span class="k">when</span> <span class="vi">@metadata</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span>
+        <span class="k">raise</span> <span class="no">ResourceNotFound</span><span class="p">,</span> <span class="s2">&quot;Couldn&#39;t find </span><span class="si">#{</span><span class="vi">@requesting_class</span><span class="si">}</span><span class="s2"> with ID=</span><span class="si">#{</span><span class="vi">@metadata</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="si">}</span><span class="s2">&quot;</span>
+      <span class="k">else</span>
+        <span class="k">raise</span> <span class="no">ResourceNotFound</span><span class="p">,</span> <span class="s2">&quot;No resource was found at </span><span class="si">#{</span><span class="vi">@request</span><span class="o">.</span><span class="n">url</span><span class="si">}</span><span class="s2">&quot;</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+
+  <span class="k">end</span>
+<span class="k">end</span></pre></div>
+      </td>
+    </tr>
+  </table>
+</div>
+</body>
