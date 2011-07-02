@@ -19,7 +19,7 @@ module PolarisResource
       end
 
       def with_filter(filter)
-        HasManyAssociation.new(@owner, @association, :target => @target, :filters => @filters.push(filter), :options => @options)
+        HasManyAssociation.new(@owner, @association, :target => @target, :filters => @filters.dup.push(filter), :options => @options)
       end
 
       # When loading the target, the primary key is first checked. If the

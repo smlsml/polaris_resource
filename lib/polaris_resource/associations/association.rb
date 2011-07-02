@@ -93,7 +93,7 @@ module PolarisResource
         return @mock if @mock
         @target ||= load_target!
         if Array === @target && !@filters.empty?
-          @filters.inject(@target) do |target, filter|
+          @filters.uniq.inject(@target.dup) do |target, filter|
             filter.call(target)
           end
         else

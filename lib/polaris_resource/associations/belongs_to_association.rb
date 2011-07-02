@@ -21,7 +21,7 @@ module PolarisResource
       end
 
       def with_filter(filter)
-        BelongsToAssociation.new(@owner, @association, :target => @target, :filters => @filters.push(filter), :options => @options)
+        BelongsToAssociation.new(@owner, @association, :target => @target, :filters => @filters.dup.push(filter), :options => @options)
       end
 
       # When loading the target, the association will only be loaded if the foreign_key
