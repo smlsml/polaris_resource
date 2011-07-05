@@ -12,13 +12,13 @@ module PolarisResource
             attributes = [UrlBuilder.find_one(self, args.first.to_i), nil, { :id => args.first.to_i }]
             get(*attributes)
           when Array
-            attributes = UrlBuilder.find_some(self, args.first).push({ :ids => args.first })
+            attributes = UrlBuilder.find_some(self, args.first.sort).push({ :ids => args.first })
             get(*attributes)
           else
             raise ArgumentError, "Unrecognized argument (#{args.first.inspect})."
           end
         else
-          attributes = UrlBuilder.find_some(self, args).push({ :ids => args })
+          attributes = UrlBuilder.find_some(self, args.sort).push({ :ids => args })
           get(*attributes)
         end
       end
