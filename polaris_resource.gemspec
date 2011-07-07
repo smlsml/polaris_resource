@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ryan Moran"]
-  s.date = %q{2011-06-24}
+  s.date = %q{2011-07-07}
   s.description = %q{RESTful API Client}
   s.email = %q{ryan.moran@gmail.com}
   s.extra_rdoc_files = [
@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
     "autotest/discover.rb",
     "lib/ext/typhoeus.rb",
     "lib/polaris_client/associations.rb",
+    "lib/polaris_client/inflections.rb",
     "lib/polaris_client/log_subscriber.rb",
     "lib/polaris_client/railtie.rb",
     "lib/polaris_resource.rb",
@@ -37,15 +38,18 @@ Gem::Specification.new do |s|
     "lib/polaris_resource/base.rb",
     "lib/polaris_resource/configuration.rb",
     "lib/polaris_resource/errors.rb",
+    "lib/polaris_resource/filter.rb",
     "lib/polaris_resource/mixins/associations.rb",
     "lib/polaris_resource/mixins/attributes.rb",
     "lib/polaris_resource/mixins/conversion.rb",
+    "lib/polaris_resource/mixins/filtering.rb",
     "lib/polaris_resource/mixins/finders.rb",
     "lib/polaris_resource/mixins/introspection.rb",
     "lib/polaris_resource/mixins/persistence.rb",
     "lib/polaris_resource/mixins/reflections.rb",
     "lib/polaris_resource/mixins/request_handling.rb",
     "lib/polaris_resource/mixins/response_parsing.rb",
+    "lib/polaris_resource/mixins/url_support.rb",
     "lib/polaris_resource/mock.rb",
     "lib/polaris_resource/reflection.rb",
     "lib/polaris_resource/relation.rb",
@@ -53,7 +57,9 @@ Gem::Specification.new do |s|
     "lib/polaris_resource/request_cache.rb",
     "lib/polaris_resource/request_queue.rb",
     "lib/polaris_resource/response.rb",
+    "lib/polaris_resource/response_parser.rb",
     "lib/polaris_resource/type_caster.rb",
+    "lib/polaris_resource/url_builder.rb",
     "polaris_resource.gemspec",
     "spec/dummy/Rakefile",
     "spec/dummy/app/controllers/application_controller.rb",
@@ -92,12 +98,6 @@ Gem::Specification.new do |s|
     "spec/dummy/public/422.html",
     "spec/dummy/public/500.html",
     "spec/dummy/public/favicon.ico",
-    "spec/dummy/public/javascripts/application.js",
-    "spec/dummy/public/javascripts/controls.js",
-    "spec/dummy/public/javascripts/dragdrop.js",
-    "spec/dummy/public/javascripts/effects.js",
-    "spec/dummy/public/javascripts/prototype.js",
-    "spec/dummy/public/javascripts/rails.js",
     "spec/dummy/public/stylesheets/.gitkeep",
     "spec/dummy/script/rails",
     "spec/polaris_client/associations_spec.rb",
