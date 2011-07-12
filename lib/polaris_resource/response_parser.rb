@@ -34,6 +34,10 @@ module PolarisResource
     def content
       @content ||= Yajl::Parser.parse(@response.body).try(:[], 'content')
     end
+    
+    def response_errors
+      @response_errors ||= Yajl::Parser.parse(@response.body).try(:[], 'errors')
+    end
 
     def build_from_response
       if content
@@ -54,7 +58,7 @@ module PolarisResource
       when @metadata[:id]
         raise ResourceNotFound, "Couldn't find #{@requesting_class} with ID=#{@metadata[:id]}"
       else
-        raise ResourceNotFound, "No resource was found at #{@request.url}"
+        raise ResourceNotFound, "No resource was found at #{@request.url} #{response_errors.inspect if response_errors}"
       end
     end
 
