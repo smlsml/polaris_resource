@@ -43,6 +43,7 @@ module PolarisResource
   autoload :RemoteHostConnectionFailure, 'polaris_resource/errors'
   autoload :ResourceNotFound,            'polaris_resource/errors'
   autoload :UnrecognizedTypeCastClass,   'polaris_resource/errors'
+  autoload :ServerError,                 'polaris_resource/errors'
 end
 
 # Associations for application objects, typically ActiveRecord, to resource

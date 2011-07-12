@@ -10,6 +10,10 @@ module PolarisResource
   # Occurs when the remote host is unreachable.
   class RemoteHostConnectionFailure < ::StandardError
   end
+  
+  # Occurs when there is a server error resulting in a 500 response code
+  class ServerError < ::StandardError
+  end
 
   # Occurs when the requested resource returns a 404 error, indicating that it could not be found.
   class ResourceNotFound < ::StandardError
