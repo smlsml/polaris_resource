@@ -80,18 +80,15 @@ module PolarisResource
             association_object << target
           end
         elsif reflection.macro == :belongs_to
-          puts 1
           if value.instance_of? reflection.klass
-            puts 2
             target = value
           else
-            puts 3
             if reflection.options[:polymorphic]
-              puts 4
-              polymorphic_class = send("#{reflection.name}_type".to_sym).constantize
-              target = polymorphic_class.new(value)
+              polymorphic_class = send("#{reflection.name}_type".to_sym)
+              puts value.inspect
+              polymorphic_class = value['type'] if value.include?('type')
+              target = polymorphic_class.constantize.new(value)
             else
-              puts 5
               target = reflection.build_association(value)
             end
           end
