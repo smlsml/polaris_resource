@@ -4,8 +4,8 @@ module PolarisResource
 
     module ClassMethods
 
-      def create_reflection(macro, name)
-        Reflection.new(macro, name).tap do |reflection|
+      def create_reflection(macro, name, options)
+        Reflection.new(macro, name, options).tap do |reflection|
           reflections.merge!(name => reflection)
         end
       end
