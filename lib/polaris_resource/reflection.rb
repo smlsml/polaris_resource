@@ -1,9 +1,9 @@
 module PolarisResource
   class Reflection
-    attr_reader :macro, :name
+    attr_reader :macro, :name, :options
 
-    def initialize(macro, name)
-      @macro, @name = macro, name
+    def initialize(macro, name, options = {})
+      @macro, @name, @options = macro, name, options
     end
 
     def klass

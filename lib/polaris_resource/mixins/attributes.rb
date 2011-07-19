@@ -58,7 +58,6 @@ module PolarisResource
         end
       end
 
-      # TODO: This method needs some refactoring...
       def update_attribute(attribute, value)
         reflection = self.class.reflect_on_association(attribute)
         if reflection
@@ -80,6 +79,18 @@ module PolarisResource
             end
             association_object << target
           end
+        elsif reflection.macro == :belongs_to
+          if value.instance_of? reflection.klass
+            target = value
+          else
+            if reflection.options[:polymorphic]
+              polymorphic_class = send("#{reflection.name}_type".to_sym).constantize
+              target = polymorphic_class.new(value)
+            else
+              target = reflection.build_association(value)
+            end
+          end
+          send("#{attribute}=", target)
         else
           if value.instance_of? reflection.klass
             target = value
