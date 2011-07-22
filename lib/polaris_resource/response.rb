@@ -1,7 +1,7 @@
 module PolarisResource
   class Response < Typhoeus::Response
 
-    def initialize(params = {}, cached = nil)
+    def initialize(params = {}, cached = false)
       super(params)
       @cached = cached
     end
