@@ -22,6 +22,8 @@ module PolarisResource
         build_from_response
       when 404
         raise_not_found
+      when 422
+        build_from_response
       when 500.599
         raise ServerError
       when 0
