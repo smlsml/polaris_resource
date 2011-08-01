@@ -2,6 +2,8 @@ module PolarisResource
   class Configuration
 
     class << self
+      
+      attr_accessor :username, :password
 
       # Sets and gets the remote host service domain.
       # The domain must be set before any requests can be made.
