@@ -54,7 +54,7 @@ module PolarisResource
     def method_missing(m, *args, &block)
       if attributes.keys.include?(m.to_s.delete('='))
         # Defines attribute accessors when the missing method can be found in the attributes hash
-        define_attribute_accessor(m)
+        self.class.send(:define_attribute_accessor, m)
         send(m, *args, &block)
       else
         super

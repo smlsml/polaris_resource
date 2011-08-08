@@ -8,16 +8,7 @@ module PolarisResource
         typecast_attributes.store(name.to_sym, typecast_class)
         default_attributes.store(name.to_sym, nil)
 
-        define_method name.to_sym do
-          attributes[name.to_sym]
-        end
-
-        define_method "#{name}=".to_sym do |value|
-          send("#{name}_will_change!")
-          update_attribute(name, value)
-        end
-
-        define_attribute_methods [name]
+        define_attribute_accessor(name)
       end
 
       def default_attributes
@@ -31,6 +22,21 @@ module PolarisResource
       def attribute_defined?(attribute)
         default_attributes.keys.include?(attribute.to_s)
       end
+      
+      def define_attribute_accessor(method)
+        method = method.to_s.delete('=')
+        define_method("#{method}=") do |value|
+          send("#{method}_will_change!")
+          update_attribute(method, value)
+        end
+
+        define_method(method) do
+          attributes[method]
+        end
+        
+        define_attribute_methods [method]
+      end
+      private :define_attribute_accessor
 
     end
 
@@ -118,19 +124,6 @@ module PolarisResource
         self
       end
       private :merge_attributes
-
-      def define_attribute_accessor(method)
-        if method.to_s.include?('=')
-          self.class.send(:define_method, method) do |value|
-            attributes[method.to_s.delete('=')] = value
-          end
-        else
-          self.class.send(:define_method, method) do
-            attributes[method]
-          end
-        end
-      end
-      private :define_attribute_accessor
 
     end
 
