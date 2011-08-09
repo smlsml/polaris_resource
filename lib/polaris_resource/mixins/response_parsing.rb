@@ -14,7 +14,11 @@ module PolarisResource
 
       def build_from_response(response)
         content = Yajl::Parser.parse(response.body)['content']
-        merge_attributes(content)
+        if content.keys.include?('type')
+          content['type'].constantize.new.merge_attributes(content)
+        else
+          merge_attributes(content)
+        end
       end
       private :build_from_response
 

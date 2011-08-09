@@ -45,11 +45,19 @@ module PolarisResource
       if content
         if Array === content
           content.collect do |attributes|
-            obj = @requesting_class.new(attributes)
+            obj = build_object_with_attributes(attributes)
           end
         else
           obj = @requesting_class.new(content)
         end
+      end
+    end
+    
+    def build_object_with_attributes(attributes)
+      if attributes.keys.include?('type')
+        attributes['type'].constantize.new(attributes)
+      else
+        @requesting_class.new(attributes)
       end
     end
 
