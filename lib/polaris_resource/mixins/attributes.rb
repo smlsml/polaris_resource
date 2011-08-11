@@ -91,7 +91,6 @@ module PolarisResource
           else
             if reflection.options[:polymorphic]
               polymorphic_class = send("#{reflection.name}_type".to_sym)
-              puts value.inspect
               polymorphic_class = value['type'] if value.include?('type')
               target = polymorphic_class.constantize.new(value)
             else
