@@ -64,6 +64,10 @@ module PolarisResource
         loaded_target.to_param
       end
       
+      def try(method, *args, &block)
+        loaded_target.try(method, *args, &block)
+      end
+      
       def includes(*associations)
         associations.each do |association|
           @includes << association unless @includes.include?(association)
