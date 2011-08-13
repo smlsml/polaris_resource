@@ -19,6 +19,10 @@ module PolarisResource
         merge_attributes(new_attributes)
         save
       end
+      
+      def destroy
+        self.class.delete(UrlBuilder.destroy(self.class, id))
+      end
 
     end
 

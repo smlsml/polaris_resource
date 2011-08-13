@@ -41,6 +41,10 @@ module PolarisResource
           [url_base, parameters]
         end
       end
+      
+      def destroy(klass, id)
+        "/#{klass.plural_url_name}/#{id}"
+      end
 
     end
 
