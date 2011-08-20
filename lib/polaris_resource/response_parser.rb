@@ -12,9 +12,10 @@ module PolarisResource
       parser = new(owner, request, metadata)
 
       ActiveSupport::Notifications.instrument('request.polaris_resource', :url => request.url, :params => request.params, :method => request.method, :class => owner, :response => request.response) do
-        parser.parse
+        @parsed_response = parser.parse
       end
       RequestCache.cache.clear unless request.method == :get
+      @parsed_response
     end
 
     def parse
