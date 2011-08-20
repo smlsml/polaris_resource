@@ -14,6 +14,7 @@ module PolarisResource
       ActiveSupport::Notifications.instrument('request.polaris_resource', :url => request.url, :params => request.params, :method => request.method, :class => owner, :response => request.response) do
         parser.parse
       end
+      RequestCache.cache.clear unless request.method == :get
     end
 
     def parse
