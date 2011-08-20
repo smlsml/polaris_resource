@@ -48,10 +48,8 @@ module PolarisResource
     def method_missing(m, *args, &block)
       if Array.method_defined?(m)
         loaded_target.send(m, *args, &block)
-      elsif loaded_target.respond_to?(m)
-        loaded_target.send(m, *args, &block)
       else
-        super
+        loaded_target.send(m, *args, &block)
       end
     end
 

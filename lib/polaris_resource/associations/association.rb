@@ -63,11 +63,11 @@ module PolarisResource
       def to_param
         loaded_target.to_param
       end
-      
+
       def try(method, *args, &block)
         loaded_target.try(method, *args, &block)
       end
-      
+
       def includes(*associations)
         associations.each do |association|
           @includes << association unless @includes.include?(association)
@@ -80,7 +80,7 @@ module PolarisResource
       def stub(mock)
         @mock = mock
       end
-      
+
       # This is left to be implemented by the subclasses as it will operate
       # differently in each case.
       def load_target!
@@ -111,10 +111,8 @@ module PolarisResource
       def method_missing(m, *args, &block)
         if filter = @association_class.find_filter(m)
           with_filter(filter)
-        elsif loaded_target.respond_to?(m)
-          loaded_target.send(m, *args, &block)
         else
-          super
+          loaded_target.send(m, *args, &block)
         end
       end
 
