@@ -28,18 +28,11 @@ module PolarisResource
       # has been set. Additionally, the class used to find the record will be inferred
       # by calling the method which is the name of the association with a '_type' suffix.
       # Alternatively, the class name can be set by using the :class_name option.
-      # Finally, the target is loaded by calling the 'find' method on the association
-      # class.
       def load_target!
         if association_id = @owner.send(@options[:foreign_key])
           polymorphic_class = @options[:polymorphic] ? @owner.send("#{@association}_type".to_sym).constantize : @options[:class_name].constantize
           attributes = [UrlBuilder.belongs_to(polymorphic_class, association_id), nil, { :id => association_id }]
-          polymorphic_class.get(*attributes) do
-            while !@includes.empty?
-              association = @includes.pop
-              loaded_target.send(association.to_sym).try(:load_target!)
-            end
-          end
+          polymorphic_class.find(association_id)
         end
       end
 

@@ -20,16 +20,10 @@ module PolarisResource
       # key is nil, then an nil is returned. Otherwise, the target
       # is requested at the generated url. For a has_one :meeting
       # association on a class called Course, the generated url might look
-      # like this: /courses/1/meeting, where the 1 is the primary key.
+      # like this: /meetings?course_id=1, where the 1 is the primary key.
       def load_target!
         if primary_key = @owner.send(@options[:primary_key])
-          attributes = [UrlBuilder.has_one(@owner.class, primary_key, @association_class), nil, { :id => primary_key }]
-          @options[:class_name].constantize.get(*attributes) do
-            while !@includes.empty?
-              association = @includes.pop
-              loaded_target.send(association.to_sym).try(:load_target!)
-            end
-          end
+          Relation.new(@association.to_s.classify.constantize).where(@options[:primary_key] => primary_key).limit(1).first
         end
       end
 
