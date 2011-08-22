@@ -6,6 +6,12 @@ module PolarisResource
       # sets the options particular to itself.
       def initialize(owner, association, settings = {})
         super
+        
+        # The foreign key is used to generate the url for the association
+        # request when the association is transformed into a relation.
+        # The default is to use the class of the owner object with an '_id'
+        # suffix.
+        @options[:foreign_key] ||= "#{@owner.class.to_s.underscore}_id".to_sym
 
         # The primary key is used in the generated url for the target. It
         # defaults to :id.
@@ -23,7 +29,7 @@ module PolarisResource
       # like this: /meetings?course_id=1, where the 1 is the primary key.
       def load_target!
         if primary_key = @owner.send(@options[:primary_key])
-          Relation.new(@association.to_s.classify.constantize).where(@options[:primary_key] => primary_key).limit(1).first
+          Relation.new(@association.to_s.classify.constantize).where(@options[:foreign_key] => primary_key).limit(1).first
         end
       end
 
