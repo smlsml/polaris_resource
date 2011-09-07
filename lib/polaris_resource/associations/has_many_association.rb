@@ -16,6 +16,10 @@ module PolarisResource
         # The primary key is used in the generated url for the target. It
         # defaults to :id.
         @options[:primary_key] ||= :id
+
+        # @association_class stores the class of the association, constantized
+        # from the named association (i.e. Automobile, Car, CarClub)
+        @association_class = @options[:class_name].constantize
       end
 
       def with_filter(filter)

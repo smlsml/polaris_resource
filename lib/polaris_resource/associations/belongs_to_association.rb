@@ -17,7 +17,11 @@ module PolarisResource
 
         # Associations can be marked as polymorphic. These associations will use
         # the returned type to instantiate the associated object.
-        @options[:polymorphic] = settings[:polymorphic] || false
+        @options[:polymorphic] = settings[:options][:polymorphic] || false
+
+        # @association_class stores the class of the association, constantized
+        # from the named association (i.e. Automobile, Car, CarClub)
+        @association_class = @options[:class_name].constantize
       end
 
       def with_filter(filter)

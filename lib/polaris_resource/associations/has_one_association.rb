@@ -6,7 +6,7 @@ module PolarisResource
       # sets the options particular to itself.
       def initialize(owner, association, settings = {})
         super
-        
+
         # The foreign key is used to generate the url for the association
         # request when the association is transformed into a relation.
         # The default is to use the class of the owner object with an '_id'
@@ -16,6 +16,10 @@ module PolarisResource
         # The primary key is used in the generated url for the target. It
         # defaults to :id.
         @options[:primary_key] ||= :id
+
+        # @association_class stores the class of the association, constantized
+        # from the named association (i.e. Automobile, Car, CarClub)
+        @association_class = @options[:class_name].constantize
       end
 
       def with_filter(filter)
