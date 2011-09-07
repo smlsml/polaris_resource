@@ -43,7 +43,7 @@ module PolarisResource
         # that this association uses a specified class as its target. When the
         # request is made for the association, this class will be used to
         # instantiate this object or collection.
-        @options[:class_name] ||= @association.to_s.classify
+        @options[:class_name] = settings[:options] || @association.to_s.classify
         
         # @association_class stores the class of the association, constantized
         # from the named association (i.e. Automobile, Car, CarClub)
