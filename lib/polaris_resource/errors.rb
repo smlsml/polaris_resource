@@ -5,6 +5,10 @@ module PolarisResource
 
   # Occurs when a request from a remote host is made while PolarisResource::Configuration.allow_net_connect is set to false.
   class NetConnectNotAllowedError < ::StandardError
+    attr_accessor :request
+    def initialize(_request=nil)
+      self.request= _request
+    end
   end
 
   # Occurs when the remote host is unreachable.
