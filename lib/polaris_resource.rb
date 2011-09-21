@@ -44,6 +44,7 @@ module PolarisResource
   autoload :ResourceNotFound,            'polaris_resource/errors'
   autoload :UnrecognizedTypeCastClass,   'polaris_resource/errors'
   autoload :ServerError,                 'polaris_resource/errors'
+  autoload :InvalidResponseCode,         'polaris_resource/errors'
 end
 
 # Associations for application objects, typically ActiveRecord, to resource

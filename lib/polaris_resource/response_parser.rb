@@ -30,6 +30,8 @@ module PolarisResource
         raise ServerError
       when 0
         raise RemoteHostConnectionFailure
+      else
+        raise InvalidResponseCode, "Response had error code: #{@response.code}"
       end
     end
 

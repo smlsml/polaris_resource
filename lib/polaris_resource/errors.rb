@@ -26,4 +26,7 @@ module PolarisResource
   # Occurs when the typecast type is not one of the known values.
   class UnrecognizedTypeCastClass < ::StandardError
   end
+
+  class InvalidResponseCode < ::StandardError
+  end
 end
